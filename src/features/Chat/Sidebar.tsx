@@ -9,7 +9,7 @@ const Sidebar = () => {
   const channels = value?.map(({ id, name }) => ({ id, name }));
 
   return (
-    <aside className="flex h-screen w-[300px] flex-col bg-gray-800 text-white">
+    <aside className="bg-dark-800 flex h-screen w-[300px] flex-col text-white">
       <header className="flex flex-col items-start bg-blue-500 p-4">
         <h1>Your Channel</h1>
         <div className="rounded-full bg-gray-500/40 px-2 py-2">🌍Public</div>
