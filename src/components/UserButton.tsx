@@ -11,9 +11,9 @@ const UserButton = () => {
       <img
         src={user.photoURL || "/hacker.png"}
         alt="User avatar"
-        className="mr-2 h-10 w-10 rounded-full"
+        className="h-10 w-10 rounded-full"
       />
-      <span>{user.displayName}</span>
+      <span className="sr-only">{user.displayName}</span>
     </div>
   );
 };

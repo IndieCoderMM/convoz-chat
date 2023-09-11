@@ -5,7 +5,7 @@ import { auth } from "../lib/firebase";
 const Header = () => {
   return (
     <header className="flex justify-between bg-gray-600 px-16 py-2">
-      <h1 className="text-center text-4xl">Bubblio</h1>
+      <h1 className="text-center text-2xl font-bold lowercase">Bubblio</h1>
       <div className="flex items-center gap-2">
         <UserButton />
         <button

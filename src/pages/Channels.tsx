@@ -2,16 +2,12 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import CreateChannel from "../components/CreateChannel";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { auth, channelsRef } from "../lib/firebase";
-import { query, where } from "firebase/firestore";
+import { queryUserChannels } from "../lib/actions";
+import { auth } from "../lib/firebase";
 
 const Channels = () => {
   const [openForm, setOpenForm] = useState(false);
-  const queryString = query(
-    channelsRef,
-    where("members", "array-contains", auth.currentUser?.uid),
-  );
-  const [value, loading, error] = useCollectionData(queryString);
+  const [value, loading, error] = useCollectionData(queryUserChannels(auth));
   console.log(value);
 
   return (

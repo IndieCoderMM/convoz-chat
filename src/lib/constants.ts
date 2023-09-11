@@ -1,5 +1,16 @@
 import { FaHashtag, FaRegCompass, FaUserAlt, FaCog } from "react-icons/fa";
 import { HiOutlineChat } from "react-icons/hi";
+import {
+  gamer,
+  gamerGirl,
+  hacker,
+  geek,
+  king,
+  viking,
+  steampunk,
+  otaku,
+  bandit,
+} from "../assets/avatars";
 
 export const NavLinks = [
   {
@@ -27,4 +38,16 @@ export const NavLinks = [
     label: "Settings",
     icon: FaCog,
   },
+];
+
+export const avatars = [
+  bandit,
+  gamer,
+  gamerGirl,
+  hacker,
+  geek,
+  king,
+  viking,
+  steampunk,
+  otaku,
 ];

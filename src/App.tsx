@@ -29,11 +29,9 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="flex h-screen bg-gray-900 text-white">
+      <div className="flex bg-gray-900 text-white">
         <Sidebar />
-        <main className="w-full">
-          <Header />
-
+        <main className="max-h-full w-full">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/chat" element={<Chat />} />
