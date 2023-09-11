@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 type Props = {
   label: string;
   id: string;
   options: { value: string; label: string }[];
   value: string;
-  setValue: (value: string) => void;
+  setValue: (value: any) => void;
 };
 
 const CustomSelect = ({ label, id, options, value, setValue }: Props) => {

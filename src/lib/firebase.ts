@@ -20,4 +20,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
 export const db = getFirestore(app);
+export const usersRef = collection(db, "users");
 export const channelsRef = collection(db, "channels");
+export const messagesRef = collection(db, "messages");

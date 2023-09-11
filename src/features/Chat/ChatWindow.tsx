@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { queryUserChannels } from "../../lib/actions";
+import { queryChannelsByUserId } from "../../lib/actions";
 import { auth } from "../../lib/firebase";
 import { StaticChannels } from "../../data/content";
 
@@ -28,8 +28,12 @@ const SampleMessages = [
 ];
 
 const ChatWindow = () => {
+  if (!auth.currentUser) return null;
+
   const { channelId } = useParams();
-  const [value, loading, error] = useCollectionData(queryUserChannels(auth));
+  const [value, loading, error] = useCollectionData(
+    queryChannelsByUserId(auth.currentUser!.uid),
+  );
 
   if (loading) {
     return <p>Loading...</p>;
@@ -67,7 +71,7 @@ const ChatWindow = () => {
             className="w-full rounded-md bg-dark-500 px-8 py-2"
             placeholder="Type a message"
           />
-          <button className="min-w-[150px] rounded-md bg-primary p-2 text-black">
+          <button className="min-w-[150px] rounded-md bg-primary p-2 font-medium text-white">
             Send
           </button>
         </form>

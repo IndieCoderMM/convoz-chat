@@ -1,4 +1,14 @@
-export interface Channel {
+export interface UserInterface {
+  id: string;
+  name: string;
+  bio: string;
+  avatarId: number;
+  email: string;
+  createdAt: number;
+  channels: string[];
+}
+
+export interface ChannelInterface {
   id: string;
   name: string;
   description: string;

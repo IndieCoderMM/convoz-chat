@@ -1,19 +1,29 @@
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../lib/firebase";
+import { avatars } from "../lib/constants";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { queryUserById } from "../lib/actions";
+import { UserInterface } from "../common.types";
 
 const UserButton = () => {
-  const [user] = useAuthState(auth);
+  if (!auth.currentUser) return null;
 
-  if (!user) return null;
+  const [docArray, loading] = useCollectionData(
+    queryUserById(auth.currentUser!.uid),
+  );
 
+  if (loading) return null;
+
+  const user = docArray?.[0] as UserInterface;
+
+  console.log(user);
   return (
     <div className="flex items-center">
       <img
-        src={user.photoURL || "/hacker.png"}
+        src={avatars[user?.avatarId]}
         alt="User avatar"
-        className="h-8 w-8 rounded-full"
+        className="h-9 w-9 rounded-full"
       />
-      <span className="sr-only">{user.displayName}</span>
+      <span className="sr-only">{user?.name}</span>
     </div>
   );
 };

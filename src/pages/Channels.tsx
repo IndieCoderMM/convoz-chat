@@ -1,14 +1,25 @@
 import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import CreateChannel from "../components/CreateChannel";
+import CreateChannel from "../features/Channels/CreateChannel";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { queryUserChannels } from "../lib/actions";
+import {
+  mapDocumentDataToChannel,
+  queryChannelsByUserId,
+} from "../lib/actions";
 import { auth } from "../lib/firebase";
+import ChannelCard from "../features/Channels/ChannelCard";
+import { ChannelInterface } from "../common.types";
 
 const Channels = () => {
+  if (!auth.currentUser) return null;
+
   const [openForm, setOpenForm] = useState(false);
-  const [value, loading, error] = useCollectionData(queryUserChannels(auth));
-  console.log(value);
+  const [docArray, loading, error] = useCollectionData(
+    queryChannelsByUserId(auth.currentUser!.uid),
+  );
+
+  const channels: ChannelInterface[] =
+    docArray?.map(mapDocumentDataToChannel) || [];
 
   return (
     <section className="space-y-8 px-16 py-8">
@@ -30,22 +41,9 @@ const Channels = () => {
         </div>
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Collection: Loading...</span>}
-        {value &&
-          value.map(({ id, name, description, type }) => (
-            <div
-              key={id}
-              className="col-span-12 flex min-h-[200px] items-center justify-center rounded-md bg-dark-800 text-white sm:col-span-6 md:col-span-4"
-            >
-              <div className="flex flex-col items-center justify-center">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-500 p-1"></div>
-                <h2 className="text-2xl font-semibold capitalize">
-                  {name.replace(/-/g, " ")}
-                </h2>
-                <p>{description}</p>
-                <p>{type}</p>
-              </div>
-            </div>
-          ))}
+        {channels.map((channel) => (
+          <ChannelCard key={channel.id} {...channel} />
+        ))}
       </div>
       {openForm && <CreateChannel close={() => setOpenForm(false)} />}
     </section>

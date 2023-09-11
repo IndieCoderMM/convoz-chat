@@ -1,11 +1,25 @@
 import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../lib/firebase";
+import { auth, provider, usersRef } from "../lib/firebase";
+import { UserInterface } from "../common.types";
+import { addDoc } from "firebase/firestore";
 
 const SignIn = () => {
   const signIn = async () => {
     try {
-      const result = await signInWithPopup(auth, provider);
-      console.log(result);
+      await signInWithPopup(auth, provider);
+      console.log(auth.currentUser);
+
+      const user: UserInterface = {
+        id: auth.currentUser!.uid,
+        name: auth.currentUser!.displayName!,
+        email: auth.currentUser!.email!,
+        bio: "",
+        avatarId: 0,
+        createdAt: Date.now(),
+        channels: [],
+      };
+
+      await addDoc(usersRef, user);
     } catch (error) {
       console.error(error);
     }

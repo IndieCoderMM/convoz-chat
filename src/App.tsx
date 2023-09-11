@@ -20,7 +20,11 @@ import ChatWindow from "./features/Chat/ChatWindow";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<RootLayout />}>
+    <Route
+      path="/"
+      element={<RootLayout />}
+      errorElement={<div>Not found</div>}
+    >
       <Route index element={<Home />} />
       <Route path="chat" element={<Chat />}>
         <Route index element={<Navigate to="channels/general" replace />} />

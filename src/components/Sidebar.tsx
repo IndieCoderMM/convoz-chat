@@ -25,7 +25,7 @@ const Sidebar = () => {
           ))}
         </ul>
         <ul className="mt-auto flex w-full flex-col items-center justify-center gap-8 border-t border-gray-300 pt-8">
-          <li className="flex items-center justify-center rounded-full border border-gray-600 p-2">
+          <li className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
             <UserButton />
           </li>
           <li className="flex items-center justify-center rounded-full border border-gray-600 p-2">

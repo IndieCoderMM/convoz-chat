@@ -1,16 +1,23 @@
 import { FaTimes } from "react-icons/fa";
-import CustomSelect from "./CustomSelect";
+import CustomSelect from "../../components/CustomSelect";
 import { useState } from "react";
-import { addDoc, serverTimestamp } from "firebase/firestore";
-import { auth, channelsRef } from "../lib/firebase";
+import { addDoc } from "firebase/firestore";
+import { auth, channelsRef } from "../../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
+import { ChannelInterface } from "../../common.types";
 
 type Props = {
   close: () => void;
 };
 
+type FormData = {
+  name: string;
+  description: string;
+  type: "public" | "private";
+};
+
 const CreateChannel = ({ close }: Props) => {
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<FormData>({
     name: "",
     description: "",
     type: "public",
@@ -19,20 +26,24 @@ const CreateChannel = ({ close }: Props) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (auth.currentUser === null) return;
+
     const name = form.name.trim().toLowerCase().replace(/\s+/g, "-");
     const description = form.description.trim();
-
     if (!name || !description) return;
+
+    const newChannel: ChannelInterface = {
+      id: uuidv4(),
+      name,
+      description,
+      type: form.type,
+      createdBy: auth.currentUser.uid,
+      createdAt: Date.now(),
+      members: [auth.currentUser.uid],
+    };
+
     try {
-      await addDoc(channelsRef, {
-        id: uuidv4(),
-        name,
-        description,
-        type: form.type,
-        createdBy: auth.currentUser?.uid,
-        createdAt: serverTimestamp(),
-        members: [auth.currentUser?.uid],
-      });
+      await addDoc(channelsRef, newChannel);
       close();
     } catch (err) {
       console.error(err);
@@ -88,7 +99,9 @@ const CreateChannel = ({ close }: Props) => {
             { value: "private", label: "Private" },
           ]}
           value={form.type}
-          setValue={(value) => setForm({ ...form, type: value })}
+          setValue={(value: "public" | "private") =>
+            setForm({ ...form, type: value })
+          }
         />
         <div className="flex justify-end bg-gray-300 p-4">
           <button type="submit" className="submit">
