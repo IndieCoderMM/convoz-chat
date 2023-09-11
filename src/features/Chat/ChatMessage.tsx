@@ -12,7 +12,7 @@ type ChatMessageProps = {
 const ChatMessage = ({ message, timestamp, user }: ChatMessageProps) => {
   return (
     <div className="flex items-start gap-2">
-      <div className="flex items-center">
+      <div className="flex flex-shrink-0 items-center">
         <img
           src={avatars[0]}
           alt="User avatar"

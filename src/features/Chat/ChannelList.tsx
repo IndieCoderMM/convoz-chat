@@ -1,3 +1,5 @@
+import { Link, useLocation } from "react-router-dom";
+
 type Props = {
   heading: string;
   channels: {
@@ -7,6 +9,8 @@ type Props = {
 };
 
 const ChannelList = ({ heading, channels }: Props) => {
+  const { pathname } = useLocation();
+  const href = (id: string) => `/chat/channels/${id}`;
   return (
     <section className="p-4">
       <h2 className="text-xl font-medium capitalize">{heading}</h2>
@@ -14,9 +18,13 @@ const ChannelList = ({ heading, channels }: Props) => {
         {channels.map(({ id, name }) => (
           <li
             key={id}
-            className="cursor-pointer rounded p-2 transition-all hover:bg-gray-400/10"
+            className={`cursor-pointer rounded transition-all hover:bg-gray-400/10 ${
+              pathname === href(id) && "bg-gray-400/10"
+            }`}
           >
-            #{name}
+            <Link to={href(id)} className="block p-2">
+              #{name}
+            </Link>
           </li>
         ))}
       </ul>

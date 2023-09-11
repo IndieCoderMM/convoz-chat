@@ -1,4 +1,9 @@
+import { useParams } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { queryUserChannels } from "../../lib/actions";
+import { auth } from "../../lib/firebase";
+import { StaticChannels } from "../../data/content";
 
 const SampleMessages = [
   {
@@ -22,24 +27,33 @@ const SampleMessages = [
   },
 ];
 
-type ChatWindowProps = {
-  channel: {
-    id: string;
-    name: string;
-    description: string;
-    members: string[];
-  };
-};
+const ChatWindow = () => {
+  const { channelId } = useParams();
+  const [value, loading, error] = useCollectionData(queryUserChannels(auth));
 
-const ChatWindow = ({ channel }: ChatWindowProps) => {
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
+
+  const onlineChannels = value?.map((item) => item) || [];
+
+  const allChannels = [...StaticChannels, ...onlineChannels];
+  const channel = allChannels.find(({ id }) => id === channelId);
+
   return (
     <section className="relative flex h-full w-full flex-col">
       <header className="sticky left-0 top-0 flex w-full flex-col gap-2 border-b p-2 shadow-sm">
-        <div className="bg-dark-700 flex h-10 w-10 items-center justify-center rounded-full text-2xl">
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-dark-700 text-2xl">
           <span>#</span>
         </div>
-        <h2 className="text-3xl font-bold">Welcome to #{channel.name}</h2>
-        <p>{channel.description}</p>
+        <h2 className="text-3xl font-bold">
+          Welcome to #{channel?.name.toLowerCase()}
+        </h2>
+        <p>{channel?.description}</p>
       </header>
       <main className="flex flex-1 flex-col gap-2 p-4">
         {SampleMessages.map(({ id, ...props }) => (
@@ -50,7 +64,7 @@ const ChatWindow = ({ channel }: ChatWindowProps) => {
         <form className="flex items-center justify-between gap-2 p-2">
           <input
             type="text"
-            className="bg-dark-500 w-full rounded-md px-8 py-2"
+            className="w-full rounded-md bg-dark-500 px-8 py-2"
             placeholder="Type a message"
           />
           <button className="min-w-[150px] rounded-md bg-primary p-2 text-black">
