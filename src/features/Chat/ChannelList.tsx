@@ -1,18 +1,27 @@
-import { HiHashtag, HiLockClosed } from "react-icons/hi";
+import { HiHashtag, HiLockClosed, HiSpeakerphone } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
+import { ChannelInterface } from "../../common.types";
 
 type Props = {
   heading: string;
-  channels: {
-    id: string;
-    name: string;
-    type: string;
-  }[];
+  channels: ChannelInterface[];
+};
+
+const icons = {
+  public: HiHashtag,
+  private: HiLockClosed,
+  announcement: HiSpeakerphone,
+};
+
+const Icon = ({ type }: { type: "public" | "private" | "announcement" }) => {
+  const Icon = icons[type];
+  return <Icon size={20} />;
 };
 
 const ChannelList = ({ heading, channels }: Props) => {
   const { pathname } = useLocation();
   const href = (id: string) => `/chat/channels/${id}`;
+
   return (
     <section className="p-4">
       <h2 className="text-xl font-medium capitalize">{heading}</h2>
@@ -21,15 +30,11 @@ const ChannelList = ({ heading, channels }: Props) => {
           <li
             key={id}
             className={`cursor-pointer rounded transition-all hover:bg-gray-400/10 ${
-              pathname === href(id) && "bg-gray-400/10"
+              pathname === href(id) ? "bg-gray-400/10" : "text-gray-300"
             }`}
           >
-            <Link to={href(id)} className="flex items-center gap-0.5 p-2">
-              {type === "public" ? (
-                <HiHashtag size={16} />
-              ) : (
-                <HiLockClosed size={16} />
-              )}
+            <Link to={href(id)} className="flex items-center gap-0.5 p-2 ">
+              <Icon type={type} />
               <span>{name}</span>
             </Link>
           </li>

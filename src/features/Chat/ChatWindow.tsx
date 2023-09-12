@@ -1,9 +1,12 @@
 import { useParams } from "react-router-dom";
 import ChatMessage from "./ChatMessage";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { queryChannelsByUserId } from "../../lib/actions";
+import {
+  mapDocumentDataToChannel,
+  queryChannelsByUserId,
+} from "../../lib/actions";
 import { auth } from "../../lib/firebase";
-import { StaticChannels } from "../../data/content";
+import { ChannelInterface } from "../../common.types";
 
 const SampleMessages = [
   {
@@ -31,7 +34,7 @@ const ChatWindow = () => {
   if (!auth.currentUser) return null;
 
   const { channelId } = useParams();
-  const [value, loading, error] = useCollectionData(
+  const [docArray, loading, error] = useCollectionData(
     queryChannelsByUserId(auth.currentUser!.uid),
   );
 
@@ -43,10 +46,13 @@ const ChatWindow = () => {
     return <p>Error: {error.message}</p>;
   }
 
-  const onlineChannels = value?.map((item) => item) || [];
+  const channel: ChannelInterface | undefined = docArray!
+    .map(mapDocumentDataToChannel)
+    .find((ch) => ch.id === channelId);
 
-  const allChannels = [...StaticChannels, ...onlineChannels];
-  const channel = allChannels.find(({ id }) => id === channelId);
+  if (!channel) {
+    return <p>Channel not found</p>;
+  }
 
   return (
     <section className="relative flex h-full w-full flex-col">

@@ -5,24 +5,7 @@ import {
   queryChannelsByUserId,
 } from "../../lib/actions";
 import { auth } from "../../lib/firebase";
-
-const ChatLinks = [
-  {
-    id: "rules",
-    name: "rules",
-    type: "public",
-  },
-  {
-    id: "announcements",
-    name: "announcements",
-    type: "public",
-  },
-  {
-    id: "general",
-    name: "general",
-    type: "public",
-  },
-];
+import { ChannelInterface } from "../../common.types";
 
 const Sidebar = () => {
   if (!auth.currentUser) return null;
@@ -31,7 +14,11 @@ const Sidebar = () => {
     queryChannelsByUserId(auth.currentUser!.uid),
   );
 
-  const channels = docArray?.map(mapDocumentDataToChannel);
+  const channels: ChannelInterface[] =
+    docArray?.map(mapDocumentDataToChannel) || [];
+
+  const welcomeChannels = channels.filter((ch) => ch.showWelcome);
+  const userChannels = channels.filter((ch) => !ch.showWelcome);
 
   return (
     <aside className="flex h-screen w-[250px] flex-shrink-0 flex-col bg-dark-800 text-white">
@@ -41,11 +28,11 @@ const Sidebar = () => {
       </header>
       <input
         type="text"
-        className="focus-visible:ring-dark-100 w-full bg-dark-700 p-4 focus-visible:outline-none focus-visible:ring-1"
+        className="w-full bg-dark-700 p-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-dark-100"
         placeholder="Browse channels"
       />
-      <ChannelList heading="Welcome 👋" channels={ChatLinks} />
-      <ChannelList heading="Channels" channels={channels || []} />
+      <ChannelList heading="Welcome 👋" channels={welcomeChannels} />
+      <ChannelList heading="Channels" channels={userChannels} />
     </aside>
   );
 };

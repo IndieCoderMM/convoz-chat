@@ -16,8 +16,11 @@ export const mapDocumentDataToChannel = (
     createdBy: docData.createdBy,
     type: docData.type,
     members: docData.members,
+    showWelcome: docData.showWelcome || false,
   };
 };
+
+export const queryAllUsers = () => query(usersRef);
 
 export const queryUserById = (id: string) =>
   query(usersRef, where("id", "==", id));

@@ -15,7 +15,8 @@ export interface ChannelInterface {
   createdAt: number;
   createdBy: string;
   members: string[];
-  type: "public" | "private";
+  type: "public" | "private" | "announcement";
+  showWelcome: boolean;
 }
 
 export interface Message {
