@@ -1,17 +1,20 @@
 import { ChannelInterface, MessageInterface } from "../common.types";
 import { channelsRef, messagesRef, usersRef } from "./firebase";
-import { DocumentData, orderBy, query, where } from "firebase/firestore";
+import { DocumentData, limit, orderBy, query, where } from "firebase/firestore";
 
 export const queryChannelsByUserId = (id: string) =>
   query(channelsRef, where("members", "array-contains", id));
 
 export const queryAllUsers = () => query(usersRef);
 
+export const queryWelcomeChannels = () =>
+  query(channelsRef, where("showWelcome", "==", true));
+
 export const queryMessagesByChannelId = (id: string) =>
   query(messagesRef, where("channelId", "==", id), orderBy("createdAt"));
 
 export const queryUserById = (id: string) =>
-  query(usersRef, where("id", "==", id));
+  query(usersRef, where("id", "==", id), limit(1));
 
 export const mapDocumentDataToUser = (docData: DocumentData) => {
   return {

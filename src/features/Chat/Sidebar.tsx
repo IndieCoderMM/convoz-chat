@@ -3,22 +3,40 @@ import ChannelList from "./ChannelList";
 import {
   mapDocumentDataToChannel,
   queryChannelsByUserId,
+  queryWelcomeChannels,
 } from "../../lib/utils";
 import { auth } from "../../lib/firebase";
-import { ChannelInterface } from "../../common.types";
+import { ChannelState } from "../../common.types";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../lib/hooks";
+import { selectUser } from "../User/userSlice";
+import { onSnapshot } from "firebase/firestore";
+import { selectChannels, setChannels } from "../Channels/channelsSlice";
 
 const Sidebar = () => {
   if (!auth.currentUser) return null;
+  const currentUser = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const channels = useAppSelector(selectChannels);
+  const [docArray] = useCollectionData(queryWelcomeChannels());
 
-  const [docArray] = useCollectionData(
-    queryChannelsByUserId(auth.currentUser!.uid),
-  );
+  useEffect(() => {
+    if (currentUser) {
+      const query = queryChannelsByUserId(currentUser.id);
+      onSnapshot(query, (snapshot) => {
+        const channels = snapshot.docs.map(
+          (doc) =>
+            ({
+              ...mapDocumentDataToChannel(doc.data()),
+              messages: [],
+            }) as ChannelState,
+        );
+        dispatch(setChannels(channels));
+      });
+    }
+  }, [currentUser, dispatch]);
 
-  const channels: ChannelInterface[] =
-    docArray?.map(mapDocumentDataToChannel) || [];
-
-  const welcomeChannels = channels.filter((ch) => ch.showWelcome);
-  const userChannels = channels.filter((ch) => !ch.showWelcome);
+  const welcomeChannels = docArray?.map(mapDocumentDataToChannel) || [];
 
   return (
     <aside className="flex h-screen w-[250px] flex-shrink-0 flex-col bg-dark-800 text-white">
@@ -32,7 +50,7 @@ const Sidebar = () => {
         placeholder="Browse channels"
       />
       <ChannelList heading="Welcome 👋" channels={welcomeChannels} />
-      <ChannelList heading="Channels" channels={userChannels} />
+      <ChannelList heading="Channels" channels={channels} />
     </aside>
   );
 };

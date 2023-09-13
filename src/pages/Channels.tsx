@@ -1,22 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import CreateChannel from "../features/Channels/CreateChannel";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import { mapDocumentDataToChannel, queryChannelsByUserId } from "../lib/utils";
-import { auth } from "../lib/firebase";
 import ChannelCard from "../features/Channels/ChannelCard";
-import { ChannelInterface } from "../common.types";
+import { ChannelState } from "../common.types";
+import { useAppDispatch, useAppSelector } from "../lib/hooks";
+import {
+  selectChannels,
+  setChannels,
+} from "../features/Channels/channelsSlice";
+import { selectUser } from "../features/User/userSlice";
+import { onSnapshot } from "firebase/firestore";
 
 const Channels = () => {
-  if (!auth.currentUser) return null;
-
   const [openForm, setOpenForm] = useState(false);
-  const [docArray, loading, error] = useCollectionData(
-    queryChannelsByUserId(auth.currentUser!.uid),
-  );
+  const channels = useAppSelector(selectChannels);
 
-  const channels: ChannelInterface[] =
-    docArray?.map(mapDocumentDataToChannel) || [];
+  const currentUser = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (currentUser) {
+      const query = queryChannelsByUserId(currentUser.id);
+      onSnapshot(query, (snapshot) => {
+        const channels = snapshot.docs.map(
+          (doc) =>
+            ({
+              ...mapDocumentDataToChannel(doc.data()),
+              messages: [],
+            }) as ChannelState,
+        );
+        dispatch(setChannels(channels));
+      });
+    }
+  }, [currentUser, dispatch]);
 
   return (
     <section className="space-y-8 px-16 py-8">
@@ -36,8 +53,6 @@ const Channels = () => {
           </button>
           <span>Create a channel</span>
         </div>
-        {error && <strong>Error: {JSON.stringify(error)}</strong>}
-        {loading && <span>Collection: Loading...</span>}
         {channels.map((channel) => (
           <div
             key={channel.id}

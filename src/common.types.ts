@@ -29,3 +29,7 @@ export interface MessageInterface {
   createdAt: number;
   createdBy: string;
 }
+
+export interface ChannelState extends ChannelInterface {
+  messages: MessageInterface[];
+}

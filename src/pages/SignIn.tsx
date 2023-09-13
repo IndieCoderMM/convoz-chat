@@ -5,15 +5,25 @@ import { addDoc } from "firebase/firestore";
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
 import { queryAllUsers } from "../lib/utils";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../lib/hooks";
+import { selectUser } from "../features/User/userSlice";
+import { useEffect } from "react";
 
 const SignIn = () => {
   const [users] = useCollectionDataOnce(queryAllUsers());
+  const currentUser = useAppSelector(selectUser);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser) {
+      // navigatate back one page or home page
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
 
   const signIn = async () => {
     try {
       await signInWithPopup(auth, provider);
-      console.log(auth.currentUser);
 
       if (users?.some((user) => user.id === auth.currentUser!.uid)) return;
 
@@ -29,7 +39,6 @@ const SignIn = () => {
       };
 
       await addDoc(usersRef, user);
-      navigate("/");
     } catch (error) {
       console.error(error);
     }

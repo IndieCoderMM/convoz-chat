@@ -1,35 +1,24 @@
 import { useParams } from "react-router-dom";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  mapDocumentDataToChannel,
-  queryChannelsByUserId,
-} from "../../lib/utils";
-import { ChannelInterface } from "../../common.types";
 import ChatForm from "./ChatForm";
 import MessagesView from "./MessagesView";
-import { selectAuthStatus, selectUser } from "../User/userSlice";
-import { AuthStatus } from "../../lib/constants";
+import { selectUser } from "../User/userSlice";
 import { useAppSelector } from "../../lib/hooks";
+import { selectChannels } from "../Channels/channelsSlice";
 
 const ChatWindow = () => {
-  const currentUser = useAppSelector(selectUser);
-
   const { channelId } = useParams();
-  const [docArray, loading, error] = useCollectionData(
-    queryChannelsByUserId(currentUser!.id),
-  );
+  const currentUser = useAppSelector(selectUser);
+  const channels = useAppSelector(selectChannels);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const channel = channels?.find((ch) => ch.id === channelId);
 
-  if (error) {
-    return <p>Error: {error.message}</p>;
-  }
+  // const [docArray, loading, error] = useCollectionData(
+  //   queryChannelsByUserId(currentUser.id),
+  // );
 
-  const channel: ChannelInterface | undefined = docArray!
-    .map(mapDocumentDataToChannel)
-    .find((ch) => ch.id === channelId);
+  // const channel: ChannelInterface | undefined = docArray!
+  //   .map(mapDocumentDataToChannel)
+  //   .find((ch) => ch.id === channelId);
 
   if (!channel) {
     return <p>Channel not found</p>;
@@ -42,7 +31,7 @@ const ChatWindow = () => {
           <span>#</span>
         </div>
         <h2 className="text-3xl font-bold">
-          Welcome to #{channel?.name.toLowerCase()}
+          Welcome to #{channel.name.toLowerCase()}
         </h2>
         <p>{channel?.description}</p>
       </header>
