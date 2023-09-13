@@ -40,6 +40,7 @@ const CreateChannel = ({ close }: Props) => {
       createdBy: auth.currentUser.uid,
       createdAt: Date.now(),
       members: [auth.currentUser.uid],
+      showWelcome: false,
     };
 
     try {

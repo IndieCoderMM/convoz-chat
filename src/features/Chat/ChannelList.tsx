@@ -1,6 +1,6 @@
 import { HiHashtag, HiLockClosed, HiSpeakerphone } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
-import { ChannelInterface } from "../../common.types";
+import { ChannelInterface, ChannelType } from "../../common.types";
 
 type Props = {
   heading: string;
@@ -11,9 +11,11 @@ const icons = {
   public: HiHashtag,
   private: HiLockClosed,
   announcement: HiSpeakerphone,
+} as {
+  [key in ChannelType]: React.ComponentType<{ size: number }>;
 };
 
-const Icon = ({ type }: { type: "public" | "private" | "announcement" }) => {
+const Icon = ({ type }: { type: ChannelType }) => {
   const Icon = icons[type];
   return <Icon size={20} />;
 };

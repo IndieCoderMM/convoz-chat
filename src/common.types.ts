@@ -6,7 +6,10 @@ export interface UserInterface {
   email: string;
   createdAt: number;
   channels: string[];
+  role: "admin" | "user";
 }
+
+export type ChannelType = "public" | "private" | "announcement" | string;
 
 export interface ChannelInterface {
   id: string;
@@ -15,11 +18,11 @@ export interface ChannelInterface {
   createdAt: number;
   createdBy: string;
   members: string[];
-  type: "public" | "private" | "announcement";
+  type: ChannelType;
   showWelcome: boolean;
 }
 
-export interface Message {
+export interface MessageInterface {
   id: string;
   channelId: string;
   text: string;

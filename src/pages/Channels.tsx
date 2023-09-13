@@ -29,7 +29,7 @@ const Channels = () => {
         organized around a topic — #webdev, for example.
       </p>
       <div className="grid w-full grid-cols-12 gap-4">
-        <div className="col-span-12 flex min-h-[300px] flex-col items-center justify-center gap-2 rounded-md bg-dark-500 text-xl text-white sm:col-span-6 md:col-span-4">
+        <div className="col-span-12 flex min-h-[300px] flex-col items-center justify-center gap-2 rounded-md bg-dark-500 text-xl text-white sm:col-span-6 md:col-span-3">
           <button
             type="button"
             className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700 p-2"
@@ -42,7 +42,12 @@ const Channels = () => {
         {error && <strong>Error: {JSON.stringify(error)}</strong>}
         {loading && <span>Collection: Loading...</span>}
         {channels.map((channel) => (
-          <ChannelCard key={channel.id} {...channel} />
+          <div
+            key={channel.id}
+            className="col-span-12 flex min-h-[300px] items-center justify-center rounded-md bg-dark-800 text-white sm:col-span-6 md:col-span-3"
+          >
+            <ChannelCard {...channel} />
+          </div>
         ))}
       </div>
       {openForm && <CreateChannel close={() => setOpenForm(false)} />}

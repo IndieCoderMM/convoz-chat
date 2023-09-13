@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import ChatMessage from "./ChatMessage";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import {
   mapDocumentDataToChannel,
@@ -7,28 +6,8 @@ import {
 } from "../../lib/actions";
 import { auth } from "../../lib/firebase";
 import { ChannelInterface } from "../../common.types";
-
-const SampleMessages = [
-  {
-    id: 1,
-    user: {
-      name: "John Doe",
-      image: "/hacker.png",
-    },
-    message: "Hello world!",
-    timestamp: "12:00",
-  },
-  {
-    id: 2,
-    user: {
-      name: "Jane Doe",
-      image: "/hacker.png",
-    },
-    message:
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit sint explicabo illo dolorum ipsum quis eveniet tenetur ipsa, eos quisquam.",
-    timestamp: "12:00",
-  },
-];
+import ChatForm from "./ChatForm";
+import MessagesView from "./MessagesView";
 
 const ChatWindow = () => {
   if (!auth.currentUser) return null;
@@ -66,21 +45,10 @@ const ChatWindow = () => {
         <p>{channel?.description}</p>
       </header>
       <main className="flex flex-1 flex-col gap-2 p-4">
-        {SampleMessages.map(({ id, ...props }) => (
-          <ChatMessage key={id} {...props} />
-        ))}
+        <MessagesView channelId={channel.id} />
       </main>
       <section className="absolute bottom-0 left-0 w-full p-2">
-        <form className="flex items-center justify-between gap-2 p-2">
-          <input
-            type="text"
-            className="w-full rounded-md bg-dark-500 px-8 py-2"
-            placeholder="Type a message"
-          />
-          <button className="min-w-[150px] rounded-md bg-primary p-2 font-medium text-white">
-            Send
-          </button>
-        </form>
+        <ChatForm channelId={channelId!} userId={auth.currentUser.uid} />
       </section>
     </section>
   );

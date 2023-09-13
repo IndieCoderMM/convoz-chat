@@ -1,15 +1,15 @@
+import { MessageInterface } from "../../common.types";
 import { avatars } from "../../lib/constants";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { queryUserById } from "../../lib/actions";
 
-type ChatMessageProps = {
-  message: string;
-  timestamp: string;
-  user: {
-    name: string;
-    image: string;
-  };
-};
+const ChatMessage = (props: MessageInterface) => {
+  const { text: message, createdAt: timestamp, createdBy: userId } = props;
+  const [userDoc, loading] = useCollectionData(queryUserById(userId));
+  if (loading) return null;
 
-const ChatMessage = ({ message, timestamp, user }: ChatMessageProps) => {
+  const user = userDoc![0];
+
   return (
     <div className="flex items-start gap-2">
       <div className="flex flex-shrink-0 items-center">

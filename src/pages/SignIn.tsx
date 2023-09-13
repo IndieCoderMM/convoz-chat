@@ -20,6 +20,7 @@ const SignIn = () => {
         name: auth.currentUser!.displayName!,
         email: auth.currentUser!.email!,
         bio: "",
+        role: "user",
         avatarId: 0,
         createdAt: Date.now(),
         channels: [],
