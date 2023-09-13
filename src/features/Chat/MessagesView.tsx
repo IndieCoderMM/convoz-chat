@@ -2,7 +2,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import {
   mapDocumentDataToMessage,
   queryMessagesByChannelId,
-} from "../../lib/actions";
+} from "../../lib/utils";
 import { MessageInterface } from "../../common.types";
 import ChatMessage from "./ChatMessage";
 

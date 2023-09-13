@@ -3,10 +3,12 @@ import { auth, provider, usersRef } from "../lib/firebase";
 import { UserInterface } from "../common.types";
 import { addDoc } from "firebase/firestore";
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
-import { queryAllUsers } from "../lib/actions";
+import { queryAllUsers } from "../lib/utils";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
   const [users] = useCollectionDataOnce(queryAllUsers());
+  const navigate = useNavigate();
 
   const signIn = async () => {
     try {
@@ -27,6 +29,7 @@ const SignIn = () => {
       };
 
       await addDoc(usersRef, user);
+      navigate("/");
     } catch (error) {
       console.error(error);
     }

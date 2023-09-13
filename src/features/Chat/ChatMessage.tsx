@@ -1,7 +1,7 @@
 import { MessageInterface } from "../../common.types";
 import { avatars } from "../../lib/constants";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { queryUserById } from "../../lib/actions";
+import { queryUserById } from "../../lib/utils";
 
 const ChatMessage = (props: MessageInterface) => {
   const { text: message, createdAt: timestamp, createdBy: userId } = props;

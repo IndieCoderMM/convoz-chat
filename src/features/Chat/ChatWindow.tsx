@@ -3,18 +3,20 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import {
   mapDocumentDataToChannel,
   queryChannelsByUserId,
-} from "../../lib/actions";
-import { auth } from "../../lib/firebase";
+} from "../../lib/utils";
 import { ChannelInterface } from "../../common.types";
 import ChatForm from "./ChatForm";
 import MessagesView from "./MessagesView";
+import { selectAuthStatus, selectUser } from "../User/userSlice";
+import { AuthStatus } from "../../lib/constants";
+import { useAppSelector } from "../../lib/hooks";
 
 const ChatWindow = () => {
-  if (!auth.currentUser) return null;
+  const currentUser = useAppSelector(selectUser);
 
   const { channelId } = useParams();
   const [docArray, loading, error] = useCollectionData(
-    queryChannelsByUserId(auth.currentUser!.uid),
+    queryChannelsByUserId(currentUser!.id),
   );
 
   if (loading) {
@@ -48,7 +50,7 @@ const ChatWindow = () => {
         <MessagesView channelId={channel.id} />
       </main>
       <section className="absolute bottom-0 left-0 w-full p-2">
-        <ChatForm channelId={channelId!} userId={auth.currentUser.uid} />
+        <ChatForm channelId={channelId!} userId={currentUser!.id} />
       </section>
     </section>
   );

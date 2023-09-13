@@ -51,3 +51,9 @@ export const avatars = [
   steampunk,
   otaku,
 ];
+
+export enum AuthStatus {
+  SignedIn = "signedIn",
+  SignedOut = "signedOut",
+  Idle = "idle",
+}

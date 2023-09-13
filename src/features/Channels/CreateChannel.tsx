@@ -2,9 +2,11 @@ import { FaTimes } from "react-icons/fa";
 import CustomSelect from "../../components/CustomSelect";
 import { useState } from "react";
 import { addDoc } from "firebase/firestore";
-import { auth, channelsRef } from "../../lib/firebase";
+import { channelsRef } from "../../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { ChannelInterface } from "../../common.types";
+import { ChannelInterface, UserInterface } from "../../common.types";
+import { selectUser } from "../User/userSlice";
+import { useAppSelector } from "../../lib/hooks";
 
 type Props = {
   close: () => void;
@@ -23,10 +25,12 @@ const CreateChannel = ({ close }: Props) => {
     type: "public",
   });
 
+  const currentUser: UserInterface | null = useAppSelector(selectUser);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (auth.currentUser === null) return;
+    if (!currentUser) return;
 
     const name = form.name.trim().toLowerCase().replace(/\s+/g, "-");
     const description = form.description.trim();
@@ -37,9 +41,9 @@ const CreateChannel = ({ close }: Props) => {
       name,
       description,
       type: form.type,
-      createdBy: auth.currentUser.uid,
+      createdBy: currentUser.id,
       createdAt: Date.now(),
-      members: [auth.currentUser.uid],
+      members: [currentUser.id],
       showWelcome: false,
     };
 

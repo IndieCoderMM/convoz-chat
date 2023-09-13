@@ -2,10 +2,7 @@ import { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import CreateChannel from "../features/Channels/CreateChannel";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  mapDocumentDataToChannel,
-  queryChannelsByUserId,
-} from "../lib/actions";
+import { mapDocumentDataToChannel, queryChannelsByUserId } from "../lib/utils";
 import { auth } from "../lib/firebase";
 import ChannelCard from "../features/Channels/ChannelCard";
 import { ChannelInterface } from "../common.types";

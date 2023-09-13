@@ -3,7 +3,7 @@ import ChannelList from "./ChannelList";
 import {
   mapDocumentDataToChannel,
   queryChannelsByUserId,
-} from "../../lib/actions";
+} from "../../lib/utils";
 import { auth } from "../../lib/firebase";
 import { ChannelInterface } from "../../common.types";
 
