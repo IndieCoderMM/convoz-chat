@@ -14,8 +14,8 @@ import {
 
 export const NavLinks = [
   {
-    href: "/",
-    label: "Home",
+    href: "/explore",
+    label: "Explore",
     icon: FaRegCompass,
   },
   {

@@ -39,6 +39,9 @@ export default {
       screens: {
         wide: "1440px",
       },
+      backgroundImage: {
+        header: "url('/img/header_illustration.svg')",
+      },
     },
   },
   plugins: [],

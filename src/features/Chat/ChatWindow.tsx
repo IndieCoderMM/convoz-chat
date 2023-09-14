@@ -1,24 +1,27 @@
 import { useParams } from "react-router-dom";
 import ChatForm from "./ChatForm";
 import MessagesView from "./MessagesView";
-import { selectUser } from "../User/userSlice";
 import { useAppSelector } from "../../lib/hooks";
 import { selectChannels } from "../Channels/channelsSlice";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import {
+  mapDocumentDataToChannel,
+  queryWelcomeChannels,
+} from "../../lib/utils";
+import { ChannelInterface } from "../../common.types";
 
 const ChatWindow = () => {
   const { channelId } = useParams();
-  const currentUser = useAppSelector(selectUser);
+
   const channels = useAppSelector(selectChannels);
+  const [docArray] = useCollectionData(queryWelcomeChannels());
 
-  const channel = channels?.find((ch) => ch.id === channelId);
+  const welcomeChannels = docArray?.map(mapDocumentDataToChannel) || [];
 
-  // const [docArray, loading, error] = useCollectionData(
-  //   queryChannelsByUserId(currentUser.id),
-  // );
-
-  // const channel: ChannelInterface | undefined = docArray!
-  //   .map(mapDocumentDataToChannel)
-  //   .find((ch) => ch.id === channelId);
+  const channel: ChannelInterface | undefined = [
+    ...welcomeChannels,
+    ...channels,
+  ]?.find((ch) => ch.id === channelId);
 
   if (!channel) {
     return <p>Channel not found</p>;
@@ -39,7 +42,7 @@ const ChatWindow = () => {
         <MessagesView channelId={channel.id} />
       </main>
       <section className="absolute bottom-0 left-0 w-full p-2">
-        <ChatForm channelId={channelId!} userId={currentUser!.id} />
+        <ChatForm channelId={channelId!} />
       </section>
     </section>
   );
