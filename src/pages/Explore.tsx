@@ -1,15 +1,27 @@
 import { FaSearch } from "react-icons/fa";
 import { HeaderImg } from "../assets/img";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import { mapDocumentDataToChannel, queryPublicChannels } from "../lib/utils";
 import { ChannelInterface } from "../common.types";
 import ChannelCard from "../features/Channels/ChannelCard";
+import { useEffect, useState } from "react";
+import { onSnapshot } from "firebase/firestore";
 
 const Explore = () => {
-  const [values, loading] = useCollectionData(queryPublicChannels());
+  const [channels, setChannels] = useState<ChannelInterface[]>([]);
 
-  const channels: ChannelInterface[] =
-    values?.map(mapDocumentDataToChannel) || [];
+  useEffect(() => {
+    const query = queryPublicChannels();
+    onSnapshot(query, (snapshot) => {
+      const channels = snapshot.docs.map(
+        (doc) =>
+          ({
+            ...mapDocumentDataToChannel(doc.data()),
+            path: doc.id,
+          }) as ChannelInterface,
+      );
+      setChannels(channels);
+    });
+  }, []);
 
   return (
     <section className="p-2">

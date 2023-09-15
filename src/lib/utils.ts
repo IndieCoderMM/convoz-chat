@@ -50,6 +50,7 @@ export const mapDocumentDataToChannel = (
       showWelcome: false,
     };
   }
+
   return {
     id: docData.id,
     name: docData.name,

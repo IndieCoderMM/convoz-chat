@@ -20,6 +20,7 @@ export interface ChannelInterface {
   members: string[];
   type: ChannelType;
   showWelcome: boolean;
+  path?: string;
 }
 
 export interface MessageInterface {

@@ -2,12 +2,30 @@ import { CheckBadge } from "../../assets/icons";
 import { ShapesBanner } from "../../assets/img";
 import { ChannelInterface } from "../../common.types";
 import { useAppSelector } from "../../lib/hooks";
+import { doc, updateDoc } from "firebase/firestore";
 import { selectUser } from "../User/userSlice";
+import { db } from "../../lib/firebase";
+import { useNavigate } from "react-router-dom";
 
 const ChannelCard = (props: ChannelInterface) => {
   const currentUser = useAppSelector(selectUser);
-  const { name, description, type, members } = props;
+  const { id, path, name, description, type, members } = props;
+  const navigate = useNavigate();
+
   const isMember = currentUser && members.includes(currentUser.id);
+
+  const handleJoin = async () => {
+    if (!currentUser || isMember) return;
+
+    const channelRef = doc(db, `channels`, path || "");
+
+    await updateDoc(channelRef, {
+      members: [...members, currentUser.id],
+    });
+
+    navigate(`/chat/channels/${id}`);
+  };
+
   return (
     <div className="flex h-full w-full flex-col overflow-hidden rounded-md bg-dark-800">
       <div className="flex h-[200px] w-full items-center justify-center overflow-hidden">
@@ -39,6 +57,7 @@ const ChannelCard = (props: ChannelInterface) => {
             <button
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:brightness-110 lg:text-lg "
               type="button"
+              onClick={handleJoin}
             >
               Join
             </button>
