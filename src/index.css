@@ -35,6 +35,10 @@ html {
   .submit {
     @apply w-full max-w-[200px] appearance-none rounded-md bg-blue-500 px-4 py-4 text-center font-medium text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500;
   }
+
+  .btn {
+    @apply inline-block appearance-none rounded-md bg-blue-500 px-4 py-2 text-center font-medium text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500;
+  }
 }
 
 @layer utilities {
