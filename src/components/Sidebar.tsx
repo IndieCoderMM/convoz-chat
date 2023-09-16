@@ -23,9 +23,9 @@ const Sidebar = () => {
             <li key={href} className="">
               <Link
                 to={href}
-                className="group relative flex h-12 w-12 items-center justify-center rounded-3xl bg-dark-700 p-1 text-secondary transition-all hover:rounded-lg hover:bg-secondary hover:text-white"
+                className="group relative flex h-12 w-12 items-center justify-center rounded-3xl bg-dark-700 p-1 text-secondary transition-all hover:rounded-2xl hover:bg-secondary hover:text-white"
               >
-                <span className="absolute left-full top-1/2 ml-3 -translate-y-1/2 scale-0 rounded-md bg-white px-2 py-1 font-medium text-dark-900 group-hover:scale-100">
+                <span className="absolute left-full top-1/2 z-20 ml-3 -translate-y-1/2 scale-0 rounded-md bg-white px-2 py-1 font-medium text-dark-900 group-hover:scale-100">
                   {label}
                 </span>
                 <Icon size={30} />
