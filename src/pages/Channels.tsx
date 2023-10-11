@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import CreateChannel from "../features/Channels/CreateChannel";
-import { mapDocumentDataToChannel, queryChannelsByUserId } from "../lib/utils";
+import {
+  mapDocumentDataToChannel,
+  queryChannelsByUserId,
+} from "../lib/firestore-utils";
 import ChannelCard from "../features/Channels/ChannelCard";
 import { ChannelState } from "../common.types";
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
@@ -40,7 +43,7 @@ const Channels = () => {
       <h1 className="text-xl font-bold">Channels</h1>
       <p>
         Channels are where your members communicate. They&apos;re best when
-        organized around a topic — #webdev, for example.
+        organized around a topic — #webdev, #gamedev for example.
       </p>
       <div className="grid w-full grid-cols-12 gap-4">
         <div className="col-span-12 flex min-h-[300px] flex-col items-center justify-center gap-2 rounded-md bg-dark-500 text-xl text-white sm:col-span-6 md:col-span-3">

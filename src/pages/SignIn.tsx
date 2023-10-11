@@ -3,7 +3,7 @@ import { auth, provider, usersRef } from "../lib/firebase";
 import { UserInterface } from "../common.types";
 import { addDoc } from "firebase/firestore";
 import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
-import { queryAllUsers } from "../lib/utils";
+import { queryAllUsers } from "../lib/firestore-utils";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../lib/hooks";
 import { selectUser } from "../features/User/userSlice";

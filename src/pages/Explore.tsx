@@ -1,6 +1,9 @@
 import { FaSearch } from "react-icons/fa";
 import { HeaderImg } from "../assets/img";
-import { mapDocumentDataToChannel, queryPublicChannels } from "../lib/utils";
+import {
+  mapDocumentDataToChannel,
+  queryPublicChannels,
+} from "../lib/firestore-utils";
 import { ChannelInterface } from "../common.types";
 import ChannelCard from "../features/Channels/ChannelCard";
 import { useEffect, useState } from "react";

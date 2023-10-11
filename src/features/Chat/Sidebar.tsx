@@ -4,7 +4,7 @@ import {
   mapDocumentDataToChannel,
   queryChannelsByUserId,
   queryWelcomeChannels,
-} from "../../lib/utils";
+} from "../../lib/firestore-utils";
 import { auth } from "../../lib/firebase";
 import { ChannelState } from "../../common.types";
 import { useEffect } from "react";
@@ -50,7 +50,10 @@ const Sidebar = () => {
         placeholder="Browse channels"
       />
       <ChannelList heading="Welcome 👋" channels={welcomeChannels} />
-      <ChannelList heading="Channels" channels={channels} />
+      <ChannelList
+        heading="Channels"
+        channels={channels.filter((channel) => !channel.showWelcome)}
+      />
     </aside>
   );
 };

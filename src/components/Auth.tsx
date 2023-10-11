@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
 import { auth } from "../lib/firebase";
 import { useEffect } from "react";
-import { mapDocumentDataToUser, queryUserById } from "../lib/utils";
+import { mapDocumentDataToUser, queryUserById } from "../lib/firestore-utils";
 import { selectUser, setUser } from "../features/User/userSlice";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";

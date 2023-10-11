@@ -4,7 +4,10 @@ import { MessageInterface } from "../../common.types";
 import { addDoc } from "firebase/firestore";
 import { messagesRef } from "../../lib/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { mapDocumentDataToChannel, queryChannelById } from "../../lib/utils";
+import {
+  mapDocumentDataToChannel,
+  queryChannelById,
+} from "../../lib/firestore-utils";
 import { useAppSelector } from "../../lib/hooks";
 import { selectUser } from "../User/userSlice";
 
