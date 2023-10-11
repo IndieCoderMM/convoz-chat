@@ -14,6 +14,8 @@ import ChatWindow from "./features/Chat/ChatWindow";
 import SignIn from "./pages/SignIn";
 import Explore from "./pages/Explore";
 
+const GENERAL_CHANNEL_ID = import.meta.env.VITE_GENERAL_CHANNEL_ID || "general";
+
 const Router = createBrowserRouter(
   createRoutesFromElements(
     <Route
@@ -21,9 +23,12 @@ const Router = createBrowserRouter(
       element={<RootLayout />}
       errorElement={<div>Not found</div>}
     >
-      <Route index element={<Home />} />
+      <Route index element={<Explore />} />
       <Route path="chat" element={<Chat />}>
-        <Route index element={<Navigate to="channels/general" replace />} />
+        <Route
+          index
+          element={<Navigate to={`channels/${GENERAL_CHANNEL_ID}`} replace />}
+        />
         <Route path="channels/:channelId" element={<ChatWindow />} />
       </Route>
       <Route path="channels" element={<Channels />} />

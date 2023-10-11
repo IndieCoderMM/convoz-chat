@@ -1,14 +1,11 @@
-import { AuthStatus, avatars } from "../lib/constants";
+import { avatars } from "../lib/constants";
 
-import { selectAuthStatus, selectUser } from "../features/User/userSlice";
+import { selectUser } from "../features/User/userSlice";
 import { useAppSelector } from "../lib/hooks";
 import { Link } from "react-router-dom";
 
 const UserButton = () => {
-  const authStatus = useAppSelector(selectAuthStatus);
   const currentUser = useAppSelector(selectUser);
-
-  if (authStatus !== AuthStatus.SignedIn) return null;
 
   return (
     <Link to="/profile" className="flex items-center">

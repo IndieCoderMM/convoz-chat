@@ -7,6 +7,7 @@ export interface UserInterface {
   createdAt: number;
   channels: string[];
   role: "admin" | "user";
+  path?: string;
 }
 
 export type ChannelType = "public" | "private" | "announcement" | string;

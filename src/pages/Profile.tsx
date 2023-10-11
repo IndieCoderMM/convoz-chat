@@ -1,9 +1,12 @@
 import { useAppSelector } from "../lib/hooks";
 import { selectUser } from "../features/User/userSlice";
 import { avatars } from "../lib/constants";
+import { useState } from "react";
+import ChangeAvatar from "../features/User/ChangeAvatar";
 
 const Profile = () => {
   const currentUser = useAppSelector(selectUser);
+  const [openAvatarModal, setOpenAvatarModal] = useState(false);
 
   return (
     <section className="p-2">
@@ -22,7 +25,11 @@ const Profile = () => {
               />
               <h2 className="text-2xl font-bold">{currentUser?.name}</h2>
             </div>
-            <button type="button" className="btn">
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setOpenAvatarModal(true)}
+            >
               Change Avatar
             </button>
           </div>
@@ -56,6 +63,9 @@ const Profile = () => {
           </div>
         </main>
       </div>
+      {openAvatarModal && (
+        <ChangeAvatar close={() => setOpenAvatarModal(false)} />
+      )}
     </section>
   );
 };

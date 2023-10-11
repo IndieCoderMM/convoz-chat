@@ -1,4 +1,8 @@
-import { ChannelInterface, MessageInterface } from "../common.types";
+import {
+  ChannelInterface,
+  MessageInterface,
+  UserInterface,
+} from "../common.types";
 import { channelsRef, messagesRef, usersRef } from "./firebase";
 import { DocumentData, limit, orderBy, query, where } from "firebase/firestore";
 
@@ -22,7 +26,7 @@ export const queryMessagesByChannelId = (id: string) =>
 export const queryUserById = (id: string) =>
   query(usersRef, where("id", "==", id), limit(1));
 
-export const mapDocumentDataToUser = (docData: DocumentData) => {
+export const mapDocumentDataToUser = (docData: DocumentData): UserInterface => {
   return {
     id: docData.id,
     name: docData.name,

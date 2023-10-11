@@ -56,19 +56,21 @@ const CreateChannel = ({ close }: Props) => {
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 bg-black/80">
+    <div className="fixed bottom-0 left-0 right-0 top-0 bg-black/60 backdrop-blur-md">
       <form
         onSubmit={handleSubmit}
-        className="relative left-1/2 top-1/2 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 space-y-2 overflow-hidden rounded-md bg-white text-black"
+        className="relative left-1/2 top-1/2 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 space-y-2 overflow-hidden rounded-md bg-dark-700 text-white"
       >
-        <h1 className="mb-4 p-4 text-xl font-bold">Create a new channel</h1>
-        <button
-          type="button"
-          className="absolute right-4 top-4"
-          onClick={() => close()}
-        >
-          <FaTimes className="h-6 w-6" />
-        </button>
+        <header className="my-4 p-4">
+          <h1 className="text-xl font-bold">Create a new channel</h1>
+          <button
+            type="button"
+            className="absolute right-4 top-4"
+            onClick={() => close()}
+          >
+            <FaTimes className="h-6 w-6" />
+          </button>
+        </header>
         <div className="flex flex-col gap-1 p-4">
           <label htmlFor="channel-name" className="label">
             Channel Name
@@ -108,7 +110,7 @@ const CreateChannel = ({ close }: Props) => {
             setForm({ ...form, type: value })
           }
         />
-        <div className="flex justify-end bg-gray-300 p-4">
+        <div className="flex justify-end bg-dark-300 p-4">
           <button type="submit" className="submit">
             Create Channel
           </button>

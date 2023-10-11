@@ -1,6 +1,7 @@
 import { HiHashtag, HiLockClosed, HiSpeakerphone } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { ChannelInterface, ChannelType } from "../../common.types";
+import { cn } from "../../lib/tailwind-utils";
 
 type Props = {
   heading: string;
@@ -31,11 +32,12 @@ const ChannelList = ({ heading, channels }: Props) => {
         {channels.map(({ id, name, type }) => (
           <li
             key={id}
-            className={`cursor-pointer rounded transition-all hover:bg-gray-400/10 ${
-              pathname === href(id) ? "bg-gray-400/10" : "text-gray-300"
-            }`}
+            className={cn(
+              `cursor-pointer rounded transition-all hover:bg-gray-400/10`,
+              pathname === href(id) ? "bg-gray-400/10" : "text-gray-300",
+            )}
           >
-            <Link to={href(id)} className="flex items-center gap-0.5 p-2 ">
+            <Link to={href(id)} className="flex items-center gap-3 p-2 ">
               <Icon type={type} />
               <span>{name}</span>
             </Link>

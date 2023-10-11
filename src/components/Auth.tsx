@@ -18,6 +18,7 @@ const Auth = () => {
       const query = queryUserById(user.uid);
       onSnapshot(query, (snapshot) => {
         const userData = mapDocumentDataToUser(snapshot.docs[0].data());
+        userData.path = snapshot.docs[0].id;
         dispatch(setUser(userData));
       });
     }

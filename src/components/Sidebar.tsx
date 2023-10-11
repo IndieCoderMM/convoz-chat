@@ -1,14 +1,16 @@
-import { NavLinks } from "../lib/constants";
+import { AuthStatus, NavLinks } from "../lib/constants";
 import { Link } from "react-router-dom";
 import UserButton from "./UserButton";
 import { signOut } from "firebase/auth";
 import { auth } from "../lib/firebase";
 import { FaSignOutAlt } from "react-icons/fa";
-import { useAppDispatch } from "../lib/hooks";
-import { clearUser } from "../features/User/userSlice";
+import { useAppDispatch, useAppSelector } from "../lib/hooks";
+import { clearUser, selectAuthStatus } from "../features/User/userSlice";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
+
+  const authStatus = useAppSelector(selectAuthStatus);
 
   const onSignOut = async () => {
     signOut(auth);
@@ -34,9 +36,11 @@ const Sidebar = () => {
           ))}
         </ul>
         <ul className="mt-auto flex w-full flex-col items-center justify-center gap-8 border-t border-gray-300 pt-8">
-          <li className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
-            <UserButton />
-          </li>
+          {authStatus === AuthStatus.SignedIn && (
+            <li className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
+              <UserButton />
+            </li>
+          )}
           <li className="flex items-center justify-center rounded-full border border-gray-600 p-2">
             <button onClick={onSignOut} className="">
               <span className="sr-only">Sign Out</span>

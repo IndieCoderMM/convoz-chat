@@ -15,7 +15,7 @@ const ChatMessage = (props: MessageInterface) => {
     <div className="flex w-full items-start gap-2">
       <div className="flex flex-shrink-0 items-center">
         <img
-          src={avatars[0]}
+          src={avatars[user.avatarId]}
           alt={user.name}
           className="h-12 w-12 rounded-full"
         />

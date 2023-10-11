@@ -21,6 +21,11 @@ const userSlice = createSlice({
       state.data = action.payload;
       state.status = AuthStatus.SignedIn;
     },
+    updateAvatar: (state, action: PayloadAction<number>) => {
+      if (state.data) {
+        state.data.avatarId = action.payload;
+      }
+    },
     clearUser: (state) => {
       state.data = null;
       state.status = AuthStatus.SignedOut;
@@ -28,7 +33,7 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser } = userSlice.actions;
+export const { setUser, clearUser, updateAvatar } = userSlice.actions;
 export const selectAuthStatus = (state: RootState) => state.user.status;
 export const selectUser = (state: RootState) => state.user.data;
 export default userSlice.reducer;
