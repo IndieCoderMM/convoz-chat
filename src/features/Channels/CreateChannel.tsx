@@ -106,8 +106,8 @@ const CreateChannel = ({ close }: Props) => {
             { value: "private", label: "Private" },
           ]}
           value={form.type}
-          setValue={(value: "public" | "private") =>
-            setForm({ ...form, type: value })
+          setValue={(value: string) =>
+            setForm({ ...form, type: value as "public" | "private" })
           }
         />
         <div className="flex justify-end bg-dark-300 p-4">
