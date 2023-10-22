@@ -1,19 +1,14 @@
-import { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import CreateChannel from "../features/Channels/CreateChannel";
-import {
-  mapDocumentDataToChannel,
-  queryChannelsByUserId,
-} from "../lib/firestore-utils";
-import ChannelCard from "../features/Channels/ChannelCard";
-import { ChannelState } from "../common.types";
-import { useAppDispatch, useAppSelector } from "../lib/hooks";
-import {
-  selectChannels,
-  setChannels,
-} from "../features/Channels/channelsSlice";
-import { selectUser } from "../features/User/userSlice";
-import { onSnapshot } from "firebase/firestore";
+import { onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
+
+import { ChannelState } from '../common.types';
+import ChannelCard from '../features/Channels/ChannelCard';
+import { selectChannels, setChannels } from '../features/Channels/channelsSlice';
+import CreateChannel from '../features/Channels/CreateChannel';
+import { selectUser } from '../features/User/userSlice';
+import { mapDocumentDataToChannel, queryCreatedChannels } from '../lib/firestore-utils';
+import { useAppDispatch, useAppSelector } from '../lib/hooks';
 
 const Channels = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -24,7 +19,7 @@ const Channels = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const query = queryChannelsByUserId(currentUser.id);
+      const query = queryCreatedChannels(currentUser.id);
       onSnapshot(query, (snapshot) => {
         const channels = snapshot.docs.map(
           (doc) =>

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import Relativetime from 'dayjs/plugin/relativeTime';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { BiUser } from 'react-icons/bi';
 
 import { MessageInterface } from '../../common.types';
 import { avatars } from '../../lib/constants';
@@ -17,11 +18,15 @@ const ChatMessage = (props: MessageInterface) => {
 
   return (
     <div className="flex w-full items-start gap-2">
-      <div className="flex flex-shrink-0 items-center">
+      <div className="relative flex h-12 w-12 flex-shrink-0 items-center rounded-full bg-dark-800">
+        <BiUser
+          size={30}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-indigo-400"
+        />
         <img
           src={avatars[user.avatarId]}
           alt={user.name}
-          className="h-12 w-12 rounded-full"
+          className="relative h-12 w-12 rounded-full"
         />
       </div>
       <div className="flex max-w-[60%] flex-col">

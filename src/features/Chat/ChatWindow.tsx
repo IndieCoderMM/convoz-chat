@@ -6,6 +6,7 @@ import { FaGithub, FaSignOutAlt, FaUsers } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 import { ChannelInterface, UserInterface } from '../../common.types';
+import Tooltip from '../../components/Tooltip';
 import { avatars } from '../../lib/constants';
 import { usersRef } from '../../lib/firebase';
 import {
@@ -71,9 +72,12 @@ const ChatWindow = () => {
           </div>
           <div className="flex w-full items-center justify-end">
             <button className="group relative rounded-md p-2 text-sm text-white transition hover:bg-dark-300">
-              <span className="absolute left-1/2 top-full -translate-x-1/2 translate-y-2 rounded-md bg-dark-500 p-1 px-1 text-xs opacity-0 transition-all group-hover:opacity-100">
-                Leave&nbsp;Channel
-              </span>
+              <Tooltip
+                text="Leave Group"
+                position="bottom"
+                variant="dark"
+                size="sm"
+              />
               <FaSignOutAlt size={20} />
             </button>
             <div className="mx-2 w-[1px] self-stretch bg-white/50" />
@@ -83,9 +87,12 @@ const ChatWindow = () => {
               rel="noreferrer"
               className="group relative rounded-md p-2 text-sm text-white transition hover:bg-dark-300"
             >
-              <span className="absolute left-1/2 top-full -translate-x-1/2 translate-y-2 rounded-md bg-dark-500 p-1 px-1 text-xs opacity-0 transition-all group-hover:opacity-100">
-                View&nbsp;Code
-              </span>
+              <Tooltip
+                text="View Source"
+                position="bottom"
+                variant="dark"
+                size="sm"
+              />
               <FaGithub size={20} />
             </a>
           </div>

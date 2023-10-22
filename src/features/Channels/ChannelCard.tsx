@@ -1,9 +1,11 @@
 import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import toast from 'react-hot-toast';
+import { HiUsers } from 'react-icons/hi2';
 import { useNavigate } from 'react-router-dom';
 
 import { CheckBadge } from '../../assets/icons';
 import { ChannelInterface } from '../../common.types';
+import Tooltip from '../../components/Tooltip';
 import { channelsRef } from '../../lib/firebase';
 import { useAppSelector } from '../../lib/hooks';
 import { selectUser } from '../User/userSlice';
@@ -56,7 +58,15 @@ const ChannelCard = (props: ChannelInterface) => {
       </div>
       <div className="flex h-full flex-col gap-2 p-4 lg:py-8">
         <header className="flex items-center gap-1">
-          <img src={CheckBadge} alt="check badge" className="h-6 w-6" />
+          <div className="group relative h-6 w-6">
+            <img src={CheckBadge} alt="check badge" className="h-6 w-6" />
+            <Tooltip
+              text="Verified"
+              position="bottom"
+              variant="light"
+              size="sm"
+            />
+          </div>
           <h2 className="text-lg font-medium capitalize sm:text-xl">
             {name.replace(/-/g, " ")}
           </h2>
@@ -67,9 +77,10 @@ const ChannelCard = (props: ChannelInterface) => {
         <p className="text-sm leading-relaxed text-gray-200">{description}</p>
         <div className="mt-auto flex items-center justify-between">
           <div className="flex items-center">
-            <span className="h-3 w-3 rounded-full bg-green-500" />
+            <HiUsers size={20} />
             <span className="ml-2 text-sm text-gray-400">
-              {members.length}+ Members
+              {members.length}
+              {members.length === 1 ? " member" : " members"}
             </span>
           </div>
           {!isMember && (

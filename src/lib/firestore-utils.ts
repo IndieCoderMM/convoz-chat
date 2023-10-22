@@ -14,11 +14,14 @@ export const getDocIfExists = async (ref: CollectionReference, id: string) => {
   };
 };
 
-export const queryChannelsByUserId = (id: string) =>
+export const queryJoinedChannels = (id: string) =>
   query(channelsRef, where("members", "array-contains", id));
 
 export const queryChannelById = (id: string) =>
   query(channelsRef, where("id", "==", id), limit(1));
+
+export const queryCreatedChannels = (id: string) =>
+  query(channelsRef, where("createdBy", "==", id));
 
 export const queryAllUsers = () => query(usersRef);
 

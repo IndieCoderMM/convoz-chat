@@ -1,13 +1,11 @@
-import { FaSearch } from "react-icons/fa";
-import { HeaderImg } from "../assets/img";
-import {
-  mapDocumentDataToChannel,
-  queryPublicChannels,
-} from "../lib/firestore-utils";
-import { ChannelInterface } from "../common.types";
-import ChannelCard from "../features/Channels/ChannelCard";
-import { useEffect, useState } from "react";
-import { onSnapshot } from "firebase/firestore";
+import { onSnapshot } from 'firebase/firestore';
+import { useEffect, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+
+import { HeaderImg } from '../assets/img';
+import { ChannelInterface } from '../common.types';
+import ChannelCard from '../features/Channels/ChannelCard';
+import { mapDocumentDataToChannel, queryPublicChannels } from '../lib/firestore-utils';
 
 const Explore = () => {
   const [channels, setChannels] = useState<ChannelInterface[]>([]);
@@ -24,7 +22,7 @@ const Explore = () => {
 
   return (
     <section className="p-2">
-      <header className="relative ">
+      <header className="relative min-h-[50vh]">
         <img src={HeaderImg} alt="header" className="h-auto w-full" />
         <div className="bottom-0 left-0 right-0 top-0 col-span-1 row-span-1 mx-auto flex w-full flex-col items-center justify-center gap-4 bg-dark-700 px-2 py-8 text-center md:absolute md:bg-transparent ">
           <h1 className="text-xl font-bold capitalize lg:text-3xl">

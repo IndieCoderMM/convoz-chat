@@ -1,8 +1,8 @@
-import { avatars } from "../lib/constants";
+import { Link } from 'react-router-dom';
 
-import { selectUser } from "../features/User/userSlice";
-import { useAppSelector } from "../lib/hooks";
-import { Link } from "react-router-dom";
+import { selectUser } from '../features/User/userSlice';
+import { avatars } from '../lib/constants';
+import { useAppSelector } from '../lib/hooks';
 
 const UserButton = () => {
   const currentUser = useAppSelector(selectUser);

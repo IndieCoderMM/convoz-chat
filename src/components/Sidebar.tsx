@@ -1,14 +1,15 @@
-import { Link, useLocation } from "react-router-dom";
-import { signOut } from "firebase/auth";
-import { BiLogOutCircle } from "react-icons/bi";
-import toast from "react-hot-toast";
+import { signOut } from 'firebase/auth';
+import toast from 'react-hot-toast';
+import { BiLogOutCircle } from 'react-icons/bi';
+import { Link, useLocation } from 'react-router-dom';
 
-import UserButton from "./UserButton";
-import { auth } from "../lib/firebase";
-import { AuthStatus, NavLinks } from "../lib/constants";
-import { useAppDispatch, useAppSelector } from "../lib/hooks";
-import { clearUser, selectAuthStatus } from "../features/User/userSlice";
-import { cn } from "../lib/tailwind-utils";
+import { clearUser, selectAuthStatus } from '../features/User/userSlice';
+import { AuthStatus, NavLinks } from '../lib/constants';
+import { auth } from '../lib/firebase';
+import { useAppDispatch, useAppSelector } from '../lib/hooks';
+import { cn } from '../lib/tailwind-utils';
+import Tooltip from './Tooltip';
+import UserButton from './UserButton';
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -43,9 +44,15 @@ const Sidebar = () => {
                   isActive(href) && "rounded-2xl bg-secondary text-white",
                 )}
               >
-                <span className="absolute left-full top-1/2 ml-3 -translate-y-1/2 scale-0 rounded-md bg-white px-2 py-1 font-medium text-dark-900 group-hover:scale-100">
+                <Tooltip
+                  text={label}
+                  position="right"
+                  variant="light"
+                  size="lg"
+                />
+                {/* <span className="absolute left-full top-1/2 ml-3 -translate-y-1/2 scale-0 rounded-md bg-white px-2 py-1 font-medium text-dark-900 transition-all group-hover:scale-100">
                   {label}
-                </span>
+                </span> */}
                 <Icon size={30} />
               </Link>
             </li>
@@ -53,12 +60,18 @@ const Sidebar = () => {
         </ul>
         <ul className="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-gray-300 pt-8">
           {authStatus === AuthStatus.SignedIn && (
-            <li className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
+            <li className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
               <UserButton />
+              <Tooltip
+                text="Profile"
+                position="right"
+                variant="light"
+                size="lg"
+              />
             </li>
           )}
           <li className="flex items-center justify-center rounded-full border border-gray-600 p-2">
-            <button onClick={onSignOut} className="">
+            <button onClick={onSignOut}>
               <span className="sr-only">Sign Out</span>
               <BiLogOutCircle size={30} />
             </button>

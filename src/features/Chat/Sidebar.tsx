@@ -8,7 +8,7 @@ import { HiBell } from 'react-icons/hi';
 import { ChannelInterface, ChannelState } from '../../common.types';
 import { channelsRef } from '../../lib/firebase';
 import {
-    mapDocumentDataToChannel, queryChannelsByUserId, queryStaticChannels
+    mapDocumentDataToChannel, queryJoinedChannels, queryStaticChannels
 } from '../../lib/firestore-utils';
 import { useAppDispatch, useAppSelector } from '../../lib/hooks';
 import { selectChannels, setChannels } from '../Channels/channelsSlice';
@@ -22,31 +22,31 @@ const Sidebar = () => {
   const [staticChannelsDocs] = useCollectionData(queryStaticChannels());
 
   useEffect(() => {
-    if (!staticChannelsDocs) return;
+    if (!staticChannelsDocs || !currentUser) return;
 
     const channelsToJoin = staticChannelsDocs
       .map(mapDocumentDataToChannel)
       .filter((doc) => {
         const channel = mapDocumentDataToChannel(doc);
-        return !channel.members.includes(currentUser?.id!);
+        return !channel.members.includes(currentUser.id);
       });
 
     const joinAllChannels = async (channels: ChannelInterface[]) => {
       const batch = channels.reduce((acc, channel) => {
         const ref = doc(channelsRef, channel.id);
-        const updatedMembers = [...channel.members, currentUser?.id!];
+        const updatedMembers = [...channel.members, currentUser.id];
         acc.push(updateDoc(ref, { members: updatedMembers }));
         return acc;
-      }, [] as any[]);
+      }, [] as Promise<void>[]);
       await Promise.all(batch);
     };
 
     joinAllChannels(channelsToJoin);
-  }, [staticChannelsDocs]);
+  }, [staticChannelsDocs, currentUser]);
 
   useEffect(() => {
     if (currentUser) {
-      const query = queryChannelsByUserId(currentUser.id);
+      const query = queryJoinedChannels(currentUser.id);
       onSnapshot(query, (snapshot) => {
         const channels = snapshot.docs.map(
           (doc) =>

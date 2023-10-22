@@ -1,12 +1,13 @@
-import { FaTimes } from "react-icons/fa";
-import { avatars } from "../../lib/constants";
-import { useAppDispatch, useAppSelector } from "../../lib/hooks";
-import { selectUser, updateAvatar } from "./userSlice";
-import { cn } from "../../lib/tailwind-utils";
-import { doc, updateDoc } from "firebase/firestore";
-import { usersRef } from "../../lib/firebase";
-import { useState } from "react";
-import toast from "react-hot-toast";
+import { doc, updateDoc } from 'firebase/firestore';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { FaTimes } from 'react-icons/fa';
+
+import { avatars } from '../../lib/constants';
+import { usersRef } from '../../lib/firebase';
+import { useAppDispatch, useAppSelector } from '../../lib/hooks';
+import { cn } from '../../lib/tailwind-utils';
+import { selectUser, updateAvatar } from './userSlice';
 
 const ChangeAvatar = ({ close }: { close: () => void }) => {
   const currentUser = useAppSelector(selectUser);
@@ -21,7 +22,12 @@ const ChangeAvatar = ({ close }: { close: () => void }) => {
   };
 
   const handleSave = async () => {
-    if (!currentUser || !selectedAvatar) return;
+    if (
+      !currentUser ||
+      selectedAvatar === null ||
+      selectedAvatar === currentUser.avatarId
+    )
+      return;
 
     dispatch(updateAvatar(selectedAvatar));
 
