@@ -40,14 +40,14 @@ const Channels = () => {
 
   return (
     <>
-      <section className="space-y-8 px-16 py-8">
-        <h1 className="text-xl font-bold">Channels</h1>
+      <section className="space-y-4 px-16 py-8">
+        <h1 className="text-2xl font-bold md:text-3xl lg:text-4xl">Channels</h1>
         <p>
           Channels are where your members communicate. They&apos;re best when
           organized around a topic — #webdev, #gamedev for example.
         </p>
         <div className="grid w-full grid-cols-12 gap-4">
-          <div className="col-span-12 flex min-h-[300px] flex-col items-center justify-center gap-2 rounded-md bg-dark-500 text-xl text-white sm:col-span-6 md:col-span-3">
+          <div className="col-span-12 flex min-h-[300px] flex-col items-center justify-center gap-2 rounded-md bg-dark-500 text-xl text-white sm:col-span-6 lg:col-span-3">
             <button
               type="button"
               className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700 p-2"
@@ -60,7 +60,7 @@ const Channels = () => {
           {channels.map((channel) => (
             <div
               key={channel.id}
-              className="col-span-12 flex min-h-[300px] items-center justify-center rounded-md bg-dark-800 text-white sm:col-span-6 md:col-span-3"
+              className="col-span-12 flex min-h-[300px] items-center justify-center rounded-md bg-dark-800 text-white sm:col-span-6 lg:col-span-3"
             >
               <ChannelCard {...channel} />
             </div>

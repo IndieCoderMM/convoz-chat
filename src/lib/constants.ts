@@ -1,5 +1,11 @@
 import { FaHashtag, FaRegCompass, FaCog } from "react-icons/fa";
-import { HiOutlineChat } from "react-icons/hi";
+import {
+  HiOutlineChat,
+  HiHashtag,
+  HiLockClosed,
+  HiSpeakerphone,
+} from "react-icons/hi";
+import { HiMiniChatBubbleLeftRight } from "react-icons/hi2";
 import {
   gamer,
   gamerGirl,
@@ -11,6 +17,7 @@ import {
   otaku,
   bandit,
 } from "../assets/avatars";
+import { ChannelType } from "../common.types";
 
 export const NavLinks = [
   {
@@ -35,6 +42,15 @@ export const NavLinks = [
     icon: FaCog,
   },
 ];
+
+export const ChannelIcons = {
+  public: HiHashtag,
+  private: HiLockClosed,
+  announcement: HiSpeakerphone,
+  static: HiMiniChatBubbleLeftRight,
+} as {
+  [key in ChannelType]: React.ComponentType<{ size: number }>;
+};
 
 export const avatars = [
   bandit,

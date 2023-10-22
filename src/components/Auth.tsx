@@ -1,26 +1,26 @@
-import { useAppDispatch, useAppSelector } from "../lib/hooks";
-import { auth } from "../lib/firebase";
+import { useAppDispatch } from "../lib/hooks";
+import { auth, usersRef } from "../lib/firebase";
 import { useEffect } from "react";
-import { mapDocumentDataToUser, queryUserById } from "../lib/firestore-utils";
-import { selectUser, setUser } from "../features/User/userSlice";
+import { getDocIfExists, mapDocumentDataToUser } from "../lib/firestore-utils";
+import { setUser } from "../features/User/userSlice";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { onSnapshot } from "firebase/firestore";
 
 const Auth = () => {
   const [user] = useAuthState(auth);
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector(selectUser);
 
   useEffect(() => {
-    if (user?.uid) {
-      const query = queryUserById(user.uid);
-      onSnapshot(query, (snapshot) => {
-        const userData = mapDocumentDataToUser(snapshot.docs[0].data());
-        userData.path = snapshot.docs[0].id;
+    const storeUserData = async () => {
+      if (!user) return;
+      const { data, exists } = await getDocIfExists(usersRef, user.uid);
+      if (exists && data) {
+        const userData = mapDocumentDataToUser(data);
         dispatch(setUser(userData));
-      });
-    }
-  }, [dispatch, user, currentUser]);
+      }
+    };
+
+    storeUserData();
+  }, [dispatch, user]);
 
   return null;
 };

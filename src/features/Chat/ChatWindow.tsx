@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { FaGithub, FaSignOutAlt } from "react-icons/fa";
 import ChatForm from "./ChatForm";
 import MessagesView from "./MessagesView";
 import { useAppSelector } from "../../lib/hooks";
@@ -6,16 +7,15 @@ import { selectChannels } from "../Channels/channelsSlice";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import {
   mapDocumentDataToChannel,
-  queryWelcomeChannels,
+  queryStaticChannels,
 } from "../../lib/firestore-utils";
 import { ChannelInterface } from "../../common.types";
-import { FaGithub, FaSignOutAlt } from "react-icons/fa";
 
 const ChatWindow = () => {
   const { channelId } = useParams();
 
   const channels = useAppSelector(selectChannels);
-  const [docArray] = useCollectionData(queryWelcomeChannels());
+  const [docArray] = useCollectionData(queryStaticChannels());
 
   const welcomeChannels = docArray?.map(mapDocumentDataToChannel) || [];
 
@@ -25,16 +25,23 @@ const ChatWindow = () => {
   ]?.find((ch) => ch.id === channelId);
 
   if (!channel) {
-    return <p>Channel not found</p>;
+    return (
+      <section className="flex h-full w-full flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold">Channel not found!</h1>
+        <p className="text-gray-400">
+          Please select a channel from the sidebar
+        </p>
+      </section>
+    );
   }
 
   return (
     <section className="relative flex h-full w-full flex-col px-1 py-0 sm:px-4">
       <header className="sticky left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100/50 pb-4 shadow-sm">
         <nav className="flex items-center justify-start border-b border-dark-800 p-2">
-          <div>
+          <div className="flex flex-shrink-0">
             <span className="mr-1 font-bold text-dark-100">#</span>
-            {channel.name.toLowerCase()}
+            <p>{channel.name.toLowerCase()}</p>
           </div>
 
           <div className="mx-4 w-[1px] self-stretch bg-white/50" />
@@ -51,7 +58,9 @@ const ChatWindow = () => {
             </button>
             <div className="mx-2 w-[1px] self-stretch bg-white/50" />
             <a
-              href="/"
+              href="https://github.com/IndieCoderMM/convoz-chat"
+              target="_blank"
+              rel="noreferrer"
               className="group relative rounded-md p-2 text-sm text-white transition hover:bg-dark-300"
             >
               <span className="absolute left-1/2 top-full -translate-x-1/2 translate-y-2 rounded-md bg-dark-500 p-1 px-1 text-xs opacity-0 transition-all group-hover:opacity-100">

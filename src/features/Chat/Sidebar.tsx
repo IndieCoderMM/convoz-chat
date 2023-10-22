@@ -3,7 +3,7 @@ import ChannelList from "./ChannelList";
 import {
   mapDocumentDataToChannel,
   queryChannelsByUserId,
-  queryWelcomeChannels,
+  queryStaticChannels,
 } from "../../lib/firestore-utils";
 import { ChannelState } from "../../common.types";
 import { useEffect } from "react";
@@ -11,12 +11,13 @@ import { useAppDispatch, useAppSelector } from "../../lib/hooks";
 import { selectUser } from "../User/userSlice";
 import { onSnapshot } from "firebase/firestore";
 import { selectChannels, setChannels } from "../Channels/channelsSlice";
+import { BiSearch } from "react-icons/bi";
 
 const Sidebar = () => {
   const currentUser = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const channels = useAppSelector(selectChannels);
-  const [docArray] = useCollectionData(queryWelcomeChannels());
+  const [docArray] = useCollectionData(queryStaticChannels());
 
   useEffect(() => {
     if (currentUser) {
@@ -38,19 +39,26 @@ const Sidebar = () => {
 
   return (
     <aside className="flex h-screen w-[250px] flex-shrink-0 flex-col bg-dark-800 text-white">
-      <header className="flex flex-col items-start bg-blue-500 p-4">
-        <h1>Your Channel</h1>
-        <div className="rounded-full bg-gray-500/40 px-2 py-2">🌍Public</div>
+      <header className="flex flex-col bg-blue-500">
+        <div className="flex w-full items-center justify-between bg-gradient-to-b from-blue-800 to-blue-500 px-4 pb-8 pt-4">
+          <h1 className="text-lg font-medium">{currentUser?.name}</h1>
+          <div className="h-3 w-3 rounded-full bg-green-500"></div>
+        </div>
       </header>
-      <input
-        type="text"
-        className="w-full bg-dark-700 p-4 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-dark-100"
-        placeholder="Browse channels"
-      />
+      <div className="flex items-center justify-between bg-dark-700">
+        <BiSearch size={24} className="mx-2 text-slate-300" />
+        <input
+          type="text"
+          className="w-full bg-dark-700 py-4 focus-visible:outline-none"
+          placeholder="Browse channels"
+        />
+      </div>
       <ChannelList heading="Welcome 👋" channels={welcomeChannels} />
       <ChannelList
         heading="Channels"
-        channels={channels.filter((channel) => !channel.showWelcome)}
+        channels={channels.filter(
+          (channel) => !welcomeChannels.map((ch) => ch.id).includes(channel.id),
+        )}
       />
     </aside>
   );

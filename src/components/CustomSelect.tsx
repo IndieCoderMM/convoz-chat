@@ -50,7 +50,7 @@ const CustomSelect = ({ label, id, options, value, setValue }: Props) => {
             <button
               type="button"
               key={option.value}
-              className="px-4 py-2 text-left hover:bg-gray-200"
+              className="px-4 py-2 text-left text-black hover:bg-gray-200"
               onClick={() => handleSelect(option.value)}
             >
               {option.label}

@@ -15,13 +15,9 @@ const Explore = () => {
   useEffect(() => {
     const query = queryPublicChannels();
     onSnapshot(query, (snapshot) => {
-      const channels = snapshot.docs.map(
-        (doc) =>
-          ({
-            ...mapDocumentDataToChannel(doc.data()),
-            path: doc.id,
-          }) as ChannelInterface,
-      );
+      const channels = snapshot.docs.map((doc) => {
+        return mapDocumentDataToChannel(doc.data());
+      });
       setChannels(channels);
     });
   }, []);

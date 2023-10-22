@@ -1,28 +1,34 @@
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider, usersRef } from "../lib/firebase";
 import { UserInterface } from "../common.types";
-import { addDoc } from "firebase/firestore";
-import { useCollectionDataOnce } from "react-firebase-hooks/firestore";
-import { queryAllUsers } from "../lib/firestore-utils";
+import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { getDocIfExists, mapDocumentDataToUser } from "../lib/firestore-utils";
+import { useAppDispatch } from "../lib/hooks";
+import { setUser } from "../features/User/userSlice";
 
 const SignInButton = () => {
-  const [users] = useCollectionDataOnce(queryAllUsers());
   const navigate = useNavigate();
-  const existingUser = (currentUserId: string | undefined) =>
-    users?.some((user) => user.id === currentUserId);
+  const dispatch = useAppDispatch();
 
   const signIn = async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const resp = await signInWithPopup(auth, provider);
 
-      if (!existingUser(auth.currentUser?.uid)) {
+      if (!resp.user) {
+        throw new Error("Something went wrong");
+      }
+
+      const { data, exists } = await getDocIfExists(usersRef, resp.user.uid);
+
+      if (!exists || !data) {
         // Add user to firestore if they don't exist
+        const currentUser = resp.user;
         const user: UserInterface = {
-          id: auth.currentUser!.uid,
-          name: auth.currentUser!.displayName!,
-          email: auth.currentUser!.email!,
+          id: currentUser!.uid,
+          name: currentUser!.displayName!,
+          email: currentUser!.email!,
           bio: "",
           role: "user",
           avatarId: 0,
@@ -30,11 +36,18 @@ const SignInButton = () => {
           channels: [],
         };
 
-        await addDoc(usersRef, user);
+        // await addDoc(usersRef, user);
+        await setDoc(doc(usersRef, user.id), user);
+
+        dispatch(setUser(user));
+        toast.success("Account created successfully");
+      } else {
+        const currentUser = mapDocumentDataToUser(data);
+        dispatch(setUser(currentUser));
+        toast.success("Signed in successfully");
       }
 
       navigate("/");
-      toast.success("Signed in successfully");
     } catch (error) {
       console.error(error);
     }

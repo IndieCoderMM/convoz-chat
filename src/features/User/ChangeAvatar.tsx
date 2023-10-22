@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector } from "../../lib/hooks";
 import { selectUser, updateAvatar } from "./userSlice";
 import { cn } from "../../lib/tailwind-utils";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../../lib/firebase";
+import { usersRef } from "../../lib/firebase";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const ChangeAvatar = ({ close }: { close: () => void }) => {
   const currentUser = useAppSelector(selectUser);
@@ -24,14 +25,14 @@ const ChangeAvatar = ({ close }: { close: () => void }) => {
 
     dispatch(updateAvatar(selectedAvatar));
 
-    const userRef = doc(db, `users`, currentUser.path || "");
-
     try {
-      await updateDoc(userRef, {
-        avatarId: currentUser.avatarId,
+      await updateDoc(doc(usersRef, currentUser.id), {
+        avatarId: selectedAvatar,
       });
+      toast.success("Avatar updated successfully");
     } catch (err) {
       console.error(err);
+      toast.error("Failed to update avatar");
     } finally {
       close();
     }

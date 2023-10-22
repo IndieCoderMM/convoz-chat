@@ -4,7 +4,25 @@ import {
   UserInterface,
 } from "../common.types";
 import { channelsRef, messagesRef, usersRef } from "./firebase";
-import { DocumentData, limit, orderBy, query, where } from "firebase/firestore";
+import {
+  type CollectionReference,
+  DocumentData,
+  doc,
+  getDoc,
+  limit,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+
+export const getDocIfExists = async (ref: CollectionReference, id: string) => {
+  const docRef = doc(ref, id);
+  const docSnap = await getDoc(docRef);
+  return {
+    data: docSnap.data(),
+    exists: docSnap.exists(),
+  };
+};
 
 export const queryChannelsByUserId = (id: string) =>
   query(channelsRef, where("members", "array-contains", id));
@@ -14,8 +32,8 @@ export const queryChannelById = (id: string) =>
 
 export const queryAllUsers = () => query(usersRef);
 
-export const queryWelcomeChannels = () =>
-  query(channelsRef, where("showWelcome", "==", true));
+export const queryStaticChannels = () =>
+  query(channelsRef, where("static", "==", true));
 
 export const queryPublicChannels = () =>
   query(channelsRef, where("type", "==", "public"));
@@ -51,7 +69,6 @@ export const mapDocumentDataToChannel = (
       createdBy: "",
       type: "",
       members: [],
-      showWelcome: false,
     };
   }
 
@@ -63,7 +80,6 @@ export const mapDocumentDataToChannel = (
     createdBy: docData.createdBy,
     type: docData.type,
     members: docData.members,
-    showWelcome: docData.showWelcome || false,
   };
 };
 

@@ -10,7 +10,7 @@ const Profile = () => {
 
   return (
     <section className="p-2">
-      <h1 className="lg:text-5xl mb-4 text-2xl font-bold md:text-3xl">
+      <h1 className="mb-4 text-2xl font-bold md:text-3xl lg:text-4xl">
         My Account
       </h1>
       <div className="w-full max-w-5xl space-y-4 rounded-md bg-dark-800 p-2 lg:rounded-xl lg:p-4">

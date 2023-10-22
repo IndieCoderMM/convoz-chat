@@ -19,7 +19,7 @@ const RootLayout = () => {
   return (
     <div className="flex bg-dark-900 text-white">
       <Sidebar />
-      <main className="max-h-full w-full bg-dark-600">
+      <main className="ml-16 min-h-screen w-full bg-dark-600">
         <Outlet />
       </main>
     </div>

@@ -1,23 +1,17 @@
-import { HiHashtag, HiLockClosed, HiSpeakerphone } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { ChannelInterface, ChannelType } from "../../common.types";
 import { cn } from "../../lib/tailwind-utils";
+import { ChannelIcons } from "../../lib/constants";
 
 type Props = {
   heading: string;
   channels: ChannelInterface[];
 };
 
-const icons = {
-  public: HiHashtag,
-  private: HiLockClosed,
-  announcement: HiSpeakerphone,
-} as {
-  [key in ChannelType]: React.ComponentType<{ size: number }>;
-};
-
 const Icon = ({ type }: { type: ChannelType }) => {
-  const Icon = icons[type];
+  if (!ChannelIcons[type]) return null;
+
+  const Icon = ChannelIcons[type];
   return <Icon size={20} />;
 };
 

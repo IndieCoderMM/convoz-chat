@@ -1,12 +1,13 @@
 import { FaTimes } from "react-icons/fa";
 import CustomSelect from "../../components/CustomSelect";
 import { useState } from "react";
-import { addDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { channelsRef } from "../../lib/firebase";
 import { v4 as uuidv4 } from "uuid";
 import { ChannelInterface, UserInterface } from "../../common.types";
 import { selectUser } from "../User/userSlice";
 import { useAppSelector } from "../../lib/hooks";
+import toast from "react-hot-toast";
 
 type Props = {
   close: () => void;
@@ -44,14 +45,16 @@ const CreateChannel = ({ close }: Props) => {
       createdBy: currentUser.id,
       createdAt: Date.now(),
       members: [currentUser.id],
-      showWelcome: false,
     };
 
     try {
-      await addDoc(channelsRef, newChannel);
-      close();
+      await setDoc(doc(channelsRef, newChannel.id), newChannel);
+      toast.success("Channel created successfully");
     } catch (err) {
       console.error(err);
+      toast.error("Failed to create channel");
+    } finally {
+      close();
     }
   };
 

@@ -7,10 +7,14 @@ export interface UserInterface {
   createdAt: number;
   channels: string[];
   role: "admin" | "user";
-  path?: string;
 }
 
-export type ChannelType = "public" | "private" | "announcement" | string;
+export type ChannelType =
+  | "public"
+  | "private"
+  | "static"
+  | "announcement"
+  | string;
 
 export interface ChannelInterface {
   id: string;
@@ -20,8 +24,6 @@ export interface ChannelInterface {
   createdBy: string;
   members: string[];
   type: ChannelType;
-  showWelcome: boolean;
-  path?: string;
 }
 
 export interface MessageInterface {
