@@ -5,7 +5,7 @@ type Props = {
   id: string;
   options: { value: string; label: string }[];
   value: string;
-  setValue: (value: any) => void;
+  setValue: (value: string) => void;
 };
 
 const CustomSelect = ({ label, id, options, value, setValue }: Props) => {
@@ -26,7 +26,7 @@ const CustomSelect = ({ label, id, options, value, setValue }: Props) => {
     document.addEventListener("click", handleClickOutside);
 
     return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
+  }, [id]);
 
   return (
     <div className="flex flex-col gap-1 p-4">

@@ -5,7 +5,6 @@ import {
   queryChannelsByUserId,
   queryWelcomeChannels,
 } from "../../lib/firestore-utils";
-import { auth } from "../../lib/firebase";
 import { ChannelState } from "../../common.types";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../lib/hooks";
@@ -14,7 +13,6 @@ import { onSnapshot } from "firebase/firestore";
 import { selectChannels, setChannels } from "../Channels/channelsSlice";
 
 const Sidebar = () => {
-  if (!auth.currentUser) return null;
   const currentUser = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const channels = useAppSelector(selectChannels);

@@ -1,4 +1,4 @@
-import { FaHashtag, FaRegCompass, FaUserAlt, FaCog } from "react-icons/fa";
+import { FaHashtag, FaRegCompass, FaCog } from "react-icons/fa";
 import { HiOutlineChat } from "react-icons/hi";
 import {
   gamer,
@@ -23,11 +23,7 @@ export const NavLinks = [
     label: "Chat",
     icon: HiOutlineChat,
   },
-  {
-    href: "/profile",
-    label: "Profile",
-    icon: FaUserAlt,
-  },
+
   {
     href: "/channels",
     label: "Channels",

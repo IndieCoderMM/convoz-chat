@@ -1,9 +1,11 @@
-import { AuthStatus, NavLinks } from "../lib/constants";
 import { Link } from "react-router-dom";
-import UserButton from "./UserButton";
 import { signOut } from "firebase/auth";
-import { auth } from "../lib/firebase";
 import { FaSignOutAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
+
+import UserButton from "./UserButton";
+import { auth } from "../lib/firebase";
+import { AuthStatus, NavLinks } from "../lib/constants";
 import { useAppDispatch, useAppSelector } from "../lib/hooks";
 import { clearUser, selectAuthStatus } from "../features/User/userSlice";
 
@@ -15,7 +17,7 @@ const Sidebar = () => {
   const onSignOut = async () => {
     signOut(auth);
     dispatch(clearUser());
-    console.log("Signed Out", auth);
+    toast.success("You have been signed out");
   };
   return (
     <aside className="bg-dark-900">
@@ -35,7 +37,7 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-        <ul className="mt-auto flex w-full flex-col items-center justify-center gap-8 border-t border-gray-300 pt-8">
+        <ul className="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-gray-300 pt-8">
           {authStatus === AuthStatus.SignedIn && (
             <li className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
               <UserButton />

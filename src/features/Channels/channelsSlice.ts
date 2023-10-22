@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ChannelState } from "../../common.types";
-import { RootState } from "../../store";
+import { RootState } from "../../lib/store";
 
 interface ChannelsState {
   data: ChannelState[] | [];

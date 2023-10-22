@@ -19,7 +19,7 @@ const Profile = () => {
           <div className="relative flex items-center justify-between bg-dark-700 p-2">
             <div className="flex items-center">
               <img
-                src={avatars[currentUser?.avatarId!]}
+                src={avatars[currentUser?.avatarId || 0]}
                 alt=""
                 className="h-24 w-24 rounded-full bg-dark-700 p-2"
               />
