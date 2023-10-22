@@ -1,23 +1,48 @@
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import ChannelList from "./ChannelList";
+import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
+import { useEffect } from 'react';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import toast from 'react-hot-toast';
+import { BiSearch } from 'react-icons/bi';
+import { HiBell } from 'react-icons/hi';
+
+import { ChannelInterface, ChannelState } from '../../common.types';
+import { channelsRef } from '../../lib/firebase';
 import {
-  mapDocumentDataToChannel,
-  queryChannelsByUserId,
-  queryStaticChannels,
-} from "../../lib/firestore-utils";
-import { ChannelState } from "../../common.types";
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../lib/hooks";
-import { selectUser } from "../User/userSlice";
-import { onSnapshot } from "firebase/firestore";
-import { selectChannels, setChannels } from "../Channels/channelsSlice";
-import { BiSearch } from "react-icons/bi";
+    mapDocumentDataToChannel, queryChannelsByUserId, queryStaticChannels
+} from '../../lib/firestore-utils';
+import { useAppDispatch, useAppSelector } from '../../lib/hooks';
+import { selectChannels, setChannels } from '../Channels/channelsSlice';
+import { selectUser } from '../User/userSlice';
+import ChannelList from './ChannelList';
 
 const Sidebar = () => {
   const currentUser = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const channels = useAppSelector(selectChannels);
-  const [docArray] = useCollectionData(queryStaticChannels());
+  const [staticChannelsDocs] = useCollectionData(queryStaticChannels());
+
+  useEffect(() => {
+    if (!staticChannelsDocs) return;
+
+    const channelsToJoin = staticChannelsDocs
+      .map(mapDocumentDataToChannel)
+      .filter((doc) => {
+        const channel = mapDocumentDataToChannel(doc);
+        return !channel.members.includes(currentUser?.id!);
+      });
+
+    const joinAllChannels = async (channels: ChannelInterface[]) => {
+      const batch = channels.reduce((acc, channel) => {
+        const ref = doc(channelsRef, channel.id);
+        const updatedMembers = [...channel.members, currentUser?.id!];
+        acc.push(updateDoc(ref, { members: updatedMembers }));
+        return acc;
+      }, [] as any[]);
+      await Promise.all(batch);
+    };
+
+    joinAllChannels(channelsToJoin);
+  }, [staticChannelsDocs]);
 
   useEffect(() => {
     if (currentUser) {
@@ -35,14 +60,24 @@ const Sidebar = () => {
     }
   }, [currentUser, dispatch]);
 
-  const welcomeChannels = docArray?.map(mapDocumentDataToChannel) || [];
+  const welcomeChannels =
+    staticChannelsDocs?.map(mapDocumentDataToChannel) || [];
 
   return (
     <aside className="flex h-screen w-[250px] flex-shrink-0 flex-col bg-dark-800 text-white">
       <header className="flex flex-col bg-blue-500">
         <div className="flex w-full items-center justify-between bg-gradient-to-b from-blue-800 to-blue-500 px-4 pb-8 pt-4">
           <h1 className="text-lg font-medium">{currentUser?.name}</h1>
-          <div className="h-3 w-3 rounded-full bg-green-500"></div>
+          <button
+            type="button"
+            className="text-white"
+            onClick={() => {
+              toast("No notifications yet!");
+            }}
+          >
+            <HiBell size={24} />
+            <span className="sr-only">Notifications</span>
+          </button>
         </div>
       </header>
       <div className="flex items-center justify-between bg-dark-700">
@@ -55,7 +90,7 @@ const Sidebar = () => {
       </div>
       <ChannelList heading="Welcome 👋" channels={welcomeChannels} />
       <ChannelList
-        heading="Channels"
+        heading="My Channels"
         channels={channels.filter(
           (channel) => !welcomeChannels.map((ch) => ch.id).includes(channel.id),
         )}

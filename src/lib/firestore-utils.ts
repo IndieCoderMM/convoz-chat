@@ -1,19 +1,9 @@
 import {
-  ChannelInterface,
-  MessageInterface,
-  UserInterface,
-} from "../common.types";
-import { channelsRef, messagesRef, usersRef } from "./firebase";
-import {
-  type CollectionReference,
-  DocumentData,
-  doc,
-  getDoc,
-  limit,
-  orderBy,
-  query,
-  where,
-} from "firebase/firestore";
+    CollectionReference, doc, DocumentData, getDoc, limit, orderBy, query, where
+} from 'firebase/firestore';
+
+import { ChannelInterface, MessageInterface, UserInterface } from '../common.types';
+import { channelsRef, messagesRef, usersRef } from './firebase';
 
 export const getDocIfExists = async (ref: CollectionReference, id: string) => {
   const docRef = doc(ref, id);
@@ -58,20 +48,8 @@ export const mapDocumentDataToUser = (docData: DocumentData): UserInterface => {
 };
 
 export const mapDocumentDataToChannel = (
-  docData: DocumentData | undefined,
+  docData: DocumentData,
 ): ChannelInterface => {
-  if (!docData) {
-    return {
-      id: "",
-      name: "",
-      description: "",
-      createdAt: 0,
-      createdBy: "",
-      type: "",
-      members: [],
-    };
-  }
-
   return {
     id: docData.id,
     name: docData.name,

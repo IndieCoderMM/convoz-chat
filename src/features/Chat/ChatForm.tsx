@@ -1,15 +1,13 @@
-import { useRef } from "react";
-import { v4 as uuid } from "uuid";
-import { MessageInterface } from "../../common.types";
-import { addDoc } from "firebase/firestore";
-import { messagesRef } from "../../lib/firebase";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  mapDocumentDataToChannel,
-  queryChannelById,
-} from "../../lib/firestore-utils";
-import { useAppSelector } from "../../lib/hooks";
-import { selectUser } from "../User/userSlice";
+import { addDoc } from 'firebase/firestore';
+import { useRef } from 'react';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { v4 as uuid } from 'uuid';
+
+import { MessageInterface } from '../../common.types';
+import { messagesRef } from '../../lib/firebase';
+import { mapDocumentDataToChannel, queryChannelById } from '../../lib/firestore-utils';
+import { useAppSelector } from '../../lib/hooks';
+import { selectUser } from '../User/userSlice';
 
 type Props = {
   channelId: string;
@@ -20,6 +18,9 @@ const ChatForm = ({ channelId }: Props) => {
   const currentUser = useAppSelector(selectUser);
 
   const [docArray] = useCollectionData(queryChannelById(channelId));
+
+  if (!docArray) return null;
+
   const channel = mapDocumentDataToChannel(docArray?.[0]);
 
   const isDisabled =

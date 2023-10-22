@@ -1,8 +1,12 @@
-import { MessageInterface } from "../../common.types";
-import { avatars } from "../../lib/constants";
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { queryUserById } from "../../lib/firestore-utils";
-import formatTimestamp from "../../lib/formatTimestamp";
+import dayjs from 'dayjs';
+import Relativetime from 'dayjs/plugin/relativeTime';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+
+import { MessageInterface } from '../../common.types';
+import { avatars } from '../../lib/constants';
+import { queryUserById } from '../../lib/firestore-utils';
+
+dayjs.extend(Relativetime);
 
 const ChatMessage = (props: MessageInterface) => {
   const { text: message, createdAt: timestamp, createdBy: userId } = props;
@@ -22,8 +26,8 @@ const ChatMessage = (props: MessageInterface) => {
       </div>
       <div className="flex max-w-[60%] flex-col">
         <header className="flex items-baseline">
-          <h3 className="text-xl font-bold">{user.name}</h3>
-          <time className="ml-4 text-xs">{formatTimestamp(timestamp)}</time>
+          <h3 className="text-lg font-medium text-indigo-400">{user.name}</h3>
+          <time className="ml-4 text-xs">{dayjs(timestamp).fromNow()}</time>
         </header>
         <p>{message}</p>
       </div>

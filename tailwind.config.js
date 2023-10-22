@@ -15,9 +15,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        palanquin: ["Palanquin", "sans-serif"],
-        montserrat: ["Montserrat", "sans-serif"],
+        noto: ["Noto Sans", "sans-serif"],
       },
+
       colors: {
         primary: "#5865F2",
         secondary: "#1cb17d",
@@ -32,6 +32,8 @@ export default {
           800: "#2B2D31",
           900: "#1E1F22",
         },
+        light: "#B5BAC1",
+        white: "#F2F3F5",
       },
       boxShadow: {
         "3xl": "0 10px 40px rgba(0, 0, 0, 0.1)",

@@ -1,21 +1,29 @@
-import { useParams } from "react-router-dom";
-import { FaGithub, FaSignOutAlt } from "react-icons/fa";
-import ChatForm from "./ChatForm";
-import MessagesView from "./MessagesView";
-import { useAppSelector } from "../../lib/hooks";
-import { selectChannels } from "../Channels/channelsSlice";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+import dayjs from 'dayjs';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import { useEffect, useState } from 'react';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { FaGithub, FaSignOutAlt, FaUsers } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
+
+import { ChannelInterface, UserInterface } from '../../common.types';
+import { avatars } from '../../lib/constants';
+import { usersRef } from '../../lib/firebase';
 import {
-  mapDocumentDataToChannel,
-  queryStaticChannels,
-} from "../../lib/firestore-utils";
-import { ChannelInterface } from "../../common.types";
+    getDocIfExists, mapDocumentDataToChannel, mapDocumentDataToUser, queryStaticChannels
+} from '../../lib/firestore-utils';
+import { useAppSelector } from '../../lib/hooks';
+import { selectChannels } from '../Channels/channelsSlice';
+import ChatForm from './ChatForm';
+import MessagesView from './MessagesView';
+
+dayjs.extend(LocalizedFormat);
 
 const ChatWindow = () => {
   const { channelId } = useParams();
 
   const channels = useAppSelector(selectChannels);
   const [docArray] = useCollectionData(queryStaticChannels());
+  const [creator, setCreator] = useState<UserInterface | null>(null);
 
   const welcomeChannels = docArray?.map(mapDocumentDataToChannel) || [];
 
@@ -23,6 +31,15 @@ const ChatWindow = () => {
     ...welcomeChannels,
     ...channels,
   ]?.find((ch) => ch.id === channelId);
+
+  useEffect(() => {
+    if (!channel) return;
+    getDocIfExists(usersRef, channel.createdBy).then(({ data }) => {
+      if (data) {
+        setCreator(mapDocumentDataToUser(data));
+      }
+    });
+  }, [channel]);
 
   if (!channel) {
     return (
@@ -45,9 +62,12 @@ const ChatWindow = () => {
           </div>
 
           <div className="mx-4 w-[1px] self-stretch bg-white/50" />
-          <div>
+          <div className="flex items-center justify-center gap-1">
+            <FaUsers size={20} />
             <span className="font-bold">{channel.members.length}</span>
-            &nbsp;members
+            <span className="text-xs text-gray-400">
+              {channel.members.length === 1 ? "member" : "members"}
+            </span>
           </div>
           <div className="flex w-full items-center justify-end">
             <button className="group relative rounded-md p-2 text-sm text-white transition hover:bg-dark-300">
@@ -74,9 +94,27 @@ const ChatWindow = () => {
           <span>#</span>
         </div>
         <h2 className="text-3xl font-bold">
-          Welcome to #{channel.name.toLowerCase()}!
+          Welcome to #{channel.name.toLowerCase()} channel!
         </h2>
         <p>{channel?.description}</p>
+        <div className="ml-4 flex items-center justify-start gap-2">
+          <div className="flex items-center justify-center rounded-full bg-dark-700 text-4xl">
+            <img
+              src={avatars[creator?.avatarId || 0]}
+              alt=""
+              className="h-8 w-8"
+            />
+          </div>
+          <h3 className="font-medium">{creator?.name}</h3>
+          <span className="rounded-full bg-dark-800 px-2 py-1 text-xs">
+            🟢 Admin
+          </span>
+        </div>
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-dark-600 px-2 py-2">
+          <span className="text-sm text-gray-400">
+            {dayjs(channel.createdAt).format("LLLL")}
+          </span>
+        </div>
       </header>
       <main className="flex flex-1 flex-col gap-2">
         <MessagesView channelId={channel.id} />

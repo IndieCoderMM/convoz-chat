@@ -9,7 +9,7 @@ const Profile = () => {
   const [openAvatarModal, setOpenAvatarModal] = useState(false);
 
   return (
-    <section className="p-2">
+    <section className="px-16 py-8">
       <h1 className="mb-4 text-2xl font-bold md:text-3xl lg:text-4xl">
         My Account
       </h1>
@@ -21,9 +21,9 @@ const Profile = () => {
               <img
                 src={avatars[currentUser?.avatarId || 0]}
                 alt=""
-                className="h-24 w-24 rounded-full bg-dark-700 p-2"
+                className="h-24 w-24 rounded-full border border-white bg-dark-700 p-2"
               />
-              <h2 className="text-2xl font-bold">{currentUser?.name}</h2>
+              <h2 className="ml-4 text-2xl font-bold">{currentUser?.name}</h2>
             </div>
             <button
               type="button"

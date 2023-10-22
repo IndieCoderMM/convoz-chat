@@ -4,9 +4,12 @@ import { useAppSelector } from "../lib/hooks";
 import { selectAuthStatus } from "../features/User/userSlice";
 import { AuthStatus } from "../lib/constants";
 import UserButton from "../components/UserButton";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const LandingPage = () => {
   const authStatus = useAppSelector(selectAuthStatus);
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -36,10 +39,22 @@ const LandingPage = () => {
               day and hang out more often.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-8 md:flex-row">
-              <button className="rounded-full bg-white px-8 py-4 text-xl font-bold text-primary">
+              <button
+                className="rounded-full bg-white px-8 py-4 text-xl font-bold text-primary"
+                onClick={() => {
+                  toast.error("Coming soon!");
+                }}
+              >
                 Download for Windows
               </button>
-              <button className="rounded-full border-2 border-white bg-transparent px-8 py-4 text-xl font-bold text-white">
+              <button
+                className="rounded-full border-2 border-white bg-transparent px-8 py-4 text-xl font-bold text-white"
+                onClick={() => {
+                  if (authStatus === AuthStatus.SignedIn) {
+                    navigate("/explore");
+                  }
+                }}
+              >
                 Open in your browser
               </button>
             </div>

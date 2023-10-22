@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
-import { CheckBadge } from "../../assets/icons";
-import { ChannelInterface } from "../../common.types";
-import { useAppSelector } from "../../lib/hooks";
-import { doc, updateDoc } from "firebase/firestore";
-import { selectUser } from "../User/userSlice";
-import { channelsRef } from "../../lib/firebase";
-import toast from "react-hot-toast";
+import { CheckBadge } from '../../assets/icons';
+import { ChannelInterface } from '../../common.types';
+import { channelsRef } from '../../lib/firebase';
+import { useAppSelector } from '../../lib/hooks';
+import { selectUser } from '../User/userSlice';
 
 const ChannelCard = (props: ChannelInterface) => {
   const currentUser = useAppSelector(selectUser);
@@ -14,6 +14,7 @@ const ChannelCard = (props: ChannelInterface) => {
   const navigate = useNavigate();
 
   const isMember = currentUser && members.includes(currentUser.id);
+  const isCreator = currentUser && currentUser.id === props.createdBy;
 
   const handleJoin = async () => {
     if (!currentUser || isMember) return;
@@ -28,6 +29,19 @@ const ChannelCard = (props: ChannelInterface) => {
     } catch (err) {
       console.error(err);
       toast.error("Failed to join channel");
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!currentUser || !isCreator) return;
+
+    const channelRef = doc(channelsRef, id);
+    try {
+      await deleteDoc(channelRef);
+      toast.success("Deleted channel successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete channel");
     }
   };
 
@@ -65,6 +79,15 @@ const ChannelCard = (props: ChannelInterface) => {
               onClick={handleJoin}
             >
               Join
+            </button>
+          )}
+          {isCreator && (
+            <button
+              className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:brightness-110 lg:text-lg "
+              type="button"
+              onClick={handleDelete}
+            >
+              Delete
             </button>
           )}
         </div>
