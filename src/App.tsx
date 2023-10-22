@@ -1,13 +1,13 @@
-import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
-import { Provider } from "react-redux";
+import { Toaster } from 'react-hot-toast';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import store from "./lib/store";
-import RootLayout from "./RootLayout";
-import ChatWindow from "./features/Chat/ChatWindow";
-
-import { LandingPage, Explore, Chat, Channels, Profile } from "./pages";
-import { Toaster } from "react-hot-toast";
-import Auth from "./components/Auth";
+import Auth from './components/Auth';
+import ChatWindow from './features/Chat/ChatWindow';
+import store from './lib/store';
+import { Channels, Chat, Explore, LandingPage, Profile } from './pages';
+import Settings from './pages/Settings';
+import RootLayout from './RootLayout';
 
 const GENERAL_CHANNEL_ID = import.meta.env.VITE_GENERAL_CHANNEL_ID || "general";
 
@@ -35,7 +35,7 @@ const App = () => {
             <Route path="channels" element={<Channels />} />
             <Route path="explore" element={<Explore />} />
             <Route path="profile" element={<Profile />} />
-            <Route path="settings" element={<div>Settings</div>} />
+            <Route path="settings" element={<Settings />} />
           </Route>
           {/* Public Routes -------------------------------------------- */}
           <Route

@@ -22,7 +22,7 @@ const Explore = () => {
 
   return (
     <section className="p-2">
-      <header className="relative min-h-[50vh]">
+      <header className="relative min-h-[40vh]">
         <img src={HeaderImg} alt="header" className="h-auto w-full" />
         <div className="bottom-0 left-0 right-0 top-0 col-span-1 row-span-1 mx-auto flex w-full flex-col items-center justify-center gap-4 bg-dark-700 px-2 py-8 text-center md:absolute md:bg-transparent ">
           <h1 className="text-xl font-bold capitalize lg:text-3xl">

@@ -42,7 +42,7 @@ const Channels = () => {
           organized around a topic — #webdev, #gamedev for example.
         </p>
         <div className="grid w-full grid-cols-12 gap-4">
-          <div className="col-span-12 flex min-h-[300px] flex-col items-center justify-center gap-2 rounded-md bg-dark-500 text-xl text-white sm:col-span-6 lg:col-span-3">
+          <div className="col-span-12 flex min-h-[300px] flex-col items-center justify-center gap-2 rounded-md bg-dark-500 text-xl text-white sm:col-span-6 lg:col-span-4">
             <button
               type="button"
               className="flex h-12 w-12 items-center justify-center rounded-full bg-dark-700 p-2"
@@ -55,7 +55,7 @@ const Channels = () => {
           {channels.map((channel) => (
             <div
               key={channel.id}
-              className="col-span-12 flex min-h-[300px] items-center justify-center rounded-md bg-dark-800 text-white sm:col-span-6 lg:col-span-3"
+              className="col-span-12 flex min-h-[300px] items-center justify-center rounded-md bg-dark-800 text-white sm:col-span-6 lg:col-span-4"
             >
               <ChannelCard {...channel} />
             </div>

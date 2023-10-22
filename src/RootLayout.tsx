@@ -1,9 +1,9 @@
-import Sidebar from "./components/Sidebar";
-import { Navigate, Outlet } from "react-router-dom";
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Navigate, Outlet } from 'react-router-dom';
 
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./lib/firebase";
-import LoadingOverlay from "./components/LoadingOverlay";
+import LoadingOverlay from './components/LoadingOverlay';
+import Sidebar from './components/Sidebar';
+import { auth } from './lib/firebase';
 
 const RootLayout = () => {
   const [user, loading] = useAuthState(auth);

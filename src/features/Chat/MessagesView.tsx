@@ -1,10 +1,9 @@
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import {
-  mapDocumentDataToMessage,
-  queryMessagesByChannelId,
-} from "../../lib/firestore-utils";
-import { MessageInterface } from "../../common.types";
-import ChatMessage from "./ChatMessage";
+import { useCollectionData } from 'react-firebase-hooks/firestore';
+
+import { MessageInterface } from '../../common.types';
+import { mapDocumentDataToMessage, queryMessagesByChannelId } from '../../lib/firestore-utils';
+import ChatMessage from './ChatMessage';
+import ChatMessageSkeleton from './ChatMessageSkeleton';
 
 type Props = {
   channelId: string;
@@ -15,7 +14,13 @@ const MessagesView = ({ channelId }: Props) => {
     useCollectionData(queryMessagesByChannelId(channelId)) || [];
 
   if (loading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="space-y-4 px-2 py-4">
+        {Array.from({ length: 3 }, (_, i) => (
+          <ChatMessageSkeleton key={i} />
+        ))}
+      </div>
+    );
   }
 
   if (error) {
