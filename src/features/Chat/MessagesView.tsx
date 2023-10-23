@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { useAppSelector } from '../../lib/store';
 import { getChannelById } from '../Channels/channelsSlice';
 import ChatMessage from './ChatMessage';
@@ -9,13 +11,20 @@ type Props = {
 
 const MessagesView = ({ channelId }: Props) => {
   const channel = useAppSelector((state) => getChannelById(state, channelId));
+  const [showSkeleton, setShowSkeleton] = useState(true);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setShowSkeleton(false);
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, []);
 
   if (!channel) {
     return (
-      <div className="space-y-4 px-2 py-4">
-        {Array.from({ length: 3 }, (_, i) => (
-          <ChatMessageSkeleton key={i} />
-        ))}
+      <div className="px-2 py-4">
+        <p className="text-gray-400">Channel not found</p>
       </div>
     );
   }
@@ -26,6 +35,16 @@ const MessagesView = ({ channelId }: Props) => {
     return (
       <div className="px-2 py-4">
         <p className="text-gray-400">No messages yet</p>
+      </div>
+    );
+  }
+
+  if (showSkeleton) {
+    return (
+      <div className="space-y-4 px-2 py-4">
+        {messages.map((message) => (
+          <ChatMessageSkeleton key={message.id} />
+        ))}
       </div>
     );
   }

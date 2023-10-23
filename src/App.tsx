@@ -3,9 +3,10 @@ import { Toaster } from 'react-hot-toast';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 
 import ChatWindow from './features/Chat/ChatWindow';
-import { clearUser, setUser } from './features/User/userSlice';
+import { clearUser, selectAuthStatus, setUser } from './features/User/userSlice';
 import useAuthUser from './hooks/useAuthUser';
-import { useAppDispatch } from './lib/store';
+import { AuthStatus } from './lib/constants';
+import { useAppDispatch, useAppSelector } from './lib/store';
 import { Channels, Chat, Explore, LandingPage, Profile, Settings } from './pages';
 import RootLayout from './RootLayout';
 
@@ -13,19 +14,19 @@ const GENERAL_CHANNEL_ID = import.meta.env.VITE_GENERAL_CHANNEL_ID || "general";
 
 const App = () => {
   const { user, data, loading } = useAuthUser();
-
+  const authStatus = useAppSelector(selectAuthStatus);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user && data) {
+    if (user && data && authStatus !== AuthStatus.SignedIn) {
       dispatch(setUser(data));
       navigate("/", { replace: true });
     } else if (!user && !loading) {
       dispatch(clearUser());
       navigate("/landing", { replace: true });
     }
-  }, [user, data, loading, dispatch]);
+  }, [user, data, loading, dispatch, authStatus, navigate]);
 
   return (
     <>
