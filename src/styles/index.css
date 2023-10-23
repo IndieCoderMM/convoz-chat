@@ -18,15 +18,15 @@ html {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 4px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #383a40;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #5865f2;
 }
 
 @layer components {
