@@ -2,7 +2,6 @@ import { Toaster } from 'react-hot-toast';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import Auth from './components/Auth';
 import ChatWindow from './features/Chat/ChatWindow';
 import store from './lib/store';
 import { Channels, Chat, Explore, LandingPage, Profile } from './pages';
@@ -46,7 +45,6 @@ const App = () => {
           <Route path="*" element={<div>Not found</div>} />,
         </Routes>
       </BrowserRouter>
-      <Auth />
       <Toaster />
     </Provider>
   );

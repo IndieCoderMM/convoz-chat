@@ -7,7 +7,7 @@ import { CheckBadge } from '../../assets/icons';
 import { ChannelInterface } from '../../common.types';
 import Tooltip from '../../components/Tooltip';
 import { channelsRef } from '../../lib/firebase';
-import { useAppSelector } from '../../lib/hooks';
+import { useAppSelector } from '../../lib/store';
 import { selectUser } from '../User/userSlice';
 
 const ChannelCard = (props: ChannelInterface) => {

@@ -1,9 +1,9 @@
 import {
-    CollectionReference, doc, DocumentData, getDoc, limit, orderBy, query, where
+    CollectionReference, doc, DocumentData, getDoc, limit, query, where
 } from 'firebase/firestore';
 
-import { ChannelInterface, MessageInterface, UserInterface } from '../common.types';
-import { channelsRef, messagesRef, usersRef } from './firebase';
+import { ChannelInterface, UserInterface } from '../common.types';
+import { channelsRef, usersRef } from './firebase';
 
 export const getDocIfExists = async (ref: CollectionReference, id: string) => {
   const docRef = doc(ref, id);
@@ -30,9 +30,6 @@ export const queryStaticChannels = () =>
 
 export const queryPublicChannels = () =>
   query(channelsRef, where("type", "==", "public"));
-
-export const queryMessagesByChannelId = (id: string) =>
-  query(messagesRef, where("channelId", "==", id), orderBy("createdAt"));
 
 export const queryUserById = (id: string) =>
   query(usersRef, where("id", "==", id), limit(1));
@@ -61,17 +58,5 @@ export const mapDocumentDataToChannel = (
     createdBy: docData.createdBy,
     type: docData.type,
     members: docData.members,
-  };
-};
-
-export const mapDocumentDataToMessage = (
-  docData: DocumentData,
-): MessageInterface => {
-  return {
-    id: docData.id,
-    channelId: docData.channelId,
-    text: docData.text,
-    createdAt: docData.createdAt,
-    createdBy: docData.createdBy,
   };
 };

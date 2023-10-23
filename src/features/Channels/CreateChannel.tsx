@@ -1,13 +1,14 @@
-import { FaTimes } from "react-icons/fa";
-import CustomSelect from "../../components/CustomSelect";
-import { useState } from "react";
-import { doc, setDoc } from "firebase/firestore";
-import { channelsRef } from "../../lib/firebase";
-import { v4 as uuidv4 } from "uuid";
-import { ChannelInterface, UserInterface } from "../../common.types";
-import { selectUser } from "../User/userSlice";
-import { useAppSelector } from "../../lib/hooks";
-import toast from "react-hot-toast";
+import { doc, setDoc } from 'firebase/firestore';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
+import { FaTimes } from 'react-icons/fa';
+import { v4 as uuidv4 } from 'uuid';
+
+import { ChannelInterface, UserInterface } from '../../common.types';
+import CustomSelect from '../../components/CustomSelect';
+import { channelsRef } from '../../lib/firebase';
+import { useAppSelector } from '../../lib/store';
+import { selectUser } from '../User/userSlice';
 
 type Props = {
   close: () => void;

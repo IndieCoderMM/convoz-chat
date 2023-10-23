@@ -1,5 +1,3 @@
-import React from 'react';
-
 import ToggleButton from '../components/ToggleButton';
 
 interface SettingGroupProps {

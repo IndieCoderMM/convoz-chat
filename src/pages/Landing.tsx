@@ -1,11 +1,12 @@
-import SignInButton from "../components/SignInButton";
-import HeroBackground from "../assets/img/hero.png";
-import { useAppSelector } from "../lib/hooks";
-import { selectAuthStatus } from "../features/User/userSlice";
-import { AuthStatus } from "../lib/constants";
-import UserButton from "../components/UserButton";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
+import HeroBackground from '../assets/img/hero.png';
+import SignInButton from '../components/SignInButton';
+import UserButton from '../components/UserButton';
+import { selectAuthStatus } from '../features/User/userSlice';
+import { AuthStatus } from '../lib/constants';
+import { useAppSelector } from '../lib/store';
 
 const LandingPage = () => {
   const authStatus = useAppSelector(selectAuthStatus);

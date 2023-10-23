@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { clearUser, selectAuthStatus } from '../features/User/userSlice';
 import { AuthStatus, NavLinks } from '../lib/constants';
 import { auth } from '../lib/firebase';
-import { useAppDispatch, useAppSelector } from '../lib/hooks';
+import { useAppDispatch, useAppSelector } from '../lib/store';
 import { cn } from '../lib/tailwind-utils';
 import Tooltip from './Tooltip';
 import UserButton from './UserButton';

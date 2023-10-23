@@ -5,7 +5,7 @@ import { FaTimes } from 'react-icons/fa';
 
 import { avatars } from '../../lib/constants';
 import { usersRef } from '../../lib/firebase';
-import { useAppDispatch, useAppSelector } from '../../lib/hooks';
+import { useAppDispatch, useAppSelector } from '../../lib/store';
 import { cn } from '../../lib/tailwind-utils';
 import { selectUser, updateAvatar } from './userSlice';
 

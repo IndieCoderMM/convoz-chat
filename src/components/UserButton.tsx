@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 import { selectUser } from '../features/User/userSlice';
 import { avatars } from '../lib/constants';
-import { useAppSelector } from '../lib/hooks';
+import { useAppSelector } from '../lib/store';
 
 const UserButton = () => {
   const currentUser = useAppSelector(selectUser);

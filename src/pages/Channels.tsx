@@ -2,13 +2,13 @@ import { onSnapshot } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-import { ChannelState } from '../common.types';
+import { ChannelInterface } from '../common.types';
 import ChannelCard from '../features/Channels/ChannelCard';
 import { selectChannels, setChannels } from '../features/Channels/channelsSlice';
 import CreateChannel from '../features/Channels/CreateChannel';
 import { selectUser } from '../features/User/userSlice';
 import { mapDocumentDataToChannel, queryCreatedChannels } from '../lib/firestore-utils';
-import { useAppDispatch, useAppSelector } from '../lib/hooks';
+import { useAppDispatch, useAppSelector } from '../lib/store';
 
 const Channels = () => {
   const [openForm, setOpenForm] = useState(false);
@@ -26,7 +26,7 @@ const Channels = () => {
             ({
               ...mapDocumentDataToChannel(doc.data()),
               messages: [],
-            }) as ChannelState,
+            }) as ChannelInterface,
         );
         dispatch(setChannels(channels));
       });

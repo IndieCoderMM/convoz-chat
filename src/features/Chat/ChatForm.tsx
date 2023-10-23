@@ -1,12 +1,8 @@
-import { addDoc } from 'firebase/firestore';
 import { useRef } from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { v4 as uuid } from 'uuid';
 
-import { MessageInterface } from '../../common.types';
-import { messagesRef } from '../../lib/firebase';
 import { mapDocumentDataToChannel, queryChannelById } from '../../lib/firestore-utils';
-import { useAppSelector } from '../../lib/hooks';
+import { useAppSelector } from '../../lib/store';
 import { selectUser } from '../User/userSlice';
 
 type Props = {
@@ -33,16 +29,16 @@ const ChatForm = ({ channelId }: Props) => {
 
     if (messageValue?.length === 0) return;
 
-    const message: MessageInterface = {
-      id: uuid(),
-      channelId: channelId,
-      createdBy: currentUser!.id,
-      createdAt: Date.now(),
-      text: messageValue!,
-    };
+    // const message: MessageInterface = {
+    //   id: uuid(),
+    //   channelId: channelId,
+    //   createdBy: currentUser!.id,
+    //   createdAt: Date.now(),
+    //   text: messageValue!,
+    // };
 
     try {
-      await addDoc(messagesRef, message);
+      // TODO: Add message to the channel
       messageRef.current!.value = "";
     } catch (err) {
       console.error(err);

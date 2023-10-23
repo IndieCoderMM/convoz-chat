@@ -1,12 +1,13 @@
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider, usersRef } from "../lib/firebase";
-import { UserInterface } from "../common.types";
-import { doc, setDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
-import { getDocIfExists, mapDocumentDataToUser } from "../lib/firestore-utils";
-import { useAppDispatch } from "../lib/hooks";
-import { setUser } from "../features/User/userSlice";
+import { signInWithPopup } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+
+import { UserInterface } from '../common.types';
+import { setUser } from '../features/User/userSlice';
+import { auth, provider, usersRef } from '../lib/firebase';
+import { getDocIfExists, mapDocumentDataToUser } from '../lib/firestore-utils';
+import { useAppDispatch } from '../lib/store';
 
 const SignInButton = () => {
   const navigate = useNavigate();

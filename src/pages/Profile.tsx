@@ -1,8 +1,9 @@
-import { useAppSelector } from "../lib/hooks";
-import { selectUser } from "../features/User/userSlice";
-import { avatars } from "../lib/constants";
-import { useState } from "react";
-import ChangeAvatar from "../features/User/ChangeAvatar";
+import { useState } from 'react';
+
+import ChangeAvatar from '../features/User/ChangeAvatar';
+import { selectUser } from '../features/User/userSlice';
+import { avatars } from '../lib/constants';
+import { useAppSelector } from '../lib/store';
 
 const Profile = () => {
   const currentUser = useAppSelector(selectUser);

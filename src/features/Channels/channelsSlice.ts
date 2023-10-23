@@ -1,9 +1,10 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ChannelState } from "../../common.types";
-import { RootState } from "../../lib/store";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { ChannelInterface } from '../../common.types';
+import { RootState } from '../../lib/store';
 
 interface ChannelsState {
-  data: ChannelState[] | [];
+  data: ChannelInterface[] | [];
 }
 
 const initialState: ChannelsState = {
@@ -14,7 +15,7 @@ const channelsSlice = createSlice({
   name: "channels",
   initialState,
   reducers: {
-    setChannels(state, action: PayloadAction<ChannelState[]>) {
+    setChannels(state, action: PayloadAction<ChannelInterface[]>) {
       state.data = action.payload;
     },
   },

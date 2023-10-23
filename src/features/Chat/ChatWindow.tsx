@@ -12,7 +12,7 @@ import { usersRef } from '../../lib/firebase';
 import {
     getDocIfExists, mapDocumentDataToChannel, mapDocumentDataToUser, queryStaticChannels
 } from '../../lib/firestore-utils';
-import { useAppSelector } from '../../lib/hooks';
+import { useAppSelector } from '../../lib/store';
 import { selectChannels } from '../Channels/channelsSlice';
 import ChatForm from './ChatForm';
 import MessagesView from './MessagesView';

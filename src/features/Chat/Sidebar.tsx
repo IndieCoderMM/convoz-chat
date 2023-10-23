@@ -5,12 +5,12 @@ import toast from 'react-hot-toast';
 import { BiSearch } from 'react-icons/bi';
 import { HiBell } from 'react-icons/hi';
 
-import { ChannelInterface, ChannelState } from '../../common.types';
+import { ChannelInterface } from '../../common.types';
 import { channelsRef } from '../../lib/firebase';
 import {
     mapDocumentDataToChannel, queryJoinedChannels, queryStaticChannels
 } from '../../lib/firestore-utils';
-import { useAppDispatch, useAppSelector } from '../../lib/hooks';
+import { useAppDispatch, useAppSelector } from '../../lib/store';
 import { selectChannels, setChannels } from '../Channels/channelsSlice';
 import { selectUser } from '../User/userSlice';
 import ChannelList from './ChannelList';
@@ -53,7 +53,7 @@ const Sidebar = () => {
             ({
               ...mapDocumentDataToChannel(doc.data()),
               messages: [],
-            }) as ChannelState,
+            }) as ChannelInterface,
         );
         dispatch(setChannels(channels));
       });
