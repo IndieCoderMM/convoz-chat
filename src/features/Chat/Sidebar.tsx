@@ -1,35 +1,33 @@
-import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-import toast from 'react-hot-toast';
-import { BiSearch } from 'react-icons/bi';
-import { HiBell } from 'react-icons/hi';
+import { doc, updateDoc } from "firebase/firestore";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { BiSearch } from "react-icons/bi";
+import { HiBell } from "react-icons/hi";
 
-import { ChannelInterface } from '../../common.types';
-import { channelsRef } from '../../lib/firebase';
+import { ChannelInterface } from "../../common.types";
+import { channelsRef } from "../../lib/firebase";
+import { useAppSelector } from "../../lib/store";
 import {
-    mapDocumentDataToChannel, queryJoinedChannels, queryStaticChannels
-} from '../../lib/firestore-utils';
-import { useAppDispatch, useAppSelector } from '../../lib/store';
-import { selectChannels, setChannels } from '../Channels/channelsSlice';
-import { selectUser } from '../User/userSlice';
-import ChannelList from './ChannelList';
+  getJoinedChannels,
+  getStaticChannels,
+} from "../Channels/channelsSlice";
+import { selectUser } from "../User/userSlice";
+import ChannelList from "./ChannelList";
 
 const Sidebar = () => {
   const currentUser = useAppSelector(selectUser);
-  const dispatch = useAppDispatch();
-  const channels = useAppSelector(selectChannels);
-  const [staticChannelsDocs] = useCollectionData(queryStaticChannels());
+
+  const staticChannels = useAppSelector(getStaticChannels);
+  const joinedChannels = useAppSelector((state) =>
+    getJoinedChannels(state, currentUser?.id || ""),
+  );
 
   useEffect(() => {
-    if (!staticChannelsDocs || !currentUser) return;
+    if (!currentUser || !staticChannels) return;
 
-    const channelsToJoin = staticChannelsDocs
-      .map(mapDocumentDataToChannel)
-      .filter((doc) => {
-        const channel = mapDocumentDataToChannel(doc);
-        return !channel.members.includes(currentUser.id);
-      });
+    const channelsToJoin = staticChannels.filter(
+      (channel) => !channel.members.includes(currentUser.id),
+    );
 
     const joinAllChannels = async (channels: ChannelInterface[]) => {
       const batch = channels.reduce((acc, channel) => {
@@ -41,27 +39,8 @@ const Sidebar = () => {
       await Promise.all(batch);
     };
 
-    joinAllChannels(channelsToJoin);
-  }, [staticChannelsDocs, currentUser]);
-
-  useEffect(() => {
-    if (currentUser) {
-      const query = queryJoinedChannels(currentUser.id);
-      onSnapshot(query, (snapshot) => {
-        const channels = snapshot.docs.map(
-          (doc) =>
-            ({
-              ...mapDocumentDataToChannel(doc.data()),
-              messages: [],
-            }) as ChannelInterface,
-        );
-        dispatch(setChannels(channels));
-      });
-    }
-  }, [currentUser, dispatch]);
-
-  const welcomeChannels =
-    staticChannelsDocs?.map(mapDocumentDataToChannel) || [];
+    if (channelsToJoin.length > 0) joinAllChannels(channelsToJoin);
+  }, [staticChannels, currentUser]);
 
   return (
     <aside className="flex h-screen w-[250px] flex-shrink-0 flex-col bg-dark-800 text-white">
@@ -88,13 +67,8 @@ const Sidebar = () => {
           placeholder="Browse channels"
         />
       </div>
-      <ChannelList heading="Welcome 👋" channels={welcomeChannels} />
-      <ChannelList
-        heading="My Channels"
-        channels={channels.filter(
-          (channel) => !welcomeChannels.map((ch) => ch.id).includes(channel.id),
-        )}
-      />
+      <ChannelList heading="Welcome 👋" channels={staticChannels} />
+      <ChannelList heading="My Channels" channels={joinedChannels} />
     </aside>
   );
 };

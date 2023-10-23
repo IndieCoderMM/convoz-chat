@@ -1,9 +1,15 @@
 import {
-    CollectionReference, doc, DocumentData, getDoc, limit, query, where
-} from 'firebase/firestore';
+  CollectionReference,
+  doc,
+  DocumentData,
+  getDoc,
+  limit,
+  query,
+  where,
+} from "firebase/firestore";
 
-import { ChannelInterface, UserInterface } from '../common.types';
-import { channelsRef, usersRef } from './firebase';
+import { ChannelInterface, UserInterface } from "../common.types";
+import { usersRef } from "./firebase";
 
 export const getDocIfExists = async (ref: CollectionReference, id: string) => {
   const docRef = doc(ref, id);
@@ -14,27 +20,27 @@ export const getDocIfExists = async (ref: CollectionReference, id: string) => {
   };
 };
 
-export const queryJoinedChannels = (id: string) =>
-  query(channelsRef, where("members", "array-contains", id));
+// export const queryJoinedChannels = (id: string) =>
+//   query(channelsRef, where("members", "array-contains", id));
 
-export const queryChannelById = (id: string) =>
-  query(channelsRef, where("id", "==", id), limit(1));
+// export const queryChannelById = (id: string) =>
+//   query(channelsRef, where("id", "==", id), limit(1));
 
-export const queryCreatedChannels = (id: string) =>
-  query(channelsRef, where("createdBy", "==", id));
+// export const queryCreatedChannels = (id: string) =>
+//   query(channelsRef, where("createdBy", "==", id));
 
-export const queryAllUsers = () => query(usersRef);
+// export const queryAllUsers = () => query(usersRef);
 
-export const queryStaticChannels = () =>
-  query(channelsRef, where("static", "==", true));
+// export const queryStaticChannels = () =>
+//   query(channelsRef, where("static", "==", true));
 
-export const queryPublicChannels = () =>
-  query(channelsRef, where("type", "==", "public"));
+// export const queryPublicChannels = () =>
+//   query(channelsRef, where("type", "==", "public"));
 
 export const queryUserById = (id: string) =>
   query(usersRef, where("id", "==", id), limit(1));
 
-export const mapDocumentDataToUser = (docData: DocumentData): UserInterface => {
+export const mapDocToUser = (docData: DocumentData): UserInterface => {
   return {
     id: docData.id,
     name: docData.name,
@@ -47,9 +53,7 @@ export const mapDocumentDataToUser = (docData: DocumentData): UserInterface => {
   };
 };
 
-export const mapDocumentDataToChannel = (
-  docData: DocumentData,
-): ChannelInterface => {
+export const mapDocToChannel = (docData: DocumentData): ChannelInterface => {
   return {
     id: docData.id,
     name: docData.name,
@@ -58,5 +62,6 @@ export const mapDocumentDataToChannel = (
     createdBy: docData.createdBy,
     type: docData.type,
     members: docData.members,
+    messages: docData.messages,
   };
 };

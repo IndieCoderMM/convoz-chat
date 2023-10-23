@@ -24,7 +24,7 @@ export interface ChannelInterface {
   createdBy: string;
   members: string[];
   type: ChannelType;
-  messages?: MessageInterface[];
+  messages: MessageInterface[];
 }
 
 export interface MessageInterface {

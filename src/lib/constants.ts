@@ -1,21 +1,22 @@
-import { FaHashtag, FaRegCompass, FaCog } from "react-icons/fa";
+import { FaCog, FaHashtag, FaRegCompass } from "react-icons/fa";
 import {
-  HiOutlineChat,
   HiHashtag,
   HiLockClosed,
+  HiOutlineChat,
   HiSpeakerphone,
 } from "react-icons/hi";
 import { HiMiniChatBubbleLeftRight } from "react-icons/hi2";
+
 import {
+  bandit,
   gamer,
   gamerGirl,
-  hacker,
   geek,
+  hacker,
   king,
-  viking,
-  steampunk,
   otaku,
-  bandit,
+  steampunk,
+  viking,
 } from "../assets/avatars";
 import { ChannelType } from "../common.types";
 
@@ -68,4 +69,10 @@ export enum AuthStatus {
   SignedIn = "signedIn",
   SignedOut = "signedOut",
   Idle = "idle",
+}
+
+export enum ChannelsStatus {
+  Idle = "idle",
+  Success = "success",
+  Error = "error",
 }

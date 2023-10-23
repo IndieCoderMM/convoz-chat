@@ -1,43 +1,34 @@
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import { useEffect, useState } from 'react';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { FaGithub, FaSignOutAlt, FaUsers } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { useEffect, useState } from "react";
+import { FaGithub, FaSignOutAlt, FaUsers } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-import { ChannelInterface, UserInterface } from '../../common.types';
-import Tooltip from '../../components/Tooltip';
-import { avatars } from '../../lib/constants';
-import { usersRef } from '../../lib/firebase';
-import {
-    getDocIfExists, mapDocumentDataToChannel, mapDocumentDataToUser, queryStaticChannels
-} from '../../lib/firestore-utils';
-import { useAppSelector } from '../../lib/store';
-import { selectChannels } from '../Channels/channelsSlice';
-import ChatForm from './ChatForm';
-import MessagesView from './MessagesView';
+import { UserInterface } from "../../common.types";
+import Tooltip from "../../components/Tooltip";
+import { avatars } from "../../lib/constants";
+import { usersRef } from "../../lib/firebase";
+import { getDocIfExists, mapDocToUser } from "../../lib/firestore-utils";
+import { useAppSelector } from "../../lib/store";
+import { getChannelById } from "../Channels/channelsSlice";
+import ChatForm from "./ChatForm";
+import MessagesView from "./MessagesView";
 
 dayjs.extend(LocalizedFormat);
 
 const ChatWindow = () => {
   const { channelId } = useParams();
-
-  const channels = useAppSelector(selectChannels);
-  const [docArray] = useCollectionData(queryStaticChannels());
   const [creator, setCreator] = useState<UserInterface | null>(null);
 
-  const welcomeChannels = docArray?.map(mapDocumentDataToChannel) || [];
-
-  const channel: ChannelInterface | undefined = [
-    ...welcomeChannels,
-    ...channels,
-  ]?.find((ch) => ch.id === channelId);
+  const channel = useAppSelector((state) =>
+    getChannelById(state, channelId || ""),
+  );
 
   useEffect(() => {
     if (!channel) return;
     getDocIfExists(usersRef, channel.createdBy).then(({ data }) => {
       if (data) {
-        setCreator(mapDocumentDataToUser(data));
+        setCreator(mapDocToUser(data));
       }
     });
   }, [channel]);
@@ -45,7 +36,7 @@ const ChatWindow = () => {
   if (!channel) {
     return (
       <section className="flex h-full w-full flex-col items-center justify-center">
-        <h1 className="text-2xl font-bold">Channel not found!</h1>
+        <h2 className="text-2xl font-bold">Welcome to Convoz Chat!</h2>
         <p className="text-gray-400">
           Please select a channel from the sidebar
         </p>

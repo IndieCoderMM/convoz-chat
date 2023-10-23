@@ -1,9 +1,13 @@
-import { useRef } from 'react';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { doc, updateDoc } from "firebase/firestore";
+import { useRef } from "react";
+import toast from "react-hot-toast";
+import { v4 as uuid } from "uuid";
 
-import { mapDocumentDataToChannel, queryChannelById } from '../../lib/firestore-utils';
-import { useAppSelector } from '../../lib/store';
-import { selectUser } from '../User/userSlice';
+import { MessageInterface } from "../../common.types";
+import { channelsRef } from "../../lib/firebase";
+import { useAppSelector } from "../../lib/store";
+import { getChannelById } from "../Channels/channelsSlice";
+import { selectUser } from "../User/userSlice";
 
 type Props = {
   channelId: string;
@@ -13,34 +17,37 @@ const ChatForm = ({ channelId }: Props) => {
   const messageRef = useRef<HTMLInputElement>(null);
   const currentUser = useAppSelector(selectUser);
 
-  const [docArray] = useCollectionData(queryChannelById(channelId));
-
-  if (!docArray) return null;
-
-  const channel = mapDocumentDataToChannel(docArray?.[0]);
+  const channel = useAppSelector((state) => getChannelById(state, channelId));
 
   const isDisabled =
-    channel.type === "announcement" && currentUser?.role !== "admin";
+    !channel ||
+    (channel.type === "announcement" && currentUser?.role !== "admin");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!currentUser || !channel) return;
 
     const messageValue = messageRef.current?.value.trim();
 
     if (messageValue?.length === 0) return;
 
-    // const message: MessageInterface = {
-    //   id: uuid(),
-    //   channelId: channelId,
-    //   createdBy: currentUser!.id,
-    //   createdAt: Date.now(),
-    //   text: messageValue!,
-    // };
+    const message: MessageInterface = {
+      id: uuid(),
+      channelId: channelId,
+      createdBy: currentUser!.id,
+      createdAt: Date.now(),
+      text: messageValue!,
+    };
 
     try {
       // TODO: Add message to the channel
+      await updateDoc(doc(channelsRef, channel.id), {
+        messages: [...channel.messages, message],
+      });
       messageRef.current!.value = "";
     } catch (err) {
+      toast.error("Failed to send message");
       console.error(err);
     }
   };

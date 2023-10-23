@@ -1,25 +1,12 @@
-import { onSnapshot } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch } from "react-icons/fa";
 
-import { HeaderImg } from '../assets/img';
-import { ChannelInterface } from '../common.types';
-import ChannelCard from '../features/Channels/ChannelCard';
-import { mapDocumentDataToChannel, queryPublicChannels } from '../lib/firestore-utils';
+import { HeaderImg } from "../assets/img";
+import ChannelCard from "../features/Channels/ChannelCard";
+import { getPublicChannels } from "../features/Channels/channelsSlice";
+import { useAppSelector } from "../lib/store";
 
 const Explore = () => {
-  const [channels, setChannels] = useState<ChannelInterface[]>([]);
-
-  useEffect(() => {
-    const query = queryPublicChannels();
-    onSnapshot(query, (snapshot) => {
-      const channels = snapshot.docs.map((doc) => {
-        return mapDocumentDataToChannel(doc.data());
-      });
-      setChannels(channels);
-    });
-  }, []);
-
+  const channels = useAppSelector(getPublicChannels);
   return (
     <section className="p-2">
       <header className="relative min-h-[40vh]">

@@ -1,16 +1,14 @@
-import { useAppSelector } from '../../lib/store';
-import { selectChannels } from '../Channels/channelsSlice';
-import ChatMessage from './ChatMessage';
-import ChatMessageSkeleton from './ChatMessageSkeleton';
+import { useAppSelector } from "../../lib/store";
+import { getChannelById } from "../Channels/channelsSlice";
+import ChatMessage from "./ChatMessage";
+import ChatMessageSkeleton from "./ChatMessageSkeleton";
 
 type Props = {
   channelId: string;
 };
 
 const MessagesView = ({ channelId }: Props) => {
-  const channels = useAppSelector(selectChannels);
-
-  const channel = channels.find((channel) => channel.id === channelId);
+  const channel = useAppSelector((state) => getChannelById(state, channelId));
 
   if (!channel) {
     return (

@@ -1,19 +1,38 @@
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { Navigate, Outlet } from 'react-router-dom';
+import { query } from "firebase/firestore";
+import { useEffect } from "react";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { Navigate, Outlet } from "react-router-dom";
 
-import LoadingOverlay from './components/LoadingOverlay';
-import Sidebar from './components/Sidebar';
-import { auth } from './lib/firebase';
+import LoadingOverlay from "./components/LoadingOverlay";
+import Sidebar from "./components/Sidebar";
+import { setChannels } from "./features/Channels/channelsSlice";
+import { selectAuthStatus } from "./features/User/userSlice";
+import { AuthStatus } from "./lib/constants";
+import { channelsRef } from "./lib/firebase";
+import { mapDocToChannel } from "./lib/firestore-utils";
+import { useAppDispatch, useAppSelector } from "./lib/store";
 
 const RootLayout = () => {
-  const [user, loading] = useAuthState(auth);
+  const authStatus = useAppSelector(selectAuthStatus);
+  const [channelDocs, loading] = useCollectionData(query(channelsRef));
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (authStatus !== AuthStatus.SignedIn) return;
+
+    if (!channelDocs) return;
+
+    const channels = channelDocs.map(mapDocToChannel);
+    dispatch(setChannels(channels));
+    console.log("Read channels from firestore");
+  }, [authStatus, channelDocs, dispatch]);
+
+  if (authStatus !== AuthStatus.SignedIn) {
+    return <Navigate to="/landing" replace />;
+  }
 
   if (loading) {
     return <LoadingOverlay />;
-  }
-
-  if (!user) {
-    return <Navigate to="/landing" replace />;
   }
 
   return (
