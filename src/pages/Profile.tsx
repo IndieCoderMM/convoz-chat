@@ -20,7 +20,7 @@ const Profile = () => {
           <div className="relative flex items-center justify-between bg-dark-700 p-2">
             <div className="flex items-center">
               <img
-                src={avatars[currentUser?.avatarId || 0]}
+                src={avatars[currentUser?.avatarId ?? 0]}
                 alt=""
                 className="h-24 w-24 rounded-full border border-white bg-dark-700 p-2"
               />
@@ -58,7 +58,7 @@ const Profile = () => {
             <div className="flex flex-col gap-1">
               <h4 className="text-lg font-semibold">Bio</h4>
               <p className="text-sm text-gray-400">
-                {currentUser?.bio || "No information yet"}
+                {currentUser?.bio ?? "No information yet"}
               </p>
             </div>
           </div>

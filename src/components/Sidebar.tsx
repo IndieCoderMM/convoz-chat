@@ -1,15 +1,15 @@
-import { signOut } from 'firebase/auth';
-import toast from 'react-hot-toast';
-import { BiLogOutCircle } from 'react-icons/bi';
-import { Link, useLocation } from 'react-router-dom';
+import { signOut } from "firebase/auth";
+import toast from "react-hot-toast";
+import { BiLogOutCircle } from "react-icons/bi";
+import { Link, useLocation } from "react-router-dom";
 
-import { clearUser, selectAuthStatus } from '../features/User/userSlice';
-import { AuthStatus, NavLinks } from '../lib/constants';
-import { auth } from '../lib/firebase';
-import { useAppDispatch, useAppSelector } from '../lib/store';
-import { cn } from '../lib/tailwind-utils';
-import Tooltip from './Tooltip';
-import UserButton from './UserButton';
+import { clearUser, selectAuthStatus } from "../features/User/userSlice";
+import { AuthStatus, NavLinks } from "../lib/constants";
+import { auth } from "../lib/firebase";
+import { useAppDispatch, useAppSelector } from "../lib/store";
+import { cn } from "../lib/tailwind-utils";
+import Tooltip from "./Tooltip";
+import UserButton from "./UserButton";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -21,7 +21,7 @@ const Sidebar = () => {
   };
 
   const onSignOut = async () => {
-    signOut(auth);
+    await signOut(auth);
     dispatch(clearUser());
     toast.success("You have been signed out");
   };
@@ -58,7 +58,7 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-        <ul className="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-gray-300 pt-8">
+        <ul className="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-dark-300 pt-8">
           {authStatus === AuthStatus.SignedIn && (
             <li className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
               <UserButton />

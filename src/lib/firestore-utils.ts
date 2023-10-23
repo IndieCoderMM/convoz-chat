@@ -1,14 +1,14 @@
 import {
-  CollectionReference,
+  type CollectionReference,
   doc,
-  DocumentData,
+  type DocumentData,
   getDoc,
   limit,
   query,
   where,
 } from "firebase/firestore";
 
-import { ChannelInterface, UserInterface } from "../common.types";
+import { type ChannelInterface, type UserInterface } from "../common.types";
 import { usersRef } from "./firebase";
 
 export const getDocIfExists = async (ref: CollectionReference, id: string) => {

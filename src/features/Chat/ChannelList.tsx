@@ -1,8 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
-import { ChannelInterface, ChannelType } from "../../common.types";
-import { cn } from "../../lib/tailwind-utils";
-import { ChannelIcons } from "../../lib/constants";
-import { BiChevronDown } from "react-icons/bi";
+import { BiChevronDown } from 'react-icons/bi';
+import { Link, useLocation } from 'react-router-dom';
+
+import { ChannelIcons } from '../../lib/constants';
+import { cn } from '../../lib/tailwind-utils';
+
+import type { ChannelInterface, ChannelType } from "../../common.types";
 
 type Props = {
   heading: string;
@@ -24,8 +26,13 @@ const ChannelList = ({ heading, channels }: Props) => {
     <section className="">
       <header className="flex items-center px-2 pt-8">
         <BiChevronDown size={20} />
-        <h2 className="text-light text-sm font-medium uppercase">{heading}</h2>
+        <h2 className="text-sm font-medium uppercase text-light">{heading}</h2>
       </header>
+      {channels.length === 0 && (
+        <div className="w-full pl-8 pt-2">
+          <p className="text-sm text-dark-200">No channels yet</p>
+        </div>
+      )}
       <ul className="flex flex-col gap-0.5 px-4 py-2">
         {channels.map(({ id, name, type }) => (
           <li

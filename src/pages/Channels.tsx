@@ -1,17 +1,17 @@
-import { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
 
-import ChannelCard from "../features/Channels/ChannelCard";
-import { getCreatedChannels } from "../features/Channels/channelsSlice";
-import CreateChannel from "../features/Channels/CreateChannel";
-import { selectUser } from "../features/User/userSlice";
-import { useAppSelector } from "../lib/store";
+import ChannelCard from '../features/Channels/ChannelCard';
+import { getCreatedChannels } from '../features/Channels/channelsSlice';
+import CreateChannel from '../features/Channels/CreateChannel';
+import { selectUser } from '../features/User/userSlice';
+import { useAppSelector } from '../lib/store';
 
 const Channels = () => {
   const [openForm, setOpenForm] = useState(false);
   const user = useAppSelector(selectUser);
   const channels = useAppSelector((state) =>
-    getCreatedChannels(state, user?.id || ""),
+    getCreatedChannels(state, user?.id ?? ""),
   );
 
   return (

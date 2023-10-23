@@ -1,14 +1,15 @@
-import { doc, setDoc } from 'firebase/firestore';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-import { FaTimes } from 'react-icons/fa';
-import { v4 as uuidv4 } from 'uuid';
+import { doc, setDoc } from "firebase/firestore";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { FaTimes } from "react-icons/fa";
+import { v4 as uuidv4 } from "uuid";
 
-import { ChannelInterface, UserInterface } from '../../common.types';
-import CustomSelect from '../../components/CustomSelect';
-import { channelsRef } from '../../lib/firebase';
-import { useAppSelector } from '../../lib/store';
-import { selectUser } from '../User/userSlice';
+import CustomSelect from "../../components/CustomSelect";
+import { channelsRef } from "../../lib/firebase";
+import { useAppSelector } from "../../lib/store";
+import { selectUser } from "../User/userSlice";
+
+import type { ChannelInterface, UserInterface } from "../../common.types";
 
 type Props = {
   close: () => void;
@@ -46,6 +47,7 @@ const CreateChannel = ({ close }: Props) => {
       createdBy: currentUser.id,
       createdAt: Date.now(),
       members: [currentUser.id],
+      messages: [],
     };
 
     try {

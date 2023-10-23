@@ -1,7 +1,7 @@
-import { useAppSelector } from "../../lib/store";
-import { getChannelById } from "../Channels/channelsSlice";
-import ChatMessage from "./ChatMessage";
-import ChatMessageSkeleton from "./ChatMessageSkeleton";
+import { useAppSelector } from '../../lib/store';
+import { getChannelById } from '../Channels/channelsSlice';
+import ChatMessage from './ChatMessage';
+import ChatMessageSkeleton from './ChatMessageSkeleton';
 
 type Props = {
   channelId: string;
@@ -21,6 +21,14 @@ const MessagesView = ({ channelId }: Props) => {
   }
 
   const { messages } = channel;
+
+  if (messages.length === 0) {
+    return (
+      <div className="px-2 py-4">
+        <p className="text-gray-400">No messages yet</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4 px-2 py-4">

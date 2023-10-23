@@ -1,25 +1,23 @@
-import { doc, updateDoc } from "firebase/firestore";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
-import { BiSearch } from "react-icons/bi";
-import { HiBell } from "react-icons/hi";
+import { doc, updateDoc } from 'firebase/firestore';
+import { useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { BiSearch } from 'react-icons/bi';
+import { HiBell } from 'react-icons/hi';
 
-import { ChannelInterface } from "../../common.types";
-import { channelsRef } from "../../lib/firebase";
-import { useAppSelector } from "../../lib/store";
-import {
-  getJoinedChannels,
-  getStaticChannels,
-} from "../Channels/channelsSlice";
-import { selectUser } from "../User/userSlice";
-import ChannelList from "./ChannelList";
+import { channelsRef } from '../../lib/firebase';
+import { useAppSelector } from '../../lib/store';
+import { getJoinedChannels, getStaticChannels } from '../Channels/channelsSlice';
+import { selectUser } from '../User/userSlice';
+import ChannelList from './ChannelList';
+
+import type { ChannelInterface } from "../../common.types";
 
 const Sidebar = () => {
   const currentUser = useAppSelector(selectUser);
 
   const staticChannels = useAppSelector(getStaticChannels);
   const joinedChannels = useAppSelector((state) =>
-    getJoinedChannels(state, currentUser?.id || ""),
+    getJoinedChannels(state, currentUser?.id ?? ""),
   );
 
   useEffect(() => {
@@ -39,7 +37,8 @@ const Sidebar = () => {
       await Promise.all(batch);
     };
 
-    if (channelsToJoin.length > 0) joinAllChannels(channelsToJoin);
+    if (channelsToJoin.length > 0)
+      joinAllChannels(channelsToJoin).catch(console.error);
   }, [staticChannels, currentUser]);
 
   return (

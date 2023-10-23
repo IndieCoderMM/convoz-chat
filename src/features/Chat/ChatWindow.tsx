@@ -1,18 +1,19 @@
-import dayjs from "dayjs";
-import LocalizedFormat from "dayjs/plugin/localizedFormat";
-import { useEffect, useState } from "react";
-import { FaGithub, FaSignOutAlt, FaUsers } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import dayjs from 'dayjs';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
+import { useEffect, useState } from 'react';
+import { FaGithub, FaSignOutAlt, FaUsers } from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
-import { UserInterface } from "../../common.types";
-import Tooltip from "../../components/Tooltip";
-import { avatars } from "../../lib/constants";
-import { usersRef } from "../../lib/firebase";
-import { getDocIfExists, mapDocToUser } from "../../lib/firestore-utils";
-import { useAppSelector } from "../../lib/store";
-import { getChannelById } from "../Channels/channelsSlice";
-import ChatForm from "./ChatForm";
-import MessagesView from "./MessagesView";
+import Tooltip from '../../components/Tooltip';
+import { avatars } from '../../lib/constants';
+import { usersRef } from '../../lib/firebase';
+import { getDocIfExists, mapDocToUser } from '../../lib/firestore-utils';
+import { useAppSelector } from '../../lib/store';
+import { getChannelById } from '../Channels/channelsSlice';
+import ChatForm from './ChatForm';
+import MessagesView from './MessagesView';
+
+import type { UserInterface } from "../../common.types";
 
 dayjs.extend(LocalizedFormat);
 
@@ -21,16 +22,20 @@ const ChatWindow = () => {
   const [creator, setCreator] = useState<UserInterface | null>(null);
 
   const channel = useAppSelector((state) =>
-    getChannelById(state, channelId || ""),
+    getChannelById(state, channelId ?? ""),
   );
 
   useEffect(() => {
     if (!channel) return;
-    getDocIfExists(usersRef, channel.createdBy).then(({ data }) => {
-      if (data) {
-        setCreator(mapDocToUser(data));
-      }
-    });
+    getDocIfExists(usersRef, channel.createdBy)
+      .then(({ data }) => {
+        if (data) {
+          setCreator(mapDocToUser(data));
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   }, [channel]);
 
   if (!channel) {
@@ -98,7 +103,7 @@ const ChatWindow = () => {
         <div className="ml-4 flex items-center justify-start gap-2">
           <div className="flex items-center justify-center rounded-full bg-dark-700 text-4xl">
             <img
-              src={avatars[creator?.avatarId || 0]}
+              src={avatars[creator?.avatarId ?? 0]}
               alt=""
               className="h-8 w-8"
             />

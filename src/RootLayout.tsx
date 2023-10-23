@@ -24,15 +24,15 @@ const RootLayout = () => {
 
     const channels = channelDocs.map(mapDocToChannel);
     dispatch(setChannels(channels));
-    console.log("Read channels from firestore");
+    // console.log("Read channels from firestore");
   }, [authStatus, channelDocs, dispatch]);
+
+  if (loading || authStatus === AuthStatus.Idle) {
+    return <LoadingOverlay />;
+  }
 
   if (authStatus !== AuthStatus.SignedIn) {
     return <Navigate to="/landing" replace />;
-  }
-
-  if (loading) {
-    return <LoadingOverlay />;
   }
 
   return (

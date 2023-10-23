@@ -9,12 +9,7 @@ export interface UserInterface {
   role: "admin" | "user";
 }
 
-export type ChannelType =
-  | "public"
-  | "private"
-  | "static"
-  | "announcement"
-  | string;
+export type ChannelType = "public" | "private" | "static" | "announcement";
 
 export interface ChannelInterface {
   id: string;
@@ -33,4 +28,5 @@ export interface MessageInterface {
   text: string;
   createdAt: number;
   createdBy: string;
+  author: UserInterface;
 }

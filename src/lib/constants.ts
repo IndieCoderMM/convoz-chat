@@ -18,11 +18,11 @@ import {
   steampunk,
   viking,
 } from "../assets/avatars";
-import { ChannelType } from "../common.types";
+import { type ChannelType } from "../common.types";
 
 export const NavLinks = [
   {
-    href: "/explore",
+    href: "/",
     label: "Explore",
     icon: FaRegCompass,
   },

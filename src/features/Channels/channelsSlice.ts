@@ -1,8 +1,10 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { ChannelInterface } from "../../common.types";
-import { ChannelsStatus } from "../../lib/constants";
-import { RootState } from "../../lib/store";
+import { ChannelsStatus } from '../../lib/constants';
+
+import type { RootState } from "../../lib/store";
+import type { ChannelInterface } from "../../common.types";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 interface ChannelsState {
   data: ChannelInterface[] | [];
@@ -34,7 +36,7 @@ export const getAllChannels = createSelector(getChannels, (channels) => {
 });
 
 export const getChannelById = createSelector(
-  [getChannels, (_state, id) => id],
+  [getChannels, (_state, id: string) => id],
   (channels, id) => {
     return channels.data.find((channel) => channel.id === id);
   },
@@ -51,7 +53,7 @@ export const getPublicChannels = createSelector(getChannels, (channels) => {
 });
 
 export const getJoinedChannels = createSelector(
-  [getChannels, (_state, userId) => userId],
+  [getChannels, (_state, userId: string) => userId],
   (channels, userId) => {
     return channels.data.filter(
       (channel) =>
@@ -63,7 +65,7 @@ export const getJoinedChannels = createSelector(
 );
 
 export const getCreatedChannels = createSelector(
-  [getChannels, (_state, userId) => userId],
+  [getChannels, (_state, userId: string) => userId],
   (channels, userId) => {
     return channels.data.filter((channel) => channel.createdBy === userId);
   },

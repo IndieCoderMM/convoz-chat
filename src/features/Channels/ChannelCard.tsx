@@ -1,14 +1,15 @@
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import toast from 'react-hot-toast';
-import { HiUsers } from 'react-icons/hi2';
-import { useNavigate } from 'react-router-dom';
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
+import toast from "react-hot-toast";
+import { HiUsers } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
-import { CheckBadge } from '../../assets/icons';
-import { ChannelInterface } from '../../common.types';
-import Tooltip from '../../components/Tooltip';
-import { channelsRef } from '../../lib/firebase';
-import { useAppSelector } from '../../lib/store';
-import { selectUser } from '../User/userSlice';
+import { CheckBadge } from "../../assets/icons";
+import Tooltip from "../../components/Tooltip";
+import { channelsRef } from "../../lib/firebase";
+import { useAppSelector } from "../../lib/store";
+import { selectUser } from "../User/userSlice";
+
+import type { ChannelInterface } from "../../common.types";
 
 const ChannelCard = (props: ChannelInterface) => {
   const currentUser = useAppSelector(selectUser);
