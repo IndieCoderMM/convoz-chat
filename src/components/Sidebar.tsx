@@ -1,18 +1,17 @@
-import { signOut } from "firebase/auth";
-import toast from "react-hot-toast";
-import { BiLogOutCircle } from "react-icons/bi";
-import { Link, useLocation } from "react-router-dom";
+import { signOut } from 'firebase/auth';
+import toast from 'react-hot-toast';
+import { BiLogOutCircle } from 'react-icons/bi';
+import { Link, useLocation } from 'react-router-dom';
 
-import { clearUser, selectAuthStatus } from "../features/User/userSlice";
-import { AuthStatus, NavLinks } from "../lib/constants";
-import { auth } from "../lib/firebase";
-import { useAppDispatch, useAppSelector } from "../lib/store";
-import { cn } from "../lib/tailwind-utils";
-import Tooltip from "./Tooltip";
-import UserButton from "./UserButton";
+import { selectAuthStatus } from '../features/User/userSlice';
+import { AuthStatus, NavLinks } from '../lib/constants';
+import { auth } from '../lib/firebase';
+import { useAppSelector } from '../lib/store';
+import { cn } from '../lib/tailwind-utils';
+import Tooltip from './Tooltip';
+import UserButton from './UserButton';
 
 const Sidebar = () => {
-  const dispatch = useAppDispatch();
   const { pathname } = useLocation();
   const authStatus = useAppSelector(selectAuthStatus);
 
@@ -22,7 +21,7 @@ const Sidebar = () => {
 
   const onSignOut = async () => {
     await signOut(auth);
-    dispatch(clearUser());
+
     toast.success("You have been signed out");
   };
   return (

@@ -15,7 +15,13 @@ const useAuthUser = () => {
   const [data, setData] = useState<UserInterface | null>(null);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user && data) {
+      setData(null);
+    }
+
+    if (!user) {
+      return;
+    }
 
     const userRef = doc(usersRef, user.uid);
     getDoc(userRef)
@@ -33,7 +39,7 @@ const useAuthUser = () => {
         console.error(err);
         toast.error("Error fetching user data");
       });
-  }, [user]);
+  }, [user, data]);
 
   const createNewUser = async (ref: DocumentReference, user: User) => {
     const newUser: UserInterface = {

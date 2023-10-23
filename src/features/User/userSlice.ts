@@ -1,7 +1,10 @@
-import { type PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { type UserInterface } from "../../common.types";
-import { type RootState } from "../../lib/store";
-import { AuthStatus } from "../../lib/constants";
+import { createSlice } from '@reduxjs/toolkit';
+
+import { AuthStatus } from '../../lib/constants';
+
+import type { PayloadAction } from "@reduxjs/toolkit";
+import type { UserInterface } from "../../common.types";
+import type { RootState } from "../../lib/store";
 
 interface UserState {
   status: AuthStatus;
