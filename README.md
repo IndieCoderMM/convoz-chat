@@ -1,6 +1,10 @@
-# Convoz - Chat Platform 
+# Convoz
 
-Convoz is an open-source chat platform with discord-like features, designed to bring people together in a real-time, engaging online communities. 
+> Open-source chat platform with discord-like features built with React, TypeScript, Vite and Firebase
+
+**Visit the [Live Website](https://convoz-chat.onrender.com/)**
+
+![Convoz Screenshot](./screenshot.png)
 
 ## Features
 
@@ -18,10 +22,10 @@ This project was built using the following technologies:
 - Firebase
 - Redux Toolkit
 - Vite
+- ESLint
 - react-firebase-hooks
 - react-router-dom
-- ESLint
-- react-hot-toast
+- Tailwind CSS
 
 ## Getting Started
 
