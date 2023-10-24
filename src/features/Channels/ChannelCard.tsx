@@ -9,9 +9,9 @@ import { channelsRef } from "../../lib/firebase";
 import { useAppSelector } from "../../lib/store";
 import { selectUser } from "../User/userSlice";
 
-import type { ChannelInterface } from "../../common.types";
+import type { Channel } from "../../schema";
 
-const ChannelCard = (props: ChannelInterface) => {
+const ChannelCard = (props: Channel) => {
   const currentUser = useAppSelector(selectUser);
   const { id, name, description, type, members } = props;
   const navigate = useNavigate();

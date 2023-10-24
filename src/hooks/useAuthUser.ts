@@ -1,18 +1,18 @@
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import toast from 'react-hot-toast';
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import toast from "react-hot-toast";
 
-import { auth, usersRef } from '../lib/firebase';
-import { mapDocToUser } from '../lib/firestore-utils';
+import { auth, usersRef } from "../lib/firebase";
+import { mapDocToUser } from "../lib/firestore-utils";
 
-import type { UserInterface } from "../common.types";
+import type { User } from "../schema";
 import type { DocumentReference } from "firebase/firestore";
 import type { User } from "firebase/auth";
 
 const useAuthUser = () => {
   const [user, loading, error] = useAuthState(auth);
-  const [data, setData] = useState<UserInterface | null>(null);
+  const [data, setData] = useState<User | null>(null);
 
   useEffect(() => {
     if (!user && data) {
@@ -42,7 +42,7 @@ const useAuthUser = () => {
   }, [user, data]);
 
   const createNewUser = async (ref: DocumentReference, user: User) => {
-    const newUser: UserInterface = {
+    const newUser: User = {
       id: user.uid,
       name: user.displayName!,
       email: user.email!,

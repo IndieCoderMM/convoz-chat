@@ -1,25 +1,25 @@
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import { useEffect, useState } from 'react';
-import { FaGithub, FaSignOutAlt, FaUsers } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { useEffect, useState } from "react";
+import { FaGithub, FaSignOutAlt, FaUsers } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-import Tooltip from '../../components/Tooltip';
-import { avatars } from '../../lib/constants';
-import { usersRef } from '../../lib/firebase';
-import { getDocIfExists, mapDocToUser } from '../../lib/firestore-utils';
-import { useAppSelector } from '../../lib/store';
-import { getChannelById } from '../Channels/channelsSlice';
-import ChatForm from './ChatForm';
-import MessagesView from './MessagesView';
+import Tooltip from "../../components/Tooltip";
+import { avatars } from "../../lib/constants";
+import { usersRef } from "../../lib/firebase";
+import { getDocIfExists, mapDocToUser } from "../../lib/firestore-utils";
+import { useAppSelector } from "../../lib/store";
+import { getChannelById } from "../Channels/channelsSlice";
+import ChatForm from "./ChatForm";
+import MessagesView from "./MessagesView";
 
-import type { UserInterface } from "../../common.types";
+import type { User } from "../../schema";
 
 dayjs.extend(LocalizedFormat);
 
 const ChatWindow = () => {
   const { channelId } = useParams();
-  const [creator, setCreator] = useState<UserInterface | null>(null);
+  const [creator, setCreator] = useState<User | null>(null);
 
   const channel = useAppSelector((state) =>
     getChannelById(state, channelId ?? ""),

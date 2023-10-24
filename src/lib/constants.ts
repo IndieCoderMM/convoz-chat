@@ -18,7 +18,7 @@ import {
   steampunk,
   viking,
 } from "../assets/avatars";
-import { type ChannelType } from "../common.types";
+import { ChannelType, type } from "../schema";
 
 export const NavLinks = [
   {

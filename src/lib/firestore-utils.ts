@@ -1,14 +1,16 @@
 import {
-  type CollectionReference,
+  CollectionReference,
   doc,
-  type DocumentData,
+  DocumentData,
   getDoc,
   limit,
   query,
+  type,
+  type,
   where,
 } from "firebase/firestore";
 
-import { type ChannelInterface, type UserInterface } from "../common.types";
+import { Channel, type, type, User } from "../schema";
 import { usersRef } from "./firebase";
 
 export const getDocIfExists = async (ref: CollectionReference, id: string) => {
@@ -40,7 +42,7 @@ export const getDocIfExists = async (ref: CollectionReference, id: string) => {
 export const queryUserById = (id: string) =>
   query(usersRef, where("id", "==", id), limit(1));
 
-export const mapDocToUser = (docData: DocumentData): UserInterface => {
+export const mapDocToUser = (docData: DocumentData): User => {
   return {
     id: docData.id,
     name: docData.name,
@@ -53,7 +55,7 @@ export const mapDocToUser = (docData: DocumentData): UserInterface => {
   };
 };
 
-export const mapDocToChannel = (docData: DocumentData): ChannelInterface => {
+export const mapDocToChannel = (docData: DocumentData): Channel => {
   return {
     id: docData.id,
     name: docData.name,

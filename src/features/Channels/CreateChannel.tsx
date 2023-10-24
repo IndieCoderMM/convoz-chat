@@ -9,7 +9,7 @@ import { channelsRef } from "../../lib/firebase";
 import { useAppSelector } from "../../lib/store";
 import { selectUser } from "../User/userSlice";
 
-import type { ChannelInterface, UserInterface } from "../../common.types";
+import type { Channel, User } from "../../schema";
 
 type Props = {
   close: () => void;
@@ -28,7 +28,7 @@ const CreateChannel = ({ close }: Props) => {
     type: "public",
   });
 
-  const currentUser: UserInterface | null = useAppSelector(selectUser);
+  const currentUser: User | null = useAppSelector(selectUser);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,7 +39,7 @@ const CreateChannel = ({ close }: Props) => {
     const description = form.description.trim();
     if (!name || !description) return;
 
-    const newChannel: ChannelInterface = {
+    const newChannel: Channel = {
       id: uuidv4(),
       name,
       description,
