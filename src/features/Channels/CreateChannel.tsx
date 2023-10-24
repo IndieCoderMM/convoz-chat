@@ -1,15 +1,11 @@
-import { doc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
-import { v4 as uuidv4 } from "uuid";
 
 import CustomSelect from "../../components/CustomSelect";
-import { channelsRef } from "../../lib/firebase";
 import { useAppSelector } from "../../lib/store";
 import { selectUser } from "../User/userSlice";
-
-import type { Channel, User } from "../../schema";
+import { createChannel } from "./utils";
 
 type Props = {
   close: () => void;
@@ -22,13 +18,13 @@ type FormData = {
 };
 
 const CreateChannel = ({ close }: Props) => {
+  const currentUser = useAppSelector(selectUser);
+
   const [form, setForm] = useState<FormData>({
     name: "",
     description: "",
     type: "public",
   });
-
-  const currentUser: User | null = useAppSelector(selectUser);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,27 +33,21 @@ const CreateChannel = ({ close }: Props) => {
 
     const name = form.name.trim().toLowerCase().replace(/\s+/g, "-");
     const description = form.description.trim();
-    if (!name || !description) return;
 
-    const newChannel: Channel = {
-      id: uuidv4(),
+    const newChannel = {
       name,
       description,
       type: form.type,
       createdBy: currentUser.id,
-      createdAt: Date.now(),
-      members: [currentUser.id],
-      messages: [],
     };
 
     try {
-      await setDoc(doc(channelsRef, newChannel.id), newChannel);
-      toast.success("Channel created successfully");
+      await createChannel(newChannel);
+      toast.success(`Channel ${name} created`, { icon: "🎉" });
+      close();
     } catch (err) {
       console.error(err);
-      toast.error("Failed to create channel");
-    } finally {
-      close();
+      toast.error("Failed to create channel", { icon: "☹️" });
     }
   };
 

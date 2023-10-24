@@ -1,17 +1,9 @@
-import {
-  CollectionReference,
-  doc,
-  DocumentData,
-  getDoc,
-  limit,
-  query,
-  type,
-  type,
-  where,
-} from "firebase/firestore";
+import { doc, getDoc, limit, query, where } from "firebase/firestore";
 
-import { Channel, type, type, User } from "../schema";
 import { usersRef } from "./firebase";
+
+import type { CollectionReference, DocumentData } from "firebase/firestore";
+import type { Channel, User } from "../schema";
 
 export const getDocIfExists = async (ref: CollectionReference, id: string) => {
   const docRef = doc(ref, id);
@@ -21,23 +13,6 @@ export const getDocIfExists = async (ref: CollectionReference, id: string) => {
     exists: docSnap.exists(),
   };
 };
-
-// export const queryJoinedChannels = (id: string) =>
-//   query(channelsRef, where("members", "array-contains", id));
-
-// export const queryChannelById = (id: string) =>
-//   query(channelsRef, where("id", "==", id), limit(1));
-
-// export const queryCreatedChannels = (id: string) =>
-//   query(channelsRef, where("createdBy", "==", id));
-
-// export const queryAllUsers = () => query(usersRef);
-
-// export const queryStaticChannels = () =>
-//   query(channelsRef, where("static", "==", true));
-
-// export const queryPublicChannels = () =>
-//   query(channelsRef, where("type", "==", "public"));
 
 export const queryUserById = (id: string) =>
   query(usersRef, where("id", "==", id), limit(1));

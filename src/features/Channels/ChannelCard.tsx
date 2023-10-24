@@ -41,7 +41,7 @@ const ChannelCard = (props: Channel) => {
     const channelRef = doc(channelsRef, id);
     try {
       await deleteDoc(channelRef);
-      toast.success("Deleted channel successfully");
+      toast.success(`Deleted ${name} channel`, { icon: "🗑️" });
     } catch (err) {
       console.error(err);
       toast.error("Failed to delete channel");

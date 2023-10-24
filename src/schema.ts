@@ -4,7 +4,7 @@ const roles = ["admin", "user"] as const;
 const channelTypes = ["public", "private", "static", "announcement"] as const;
 
 export const UserSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string(),
   name: z.string().min(3).max(100),
   email: z.string().email(),
   bio: z.string().max(255).default(""),
@@ -24,12 +24,12 @@ export const MessageSchema = z.object({
 
 export const ChannelSchema = z.object({
   id: z.string().uuid(),
-  name: z.string().max(100),
-  description: z.string().max(255).default(""),
-  createdAt: z.number().int().positive(),
-  createdBy: z.string().uuid(),
-  members: z.array(z.string().uuid()),
+  name: z.string().min(3).max(100),
+  description: z.string().min(10).max(255),
   type: z.enum(channelTypes),
+  createdBy: z.string(),
+  members: z.array(z.string()),
+  createdAt: z.number().int().positive(),
   messages: z.array(MessageSchema),
 });
 
