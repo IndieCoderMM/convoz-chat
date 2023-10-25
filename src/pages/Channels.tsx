@@ -5,16 +5,17 @@ import ChannelCard from "../features/Channels/ChannelCard";
 
 import Modal from "../components/Modal";
 import ChannelForm from "../features/Channels/ChannelForm";
-import { Channel } from "../schema";
+
+import { useAppSelector } from "../lib/store";
+import { getCreatedChannels } from "../features/Channels/channelsSlice";
+import { selectUser } from "../features/User/userSlice";
 
 const Channels = () => {
   const [openForm, setOpenForm] = useState(false);
-  // const user = useAppSelector(selectUser);
-  const user = undefined;
-  // const channels = useAppSelector((state) => getCreatedChannels(state, ""));
-  const channels: Channel[] = [];
-
-  console.log(channels);
+  const user = useAppSelector(selectUser);
+  const channels = useAppSelector((state) =>
+    getCreatedChannels(state, user?.id ?? ""),
+  );
 
   return (
     <section className="space-y-4 px-16 py-8">
@@ -43,8 +44,12 @@ const Channels = () => {
           </div>
         ))}
       </div>
-      <Modal show={openForm} title="Create a Channel">
-        <ChannelForm />
+      <Modal
+        show={openForm}
+        handleClose={() => setOpenForm(false)}
+        title="Create a Channel"
+      >
+        <ChannelForm onSuccess={() => setOpenForm(false)} />
       </Modal>
     </section>
   );

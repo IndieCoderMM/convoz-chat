@@ -39,8 +39,6 @@ const App = () => {
     }
   }, [user, data, loading, dispatch, authStatus, navigate]);
 
-  console.log("Rendering App.tsx");
-
   return (
     <>
       <Routes>

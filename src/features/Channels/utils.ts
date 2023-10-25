@@ -1,9 +1,9 @@
 import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
-import { z } from "zod";
+import { type z } from "zod";
 
 import { channelsRef } from "../../lib/firebase";
-import { Channel, ChannelSchema } from "../../schema";
+import { type Channel, ChannelSchema } from "../../schema";
 
 export const TempChannel = ChannelSchema.omit({
   id: true,
@@ -12,7 +12,7 @@ export const TempChannel = ChannelSchema.omit({
   createdAt: true,
 });
 
-export const validateChannel = (channel: any) => {
+export const validateChannel = (channel: Channel) => {
   const result = ChannelSchema.safeParse(channel);
   if (!result.success) {
     throw new Error(result.error.message);

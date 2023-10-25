@@ -1,4 +1,4 @@
-import Auth from "firebase/auth";
+import type Auth from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 
 import { auth, usersRef } from "../lib/firebase";
 import { getDocIfExists, mapDocToUser } from "../lib/firestore-utils";
-import { User, UserSchema } from "../schema";
+import { type User, UserSchema } from "../schema";
 
 import type { CollectionReference } from "firebase/firestore";
 

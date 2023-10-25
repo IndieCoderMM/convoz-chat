@@ -36,3 +36,4 @@ export const ChannelSchema = z.object({
 export type User = z.infer<typeof UserSchema>;
 export type Message = z.infer<typeof MessageSchema>;
 export type Channel = z.infer<typeof ChannelSchema>;
+export type ChannelType = (typeof channelTypes)[number];

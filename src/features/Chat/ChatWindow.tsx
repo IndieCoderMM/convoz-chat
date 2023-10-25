@@ -1,26 +1,29 @@
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import { useEffect, useState } from 'react';
-import { FaEdit, FaPlus } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { useEffect, useState } from "react";
+import { FaEdit, FaPlus } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-import { avatars } from '../../lib/constants';
-import { usersRef } from '../../lib/firebase';
-import { getDocIfExists, mapDocToUser } from '../../lib/firestore-utils';
-import { useAppSelector } from '../../lib/store';
-import { getChannelById } from '../Channels/channelsSlice';
-import { selectUser } from '../User/userSlice';
-import ChatForm from './ChatForm';
-import MessagesView from './MessagesView';
-import Navbar from './Navbar';
+import { avatars } from "../../lib/constants";
+import { usersRef } from "../../lib/firebase";
+import { getDocIfExists, mapDocToUser } from "../../lib/firestore-utils";
+import { useAppSelector } from "../../lib/store";
+import { getChannelById } from "../Channels/channelsSlice";
+import { selectUser } from "../User/userSlice";
+import ChatForm from "./ChatForm";
+import MessagesView from "./MessagesView";
+import Navbar from "./Navbar";
 
 import type { User } from "../../schema";
+import Modal from "../../components/Modal";
+import ChannelForm from "../Channels/ChannelForm";
 dayjs.extend(LocalizedFormat);
 
 const ChatWindow = () => {
   const { channelId } = useParams();
   const [creator, setCreator] = useState<User | null>(null);
   const currentUser = useAppSelector(selectUser);
+  const [openModal, setOpenModal] = useState(false);
 
   const channel = useAppSelector((state) =>
     getChannelById(state, channelId ?? ""),
@@ -75,6 +78,7 @@ const ChatWindow = () => {
             </button>
 
             <button
+              onClick={() => setOpenModal(true)}
               type="button"
               className="flex items-center rounded-md px-3 py-2 text-secondary transition hover:bg-dark-500"
             >
@@ -110,6 +114,17 @@ const ChatWindow = () => {
       <section className="absolute bottom-0 left-0 w-full p-2">
         <ChatForm channelId={channelId!} />
       </section>
+      {/* Edit Channel Modal --------------------------------------------------------------------------------- */}
+      <Modal
+        show={openModal}
+        handleClose={() => setOpenModal(false)}
+        title="Edit Channel"
+      >
+        <ChannelForm
+          initialValues={channel}
+          onSuccess={() => setOpenModal(false)}
+        />
+      </Modal>
     </section>
   );
 };
