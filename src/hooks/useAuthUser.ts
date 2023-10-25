@@ -1,38 +1,40 @@
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import Auth from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import toast from "react-hot-toast";
 
 import { auth, usersRef } from "../lib/firebase";
-import { mapDocToUser } from "../lib/firestore-utils";
+import { getDocIfExists, mapDocToUser } from "../lib/firestore-utils";
+import { User, UserSchema } from "../schema";
 
-import type { User } from "../schema";
-import type { DocumentReference } from "firebase/firestore";
-import type { User } from "firebase/auth";
+import type { CollectionReference } from "firebase/firestore";
 
 const useAuthUser = () => {
   const [user, loading, error] = useAuthState(auth);
   const [data, setData] = useState<User | null>(null);
 
   useEffect(() => {
-    if (!user && data) {
+    if (!user) {
       setData(null);
     }
 
-    if (!user) {
+    if (!user || data) {
       return;
     }
 
-    const userRef = doc(usersRef, user.uid);
-    getDoc(userRef)
-      .then(async (snap) => {
-        if (!snap.exists()) {
+    getDocIfExists(usersRef, user.uid)
+      .then(async ({ exists, data: userData }) => {
+        if (!exists) {
           // Create new user in firestore
-          const newUser = await createNewUser(userRef, user);
+          const newUser = await createNewUser(usersRef, user);
           setData(newUser);
           toast.success("New account created");
         } else {
-          setData(mapDocToUser(snap.data()));
+          if (!userData) {
+            throw new Error("User data not found");
+          }
+          setData(mapDocToUser(userData));
         }
       })
       .catch((err) => {
@@ -41,8 +43,9 @@ const useAuthUser = () => {
       });
   }, [user, data]);
 
-  const createNewUser = async (ref: DocumentReference, user: User) => {
-    const newUser: User = {
+  const createNewUser = async (ref: CollectionReference, user: Auth.User) => {
+    const docRef = doc(ref, user.uid);
+    const newUser = UserSchema.parse({
       id: user.uid,
       name: user.displayName!,
       email: user.email!,
@@ -51,8 +54,8 @@ const useAuthUser = () => {
       avatarId: 0,
       createdAt: Date.now(),
       channels: [],
-    };
-    await setDoc(ref, newUser);
+    });
+    await setDoc(docRef, newUser);
 
     return newUser;
   };

@@ -1,12 +1,12 @@
-import { doc, updateDoc } from "firebase/firestore";
-import { useRef } from "react";
-import toast from "react-hot-toast";
-import { v4 as uuid } from "uuid";
+import { doc, updateDoc } from 'firebase/firestore';
+import { useRef } from 'react';
+import toast from 'react-hot-toast';
+import { v4 as uuid } from 'uuid';
 
-import { channelsRef } from "../../lib/firebase";
-import { useAppSelector } from "../../lib/store";
-import { getChannelById } from "../Channels/channelsSlice";
-import { selectUser } from "../User/userSlice";
+import { channelsRef } from '../../lib/firebase';
+import { useAppSelector } from '../../lib/store';
+import { getChannelById } from '../Channels/channelsSlice';
+import { selectUser } from '../User/userSlice';
 
 import type { Message } from "../../schema";
 
@@ -36,7 +36,6 @@ const ChatForm = ({ channelId }: Props) => {
     const message: Message = {
       id: uuid(),
       channelId,
-      createdBy: currentUser.id,
       author: currentUser,
       createdAt: Date.now(),
       text: messageValue!,

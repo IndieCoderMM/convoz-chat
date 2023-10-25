@@ -33,7 +33,7 @@ const RootLayout = () => {
 
     const channels = channelDocs.map(mapDocToChannel);
     dispatch(setChannels(channels));
-    // console.log("Read channels from firestore");
+    console.log("Read channels from firestore");
   }, [authStatus, channelDocs, dispatch]);
 
   if (loading || authStatus === AuthStatus.Idle || showLoading) {

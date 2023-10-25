@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { v4 as uuid } from "uuid";
 import { z } from "zod";
 
@@ -12,7 +12,7 @@ export const TempChannel = ChannelSchema.omit({
   createdAt: true,
 });
 
-export const validateChannel = (channel: Channel) => {
+export const validateChannel = (channel: any) => {
   const result = ChannelSchema.safeParse(channel);
   if (!result.success) {
     throw new Error(result.error.message);
@@ -32,4 +32,11 @@ export const createChannel = async (channel: z.infer<typeof TempChannel>) => {
 
   const docRef = doc(channelsRef, newChannel.id);
   await setDoc(docRef, newChannel);
+};
+
+export const editChannel = async (channel: Channel) => {
+  const newChannel = validateChannel(channel);
+
+  const docRef = doc(channelsRef, newChannel.id);
+  await updateDoc(docRef, newChannel);
 };
