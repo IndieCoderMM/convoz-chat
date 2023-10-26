@@ -1,14 +1,14 @@
-import { BiChevronDown } from 'react-icons/bi';
-import { Link, useLocation } from 'react-router-dom';
+import { BiChevronDown } from "react-icons/bi";
+import { Link, useLocation } from "react-router-dom";
 
-import { ChannelIcons } from '../../lib/constants';
-import { cn } from '../../lib/tailwind-utils';
+import { ChannelIcons } from "../../lib/constants";
+import { cn } from "../../lib/tailwind-utils";
 
-import type { ChannelInterface, ChannelType } from "../../common.types";
+import type { Channel, ChannelType } from "../../schema";
 
 type Props = {
   heading: string;
-  channels: ChannelInterface[];
+  channels: Channel[];
 };
 
 const Icon = ({ type }: { type: ChannelType }) => {

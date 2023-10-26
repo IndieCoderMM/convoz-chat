@@ -5,14 +5,14 @@ type Props = {
   id: string;
   options: { value: string; label: string }[];
   value: string;
-  setValue: (value: string) => void;
+  onChange: (value: string) => void;
 };
 
-const CustomSelect = ({ label, id, options, value, setValue }: Props) => {
+const CustomSelect = ({ label, id, options, value, onChange }: Props) => {
   const [active, setActive] = useState(false);
 
   const handleSelect = (value: string) => {
-    setValue(value);
+    onChange(value);
     setActive(false);
   };
 

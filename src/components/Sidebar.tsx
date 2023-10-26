@@ -1,15 +1,16 @@
-import { signOut } from 'firebase/auth';
-import toast from 'react-hot-toast';
-import { BiLogOutCircle } from 'react-icons/bi';
-import { Link, useLocation } from 'react-router-dom';
+import { signOut } from "firebase/auth";
+import toast from "react-hot-toast";
+import { BiLogOutCircle } from "react-icons/bi";
+import { Link, useLocation } from "react-router-dom";
 
-import { selectAuthStatus } from '../features/User/userSlice';
-import { AuthStatus, NavLinks } from '../lib/constants';
-import { auth } from '../lib/firebase';
-import { useAppSelector } from '../lib/store';
-import { cn } from '../lib/tailwind-utils';
-import Tooltip from './Tooltip';
-import UserButton from './UserButton';
+import { selectAuthStatus } from "../features/User/userSlice";
+import { AuthStatus, NavLinks } from "../lib/constants";
+import { auth } from "../lib/firebase";
+import { useAppSelector } from "../lib/store";
+import { cn } from "../lib/tailwind-utils";
+import Tooltip from "./Tooltip";
+import UserButton from "./UserButton";
+import { Logo } from "../assets/img";
 
 const Sidebar = () => {
   const { pathname } = useLocation();
@@ -25,7 +26,17 @@ const Sidebar = () => {
     toast.success("You have been signed out");
   };
   return (
-    <aside className="w-18 fixed bottom-0 left-0 top-0 z-50 flex flex-shrink-0 flex-col items-center justify-between bg-dark-900">
+    <aside className="fixed bottom-0 left-0 top-0 z-50 flex w-16 flex-shrink-0 flex-col items-center justify-between bg-dark-900">
+      <Link
+        to="/landing"
+        className="group flex w-full items-center justify-center p-1"
+      >
+        <img
+          src={Logo}
+          alt="Logo"
+          className="h-12 w-12 rounded-md bg-primary transition group-hover:scale-105"
+        />
+      </Link>
       <div className="flex h-screen flex-col items-center py-8 text-white">
         <ul className="flex h-full w-full flex-col items-center justify-center gap-3">
           {NavLinks.map(({ href, label, icon: Icon }) => (
@@ -49,9 +60,6 @@ const Sidebar = () => {
                   variant="light"
                   size="lg"
                 />
-                {/* <span className="absolute left-full top-1/2 ml-3 -translate-y-1/2 scale-0 rounded-md bg-white px-2 py-1 font-medium text-dark-900 transition-all group-hover:scale-100">
-                  {label}
-                </span> */}
                 <Icon size={30} />
               </Link>
             </li>

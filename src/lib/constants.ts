@@ -18,7 +18,9 @@ import {
   steampunk,
   viking,
 } from "../assets/avatars";
-import { type ChannelType } from "../common.types";
+
+import type { ChannelType } from "../schema";
+import { type IconType } from "react-icons";
 
 export const NavLinks = [
   {
@@ -44,13 +46,11 @@ export const NavLinks = [
   },
 ];
 
-export const ChannelIcons = {
+export const ChannelIcons: Record<ChannelType, IconType> = {
   public: HiHashtag,
   private: HiLockClosed,
   announcement: HiSpeakerphone,
   static: HiMiniChatBubbleLeftRight,
-} as {
-  [key in ChannelType]: React.ComponentType<{ size: number }>;
 };
 
 export const avatars = [

@@ -1,14 +1,25 @@
-import { useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { useEffect } from "react";
+import { Toaster } from "react-hot-toast";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 
-import ChatWindow from './features/Chat/ChatWindow';
-import { clearUser, selectAuthStatus, setUser } from './features/User/userSlice';
-import useAuthUser from './hooks/useAuthUser';
-import { AuthStatus } from './lib/constants';
-import { useAppDispatch, useAppSelector } from './lib/store';
-import { Channels, Chat, Explore, LandingPage, Profile, Settings } from './pages';
-import RootLayout from './RootLayout';
+import ChatWindow from "./features/Chat/ChatWindow";
+import {
+  clearUser,
+  selectAuthStatus,
+  setUser,
+} from "./features/User/userSlice";
+import useAuthUser from "./hooks/useAuthUser";
+import { AuthStatus } from "./lib/constants";
+import { useAppDispatch, useAppSelector } from "./lib/store";
+import {
+  Channels,
+  Chat,
+  Explore,
+  LandingPage,
+  Profile,
+  Settings,
+} from "./pages";
+import RootLayout from "./RootLayout";
 
 const GENERAL_CHANNEL_ID = import.meta.env.VITE_GENERAL_CHANNEL_ID || "general";
 
@@ -19,10 +30,13 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (user && authStatus === AuthStatus.SignedIn) return;
     if (user && data && authStatus !== AuthStatus.SignedIn) {
+      // * once user is authenticated and data fetched, set the user in the store
       dispatch(setUser(data));
       navigate("/", { replace: true });
     } else if (!user && !loading) {
+      // * clear user from the store if logout
       dispatch(clearUser());
       navigate("/landing", { replace: true });
     }

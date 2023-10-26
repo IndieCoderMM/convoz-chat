@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-import { AuthStatus } from '../../lib/constants';
+import { AuthStatus } from "../../lib/constants";
 
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { UserInterface } from "../../common.types";
+import type { User } from "../../schema";
 import type { RootState } from "../../lib/store";
 
 interface UserState {
   status: AuthStatus;
-  data: UserInterface | null;
+  data: User | null;
 }
 
 const initialState: UserState = {
@@ -20,7 +20,7 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action: PayloadAction<UserInterface>) => {
+    setUser: (state, action: PayloadAction<User>) => {
       state.data = action.payload;
       state.status = AuthStatus.SignedIn;
     },
