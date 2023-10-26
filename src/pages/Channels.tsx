@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-hot-toast';
 
 import ChannelCard from '../features/Channels/ChannelCard';
 import { getCreatedChannels } from '../features/Channels/channelsSlice';
@@ -27,13 +26,7 @@ const Channels = () => {
       setOpenForm(true);
     } else {
       // Show a toast notification instead of alert
-      toast.error("You've reached the maximum limit of channels (3).", {
-        position: "top-right",
-        autoClose: 5000, // Close after 5 seconds
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-      });
+      toast.error("You've reached the maximum limit of channels (3).");
     }
   };
 
