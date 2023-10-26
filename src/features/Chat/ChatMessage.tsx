@@ -1,13 +1,13 @@
-import dayjs from 'dayjs';
-import Relativetime from 'dayjs/plugin/relativeTime';
-import { BiUser } from 'react-icons/bi';
+import dayjs from "dayjs";
+import Relativetime from "dayjs/plugin/relativeTime";
+import { BiUser } from "react-icons/bi";
 
-import { avatars } from '../../lib/constants';
+import { avatars } from "../../lib/constants";
 
-import type { MessageInterface } from "../../common.types";
+import type { Message } from "../../schema";
 dayjs.extend(Relativetime);
 
-const ChatMessage = (props: MessageInterface) => {
+const ChatMessage = (props: Message) => {
   const { text, createdAt, author } = props;
 
   return (

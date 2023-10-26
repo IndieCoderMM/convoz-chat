@@ -1,16 +1,19 @@
-import { doc, updateDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
-import toast from 'react-hot-toast';
-import { BiSearch } from 'react-icons/bi';
-import { HiBell } from 'react-icons/hi';
+import { doc, updateDoc } from "firebase/firestore";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { BiSearch } from "react-icons/bi";
+import { HiBell } from "react-icons/hi";
 
-import { channelsRef } from '../../lib/firebase';
-import { useAppSelector } from '../../lib/store';
-import { getJoinedChannels, getStaticChannels } from '../Channels/channelsSlice';
-import { selectUser } from '../User/userSlice';
-import ChannelList from './ChannelList';
+import { channelsRef } from "../../lib/firebase";
+import { useAppSelector } from "../../lib/store";
+import {
+  getJoinedChannels,
+  getStaticChannels,
+} from "../Channels/channelsSlice";
+import { selectUser } from "../User/userSlice";
+import ChannelList from "./ChannelList";
 
-import type { ChannelInterface } from "../../common.types";
+import type { Channel } from "../../schema";
 
 const Sidebar = () => {
   const currentUser = useAppSelector(selectUser);
@@ -27,7 +30,7 @@ const Sidebar = () => {
       (channel) => !channel.members.includes(currentUser.id),
     );
 
-    const joinAllChannels = async (channels: ChannelInterface[]) => {
+    const joinAllChannels = async (channels: Channel[]) => {
       const batch = channels.reduce((acc, channel) => {
         const ref = doc(channelsRef, channel.id);
         const updatedMembers = [...channel.members, currentUser.id];
@@ -43,8 +46,8 @@ const Sidebar = () => {
 
   return (
     <aside className="flex h-screen w-[250px] flex-shrink-0 flex-col bg-dark-800 text-white">
-      <header className="flex flex-col bg-blue-500">
-        <div className="flex w-full items-center justify-between bg-gradient-to-b from-blue-800 to-blue-500 px-4 pb-8 pt-4">
+      <header className="flex flex-col">
+        <div className="flex w-full items-center justify-between bg-gradient-to-b from-indigo-800 to-indigo-500 px-4 pb-8 pt-4">
           <h1 className="text-lg font-medium">{currentUser?.name}</h1>
           <button
             type="button"

@@ -1,25 +1,29 @@
-import dayjs from 'dayjs';
-import LocalizedFormat from 'dayjs/plugin/localizedFormat';
-import { useEffect, useState } from 'react';
-import { FaGithub, FaSignOutAlt, FaUsers } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import dayjs from "dayjs";
+import LocalizedFormat from "dayjs/plugin/localizedFormat";
+import { useEffect, useState } from "react";
+import { FaEdit, FaPlus } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-import Tooltip from '../../components/Tooltip';
-import { avatars } from '../../lib/constants';
-import { usersRef } from '../../lib/firebase';
-import { getDocIfExists, mapDocToUser } from '../../lib/firestore-utils';
-import { useAppSelector } from '../../lib/store';
-import { getChannelById } from '../Channels/channelsSlice';
-import ChatForm from './ChatForm';
-import MessagesView from './MessagesView';
+import { avatars } from "../../lib/constants";
+import { usersRef } from "../../lib/firebase";
+import { getDocIfExists, mapDocToUser } from "../../lib/firestore-utils";
+import { useAppSelector } from "../../lib/store";
+import { getChannelById } from "../Channels/channelsSlice";
+import { selectUser } from "../User/userSlice";
+import ChatForm from "./ChatForm";
+import MessagesView from "./MessagesView";
+import Navbar from "./Navbar";
 
-import type { UserInterface } from "../../common.types";
-
+import type { User } from "../../schema";
+import Modal from "../../components/Modal";
+import ChannelForm from "../Channels/ChannelForm";
 dayjs.extend(LocalizedFormat);
 
 const ChatWindow = () => {
   const { channelId } = useParams();
-  const [creator, setCreator] = useState<UserInterface | null>(null);
+  const [creator, setCreator] = useState<User | null>(null);
+  const currentUser = useAppSelector(selectUser);
+  const [openModal, setOpenModal] = useState(false);
 
   const channel = useAppSelector((state) =>
     getChannelById(state, channelId ?? ""),
@@ -38,6 +42,8 @@ const ChatWindow = () => {
       });
   }, [channel]);
 
+  const editable = currentUser?.id === channel?.createdBy;
+
   if (!channel) {
     return (
       <section className="flex h-full w-full flex-col items-center justify-center">
@@ -52,47 +58,7 @@ const ChatWindow = () => {
   return (
     <section className="relative flex h-full w-full flex-col px-1 py-0 sm:px-4">
       <header className="sticky left-0 top-0 flex w-full flex-col gap-2 border-b border-gray-100/50 pb-4 shadow-sm">
-        <nav className="flex items-center justify-start border-b border-dark-800 p-2">
-          <div className="flex flex-shrink-0">
-            <span className="mr-1 font-bold text-dark-100">#</span>
-            <p>{channel.name.toLowerCase()}</p>
-          </div>
-
-          <div className="mx-4 w-[1px] self-stretch bg-white/50" />
-          <div className="flex items-center justify-center gap-1">
-            <FaUsers size={20} />
-            <span className="font-bold">{channel.members.length}</span>
-            <span className="text-xs text-gray-400">
-              {channel.members.length === 1 ? "member" : "members"}
-            </span>
-          </div>
-          <div className="flex w-full items-center justify-end">
-            <button className="group relative rounded-md p-2 text-sm text-white transition hover:bg-dark-300">
-              <Tooltip
-                text="Leave Group"
-                position="bottom"
-                variant="dark"
-                size="sm"
-              />
-              <FaSignOutAlt size={20} />
-            </button>
-            <div className="mx-2 w-[1px] self-stretch bg-white/50" />
-            <a
-              href="https://github.com/IndieCoderMM/convoz-chat"
-              target="_blank"
-              rel="noreferrer"
-              className="group relative rounded-md p-2 text-sm text-white transition hover:bg-dark-300"
-            >
-              <Tooltip
-                text="View Source"
-                position="bottom"
-                variant="dark"
-                size="sm"
-              />
-              <FaGithub size={20} />
-            </a>
-          </div>
-        </nav>
+        <Navbar channel={channel} />
         <div className="flex h-16 w-16 items-center justify-center rounded-full bg-dark-700 text-4xl">
           <span>#</span>
         </div>
@@ -100,6 +66,27 @@ const ChatWindow = () => {
           Welcome to #{channel.name.toLowerCase()} channel!
         </h2>
         <p>{channel?.description}</p>
+        {/* Channel Actions ------------------------------------------------------------------------------- */}
+        {editable ? (
+          <div className="flex items-center justify-start gap-2">
+            <button
+              type="button"
+              className="flex items-center rounded-md px-3 py-2 text-secondary transition hover:bg-dark-500"
+            >
+              <FaPlus size={16} />
+              <span className="ml-1">Add Members</span>
+            </button>
+
+            <button
+              onClick={() => setOpenModal(true)}
+              type="button"
+              className="flex items-center rounded-md px-3 py-2 text-secondary transition hover:bg-dark-500"
+            >
+              <FaEdit size={16} />
+              <span className="ml-1">Edit Channel</span>
+            </button>
+          </div>
+        ) : null}
         <div className="ml-4 flex items-center justify-start gap-2">
           <div className="flex items-center justify-center rounded-full bg-dark-700 text-4xl">
             <img
@@ -119,12 +106,25 @@ const ChatWindow = () => {
           </span>
         </div>
       </header>
+      {/* Messages View --------------------------------------------------------------------------------------- */}
       <main className="flex flex-1 flex-col gap-2">
         <MessagesView channelId={channel.id} />
       </main>
+      {/* Chat Form    --------------------------------------------------------------------------------------- */}
       <section className="absolute bottom-0 left-0 w-full p-2">
         <ChatForm channelId={channelId!} />
       </section>
+      {/* Edit Channel Modal --------------------------------------------------------------------------------- */}
+      <Modal
+        show={openModal}
+        handleClose={() => setOpenModal(false)}
+        title="Edit Channel"
+      >
+        <ChannelForm
+          initialValues={channel}
+          onSuccess={() => setOpenModal(false)}
+        />
+      </Modal>
     </section>
   );
 };
