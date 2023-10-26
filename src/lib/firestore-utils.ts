@@ -26,7 +26,6 @@ export const mapDocToUser = (docData: DocumentData): User => {
     avatarId: docData.avatarId,
     email: docData.email,
     createdAt: docData.createdAt,
-    channels: docData.channels,
   };
 };
 

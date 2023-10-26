@@ -1,15 +1,14 @@
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { HiUsers } from "react-icons/hi2";
 import { useNavigate } from "react-router-dom";
 
 import { CheckBadge } from "../../assets/icons";
 import Tooltip from "../../components/Tooltip";
-import { channelsRef } from "../../lib/firebase";
 import { useAppSelector } from "../../lib/store";
 import { selectUser } from "../User/userSlice";
 
 import type { Channel } from "../../schema";
+import { deleteChannel, joinChannel } from "./utils";
 
 const ChannelCard = (props: Channel) => {
   const currentUser = useAppSelector(selectUser);
@@ -22,13 +21,10 @@ const ChannelCard = (props: Channel) => {
   const handleJoin = async () => {
     if (!currentUser || isMember) return;
 
-    const channelRef = doc(channelsRef, id);
     try {
-      await updateDoc(channelRef, {
-        members: [...members, currentUser.id],
-      });
+      await joinChannel(props, currentUser.id);
+      toast.success(`Welcome to #${name}`, { icon: "👋" });
       navigate(`/chat/channels/${id}`);
-      toast.success("Joined channel successfully");
     } catch (err) {
       console.error(err);
       toast.error("Failed to join channel");
@@ -38,10 +34,9 @@ const ChannelCard = (props: Channel) => {
   const handleDelete = async () => {
     if (!currentUser || !isCreator) return;
 
-    const channelRef = doc(channelsRef, id);
     try {
-      await deleteDoc(channelRef);
-      toast.success(`Deleted ${name} channel`, { icon: "🗑️" });
+      await deleteChannel(id);
+      toast.success(`Deleted #${name}`, { icon: "🗑️" });
     } catch (err) {
       console.error(err);
       toast.error("Failed to delete channel");

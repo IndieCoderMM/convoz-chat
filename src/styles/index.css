@@ -44,7 +44,7 @@ html {
   }
 
   .submit {
-    @apply w-full max-w-[200px] appearance-none rounded-md bg-primary px-4 py-4 text-center text-lg font-medium text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply w-full max-w-[200px] appearance-none rounded-md bg-primary px-4 py-4 text-center text-lg font-medium text-white focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:cursor-not-allowed disabled:brightness-90;
   }
 
   .btn {
