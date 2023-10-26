@@ -46,8 +46,8 @@ const Sidebar = () => {
 
   return (
     <aside className="flex h-screen w-[250px] flex-shrink-0 flex-col bg-dark-800 text-white">
-      <header className="flex flex-col bg-blue-500">
-        <div className="flex w-full items-center justify-between bg-gradient-to-b from-blue-800 to-blue-500 px-4 pb-8 pt-4">
+      <header className="flex flex-col">
+        <div className="flex w-full items-center justify-between bg-gradient-to-b from-indigo-800 to-indigo-500 px-4 pb-8 pt-4">
           <h1 className="text-lg font-medium">{currentUser?.name}</h1>
           <button
             type="button"

@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import { selectUser } from '../features/User/userSlice';
-import { avatars } from '../lib/constants';
-import { useAppSelector } from '../lib/store';
+import { selectUser } from "../features/User/userSlice";
+import { avatars } from "../lib/constants";
+import { useAppSelector } from "../lib/store";
 
 const UserButton = () => {
   const currentUser = useAppSelector(selectUser);
@@ -12,7 +12,7 @@ const UserButton = () => {
       <img
         src={avatars[currentUser!.avatarId]}
         alt={currentUser!.name}
-        className="h-9 w-9 rounded-full"
+        className="h-10 w-10 rounded-full"
       />
       <span className="sr-only">{currentUser!.name}</span>
     </Link>

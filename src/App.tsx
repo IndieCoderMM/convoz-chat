@@ -30,10 +30,13 @@ const App = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (user && authStatus === AuthStatus.SignedIn) return;
     if (user && data && authStatus !== AuthStatus.SignedIn) {
+      // * once user is authenticated and data fetched, set the user in the store
       dispatch(setUser(data));
       navigate("/", { replace: true });
     } else if (!user && !loading) {
+      // * clear user from the store if logout
       dispatch(clearUser());
       navigate("/landing", { replace: true });
     }
