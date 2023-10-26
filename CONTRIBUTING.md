@@ -27,10 +27,11 @@ To get started with this project, follow these steps:
 2. Clone the repository to your local machine.
 3. Install the dependencies by running `npm install`.
 4. Create a new branch for your changes by running `git checkout -b my-new-branch`.
-5. Change `.env.example` to `.env` and fill in the required values.
-6. Start the development server by running `npm start`.
-7. Push your changes to your fork.
-8. Submit a pull request to the original repository.
+5. Create a new Firebase project and enable Google authentication. (See [this guide](https://firebase.google.com/docs/web/setup) to get started with Firebase.)
+6. Change `.env.example` to `.env` and fill in the required values from your Firebase project.
+7. Start the development server by running `npm start`.
+8. Push your changes to your fork.
+9. Submit a pull request to the original repository.
 
 ## Code Style
 
