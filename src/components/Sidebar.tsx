@@ -44,7 +44,7 @@ const Sidebar = () => {
               <div
                 className={cn(
                   "absolute left-0 top-1/2 w-1 -translate-y-1/2 rounded-r-full bg-secondary transition-all group-hover:h-8",
-                  isActive(href) ? "h-6" : "h-0",
+                  isActive(href) ? "h-6" : "h-2",
                 )}
               />
               <Link
@@ -65,7 +65,8 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
-        <ul className="mt-auto flex w-full flex-col items-center justify-center gap-2 border-t border-dark-300 pt-8">
+        <ul className="mt-auto flex w-full flex-col items-center justify-center gap-2 px-1 pt-8">
+          <hr className="w-full border border-dark-400" />
           {authStatus === AuthStatus.SignedIn && (
             <li className="group relative flex h-12 w-12 items-center justify-center rounded-full bg-dark-700">
               <UserButton />
@@ -77,13 +78,15 @@ const Sidebar = () => {
               />
             </li>
           )}
-          <li className="flex items-center justify-center rounded-full border border-gray-600 p-2">
-            <button onClick={onSignOut}>
-              <span className="sr-only">Sign Out</span>
-              <BiLogOutCircle size={30} />
-            </button>
-          </li>
         </ul>
+        <button
+          onClick={onSignOut}
+          className="group relative mt-2 flex items-center justify-center rounded-full p-2 hover:text-red-600"
+        >
+          <span className="sr-only">Sign Out</span>
+          <BiLogOutCircle size={30} />
+          <Tooltip text="Sign Out" position="right" variant="light" size="lg" />
+        </button>
       </div>
     </aside>
   );

@@ -66,7 +66,7 @@ export const leaveChannel = async (channel: Channel, userId: string) => {
   }
 
   if (channel.type === "static" || channel.type === "announcement") {
-    throw new Error("All members must be in this channel.");
+    throw new Error("All users must be in this channel.");
   }
 
   const newChannel = validateChannel({

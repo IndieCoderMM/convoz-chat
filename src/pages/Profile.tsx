@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import ChangeAvatar from '../features/User/ChangeAvatar';
-import { selectUser } from '../features/User/userSlice';
-import { avatars } from '../lib/constants';
-import { useAppSelector } from '../lib/store';
+import ChangeAvatar from "../features/User/ChangeAvatar";
+import { selectUser } from "../features/User/userSlice";
+import { avatars } from "../lib/constants";
+import { useAppSelector } from "../lib/store";
 
 const Profile = () => {
   const currentUser = useAppSelector(selectUser);
@@ -18,13 +18,13 @@ const Profile = () => {
         <header className="overflow-hidden rounded-md bg-indigo-500 lg:rounded-xl">
           <div className="h-40" />
           <div className="relative flex items-center justify-between bg-dark-700 p-2">
-            <div className="flex items-center">
-              <img
-                src={avatars[currentUser?.avatarId ?? 0]}
-                alt=""
-                className="h-24 w-24 rounded-full border border-white bg-dark-700 p-2"
-              />
-              <h2 className="ml-4 text-2xl font-bold">{currentUser?.name}</h2>
+            <img
+              src={avatars[currentUser?.avatarId ?? 0]}
+              alt={currentUser?.name}
+              className="absolute -top-10 h-24 w-24 rounded-full border border-white bg-dark-700 p-2"
+            />
+            <div className="ml-24 flex items-center p-4">
+              <h2 className="text-2xl font-bold">{currentUser?.name}</h2>
             </div>
             <button
               type="button"
@@ -56,9 +56,11 @@ const Profile = () => {
           </div>
           <div className="flex items-center justify-between p-1">
             <div className="flex flex-col gap-1">
-              <h4 className="text-lg font-semibold">Bio</h4>
+              <h4 className="text-lg font-semibold">About Me</h4>
               <p className="text-sm text-gray-400">
-                {currentUser?.bio ?? "No information yet"}
+                {currentUser?.bio.length === 0
+                  ? "No information yet"
+                  : currentUser?.bio}
               </p>
             </div>
           </div>

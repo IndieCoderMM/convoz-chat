@@ -69,8 +69,8 @@ const Sidebar = () => {
           placeholder="Browse channels"
         />
       </div>
-      <ChannelList heading="Welcome 👋" channels={staticChannels} />
-      <ChannelList heading="My Channels" channels={joinedChannels} />
+      <ChannelList heading="👋 Welcome" channels={staticChannels} />
+      <ChannelList heading="🚀 My Channels" channels={joinedChannels} />
     </aside>
   );
 };

@@ -41,7 +41,7 @@ const ChannelList = ({ heading, channels }: Props) => {
               `cursor-pointer rounded transition-all hover:bg-gray-400/10 hover:text-white`,
               pathname === href(id)
                 ? "bg-gray-400/10 text-white"
-                : "text-gray-300",
+                : "text-gray-400",
             )}
           >
             <Link to={href(id)} className="flex items-center gap-3 p-2">

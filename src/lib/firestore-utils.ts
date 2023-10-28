@@ -1,6 +1,6 @@
-import { doc, getDoc, limit, query, where } from "firebase/firestore";
+import { and, doc, getDoc, limit, or, query, where } from "firebase/firestore";
 
-import { usersRef } from "./firebase";
+import { channelsRef, usersRef } from "./firebase";
 
 import type { CollectionReference, DocumentData } from "firebase/firestore";
 import type { Channel, User } from "../schema";
@@ -16,6 +16,21 @@ export const getDocIfExists = async (ref: CollectionReference, id: string) => {
 
 export const queryUserById = (id: string) =>
   query(usersRef, where("id", "==", id), limit(1));
+
+export const queryUserChannels = (userId: string) =>
+  query(
+    channelsRef,
+    or(
+      where("type", "!=", "private"),
+      where("members", "array-contains", userId),
+    ),
+  );
+
+export const queryUnjoinedChannels = (userId: string) =>
+  query(
+    channelsRef,
+    and(where("type", "!=", "private"), where(userId, "not-in", "members")),
+  );
 
 export const mapDocToUser = (docData: DocumentData): User => {
   return {

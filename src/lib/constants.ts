@@ -1,11 +1,11 @@
-import { FaCog, FaHashtag, FaRegCompass } from "react-icons/fa";
+import { FaRegCompass } from "react-icons/fa";
 import {
   HiHashtag,
   HiLockClosed,
   HiOutlineChat,
   HiSpeakerphone,
 } from "react-icons/hi";
-import { HiMiniChatBubbleLeftRight } from "react-icons/hi2";
+import { HiMiniChatBubbleLeftRight, HiCog6Tooth } from "react-icons/hi2";
 
 import {
   bandit,
@@ -37,12 +37,12 @@ export const NavLinks = [
   {
     href: "/channels",
     label: "Channels",
-    icon: FaHashtag,
+    icon: HiHashtag,
   },
   {
     href: "/settings",
     label: "Settings",
-    icon: FaCog,
+    icon: HiCog6Tooth,
   },
 ];
 
