@@ -22,6 +22,8 @@ import {
 import type { ChannelType } from "../schema";
 import { type IconType } from "react-icons";
 
+const GENERAL_CHANNEL_ID = import.meta.env.VITE_GENERAL_CHANNEL_ID || "general";
+
 export const NavLinks = [
   {
     href: "/",
@@ -29,7 +31,7 @@ export const NavLinks = [
     icon: FaRegCompass,
   },
   {
-    href: "/chat",
+    href: `/chat/channels/${GENERAL_CHANNEL_ID}`,
     label: "Chat",
     icon: HiOutlineChat,
   },

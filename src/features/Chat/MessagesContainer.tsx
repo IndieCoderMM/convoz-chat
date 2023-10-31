@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import { useAppSelector } from '../../lib/store';
-import { getChannelById } from '../Channels/channelsSlice';
-import ChatMessage from './ChatMessage';
-import ChatMessageSkeleton from './ChatMessageSkeleton';
+import { useAppSelector } from "../../lib/store";
+import { getChannelById } from "../Channels/channelsSlice";
+import ChatMessage, { ChatMessageSkeleton } from "./Message";
 
 type Props = {
   channelId: string;

@@ -4,8 +4,8 @@
 - [Convoz](#convoz)
   - [🚀 Visit Live Website](#-visit-live-website)
   - [🔥 Features](#-features)
-  - [🧰 Stack](#-stack)
-  - [🛠️ Getting Started](#️-getting-started)
+  - [🛠️ Stack](#️-stack)
+  - [📙 Getting Started](#-getting-started)
   - [🗂️ Project Structure](#️-project-structure)
   - [🤝 Contributing](#-contributing)
   - [📜 License](#-license)
@@ -35,21 +35,21 @@
 - **User Authentication**: Secure user authentication with Google Sign-In
 - **User-Friendly Interface**: Intuitive UI/UX design to enhance user experience
 
-## 🧰 Stack
+## 🛠️ Stack
 
 This project was built using the following technologies:
 
-- React
-- TypeScript
-- Firebase
-- Redux Toolkit
-- Vite
-- ESLint
-- react-firebase-hooks
-- react-router-dom
-- Tailwind CSS
+- ⚛️ React
+- 🔷 TypeScript
+- 🔥 Firebase
+- 🧰 Redux Toolkit
+- ⚡ Vite
+- 🔍 ESLint
+- 🪝 react-firebase-hooks
+- 🚦 react-router-dom
+- 🎨 Tailwind CSS
 
-## 🛠️ Getting Started
+## 📙 Getting Started
 
 To get started with this project, follow these steps:
 
@@ -99,4 +99,4 @@ Please check out our [Contribution Guide](./CONTRIBUTING.md) for more details.
 
 ## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) for details.

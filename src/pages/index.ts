@@ -1,8 +1,6 @@
-import Channels from './Channels';
-import Chat from './Chat';
-import Explore from './Explore';
-import LandingPage from './Landing';
-import Profile from './Profile';
-import Settings from './Settings';
-
-export { LandingPage, Chat, Explore, Profile, Channels, Settings };
+export { default as Channels } from "./Channels";
+export { default as ChatPage } from "./Chat";
+export { default as Explore } from "./Explore";
+export { default as LandingPage } from "./Landing";
+export { default as Profile } from "./Profile";
+export { default as Settings } from "./Settings";
