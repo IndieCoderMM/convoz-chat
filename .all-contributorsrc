@@ -1,22 +1,27 @@
 {
   "projectName": "convoz-chat",
   "projectOwner": "IndieCoderMM",
-  "files": [
-    "README.md"
-  ],
+  "files": ["README.md"],
   "commitType": "docs",
-  "commitConvention": "angular",
+  "commitConvention": "gitmoji",
   "contributorsPerLine": 7,
+  "skipCi": true,
+  "imageSize": 80,
   "contributors": [
     {
       "login": "IndieCoderMM",
       "name": "Hein Thant",
       "avatar_url": "https://avatars.githubusercontent.com/u/72640048?v=4",
       "profile": "https://heinthantoo.me/",
-      "contributions": [
-        "code",
-        "design"
-      ]
+      "contributions": ["code", "design"]
+    },
+    {
+      "login": "PratyushJoshi",
+      "name": "Pratyush Joshi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/86593014?v=4",
+      "profile": "https://github.com/PratyushJoshi",
+      "contributions": ["code"]
     }
-  ]
+  ],
+  "repoType": "github"
 }
