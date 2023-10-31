@@ -104,6 +104,13 @@ Please check out our [Contribution Guide](./CONTRIBUTING.md) for more details.
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://heinthantoo.me/"><img src="https://avatars.githubusercontent.com/u/72640048?v=4?s=100" width="100px;" alt="Hein Thant"/><br /><sub><b>Hein Thant</b></sub></a><br /><a href="#code-IndieCoderMM" title="Code">💻</a> <a href="#design-IndieCoderMM" title="Design">🎨</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
