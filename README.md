@@ -22,6 +22,7 @@
 [![Stargazers](https://img.shields.io/github/stars/IndieCoderMM/convoz-chat)](https://github.com/IndieCoderMM/convoz-chat/stargazers)
 [![License](https://img.shields.io/github/license/IndieCoderMM/convoz-chat)](https://github.com/IndieCoderMM/convoz-chat/blob/main/LICENSE)
 ![Contributions welcome](https://img.shields.io/badge/contributions-welcome-orange.svg)
+[![All Contributors](https://img.shields.io/github/all-contributors/IndieCoderMM/convoz-chat?color=ee8449&style=flat-square)](#-contributors)
 
 > Open-source chat platform with discord-like features built with React, Redux, Vite and Firebase
 
@@ -100,8 +101,14 @@ Please check out our [Contribution Guide](./CONTRIBUTING.md) for more details.
 
 ## 🎖️ Contributors
 
-<!-- readme: contributors -start -->
-<!-- readme: contributors -end -->
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## 📜 License
 
