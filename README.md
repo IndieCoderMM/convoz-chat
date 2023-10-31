@@ -8,6 +8,7 @@
   - [📙 Getting Started](#-getting-started)
   - [🗂️ Project Structure](#️-project-structure)
   - [🤝 Contributing](#-contributing)
+  - [🎖️ Contributors](#️-contributors)
   - [📜 License](#-license)
 
 
@@ -96,6 +97,11 @@ You can contribute in many ways:
 - 👩‍💻 Implement new features/bug fixes 
 
 Please check out our [Contribution Guide](./CONTRIBUTING.md) for more details.
+
+## 🎖️ Contributors
+
+<!-- readme: contributors -start -->
+<!-- readme: contributors -end -->
 
 ## 📜 License
 
