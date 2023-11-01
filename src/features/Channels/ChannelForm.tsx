@@ -1,4 +1,3 @@
-import React from "react";
 import CustomSelect from "../../components/CustomSelect";
 import { useAppSelector } from "../../lib/store";
 import { selectUser } from "../User/userSlice";
@@ -10,6 +9,7 @@ import { Controller, type SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import type { z } from "zod";
+import { getAllChannels } from "./channelsSlice";
 
 interface ChannelFormProps {
   onSuccess?: () => void;
@@ -43,12 +43,15 @@ const ChannelForm: React.FC<ChannelFormProps> = ({
   });
   const currentUser = useAppSelector(selectUser);
 
+  // Get all the channel from the store
+  const existingChannels = useAppSelector(getAllChannels);
+
   const handleCreate = async ({
     name,
     description,
     type,
-  }: ChannelFormValues) => {
-    if (!currentUser) return;
+  }: ChannelFormValues): Promise<boolean> => {
+    if (!currentUser) return false;
 
     const newChannel = {
       name: name.toLowerCase().split(" ").join("-"),
@@ -58,16 +61,30 @@ const ChannelForm: React.FC<ChannelFormProps> = ({
     };
 
     try {
+      // Check if the new name channel overlaps with any name channels in the array
+      if (
+        existingChannels.some((channel) => channel.name === newChannel.name)
+      ) {
+        // If there is a match, display a toast message to let the user know
+        toast.error("Sorry! Name is already taken", { icon: "☹️" });
+        return false;
+      }
       await createChannel(newChannel);
       toast.success(`Congrats! Your channel is live`, { icon: "🎉" });
+      return true;
     } catch (err) {
       console.error(err);
       toast.error("Oops! Something went wrong", { icon: "☹️" });
     }
+    return false;
   };
 
-  const handleEdit = async ({ name, description, type }: ChannelFormValues) => {
-    if (!initialValues?.id) return;
+  const handleEdit = async ({
+    name,
+    description,
+    type,
+  }: ChannelFormValues): Promise<boolean> => {
+    if (!initialValues?.id) return false;
     try {
       const newChannel = {
         ...initialValues,
@@ -76,22 +93,37 @@ const ChannelForm: React.FC<ChannelFormProps> = ({
         type,
       };
 
+      // Check if the new channel name matches any channel name in the array
+      if (
+        existingChannels.some((channel) => channel.name === newChannel.name)
+      ) {
+        // If there is a match, display a toast message to let the user know
+        toast.error("Sorry! Name is already taken", { icon: "☹️" });
+        return false;
+      }
+
       await editChannel(newChannel);
       toast.success(`Great! Your channel is updated`, { icon: "🎉" });
+
+      return true;
     } catch (err) {
       console.error(err);
       if (err instanceof Error) toast.error(err.message, { icon: "☹️" });
       else toast.error("Oops! Something went wrong", { icon: "☹️" });
     }
+
+    return false;
   };
 
   const onSubmit: SubmitHandler<ChannelFormValues> = async (data) => {
+    let status = false;
     if (initialValues?.id) {
-      await handleEdit(data);
+      status = await handleEdit(data);
     } else {
-      await handleCreate(data);
+      status = await handleCreate(data);
     }
-    onSuccess?.();
+
+    if (status) onSuccess?.();
   };
 
   return (
