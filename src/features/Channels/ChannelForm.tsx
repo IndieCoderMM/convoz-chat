@@ -94,6 +94,92 @@ const ChannelForm: React.FC<ChannelFormProps> = ({
     onSuccess?.();
   };
 
+  // const ChannelForm: React.FC<ChannelFormProps> = ({
+//   onSuccess,
+//   initialValues,
+// }) => {
+//   const {
+//     register,
+//     handleSubmit,
+//     control,
+//     formState: { errors, isSubmitting },
+//   } = useForm<ChannelFormValues>({
+//     resolver: zodResolver(ChannelFormValues),
+//     defaultValues: {
+//       name: initialValues?.name ?? "",
+//       description: initialValues?.description ?? "",
+//       type: initialValues?.type ?? "public",
+//     },
+//   });
+//   const currentUser = useAppSelector(selectUser);
+
+//   // Tạo một mảng để lưu trữ các tên kênh đã tồn tại
+//   const existingChannels = useAppSelector(selectChannelNames);
+
+//   const handleCreate = async ({
+//     name,
+//     description,
+//     type,
+//   }: ChannelFormValues) => {
+//     if (!currentUser) return;
+
+//     const newChannel = {
+//       name: name.toLowerCase().split(" ").join("-"),
+//       description,
+//       type,
+//       createdBy: currentUser.id,
+//     };
+
+//     try {
+//       // Check if the new name channel overlaps with any name channels in the array
+//       if (existingChannels.includes(newChannel.name)) {
+//         // If there is a match, display a toast message to let the user know
+//         toast.error("Tên kênh đã tồn tại, vui lòng chọn tên khác", { icon: "☹️" });
+//         return;
+//       }
+//       await createChannel(newChannel);
+//       toast.success(`Congrats! Your channel is live`, { icon: "🎉" });
+//     } catch (err) {
+//       console.error(err);
+//       toast.error("Oops! Something went wrong", { icon: "☹️" });
+//     }
+//   };
+
+//   const handleEdit = async ({ name, description, type }: ChannelFormValues) => {
+//     if (!initialValues?.id) return;
+//     try {
+//       const newChannel = {
+//         ...initialValues,
+//         name: name.toLowerCase().split(" ").join("-"),
+//         description,
+//         type,
+//       };
+
+//       // Check if the new channel name matches any channel name in the array
+//       if (existingChannels.includes(newChannel.name)) {
+//         // If there is a match, display a toast message to let the user know
+//         toast.error("Tên kênh đã tồn tại, vui lòng chọn tên khác", { icon: "☹️" });
+//         return;
+//       }
+
+//       await editChannel(newChannel);
+//       toast.success(`Great! Your channel is updated`, { icon: "🎉" });
+//     } catch (err) {
+//       console.error(err);
+//       if (err instanceof Error) toast.error(err.message, { icon: "☹️" });
+//       else toast.error("Oops! Something went wrong", { icon: "☹️" });
+//     }
+//   };
+
+//   const onSubmit: SubmitHandler<ChannelFormValues> = async (data) => {
+//     if (initialValues?.id) {
+//       await handleEdit(data);
+//     } else {
+//       await handleCreate(data);
+//     }
+//     onSuccess?.();
+//   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-2 ">
       <div className="flex flex-col p-4">
