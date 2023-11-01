@@ -108,6 +108,7 @@ Please check out our [Contribution Guide](./CONTRIBUTING.md) for more details.
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://heinthantoo.me/"><img src="https://avatars.githubusercontent.com/u/72640048?v=4?s=80" width="80px;" alt="Hein Thant"/><br /><sub><b>Hein Thant</b></sub></a><br /><a href="https://github.com/IndieCoderMM/convoz-chat/commits?author=IndieCoderMM" title="Code">💻</a> <a href="#design-IndieCoderMM" title="Design">🎨</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/PratyushJoshi"><img src="https://avatars.githubusercontent.com/u/86593014?v=4?s=80" width="80px;" alt="Pratyush Joshi"/><br /><sub><b>Pratyush Joshi</b></sub></a><br /><a href="https://github.com/IndieCoderMM/convoz-chat/commits?author=PratyushJoshi" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/tran1109"><img src="https://avatars.githubusercontent.com/u/141980939?v=4?s=80" width="80px;" alt="tran1109"/><br /><sub><b>tran1109</b></sub></a><br /><a href="https://github.com/IndieCoderMM/convoz-chat/commits?author=tran1109" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

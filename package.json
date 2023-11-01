@@ -9,7 +9,8 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "contributors:generate": "all-contributors generate",
+    "commit": "gitmoji -c"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -40,6 +41,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "gitmoji-cli": "^8.5.0",
     "postcss": "^8.4.28",
     "prettier": "^3.0.2",
     "prettier-plugin-tailwindcss": "^0.5.3",
