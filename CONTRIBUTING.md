@@ -38,6 +38,13 @@ To get started with this project, follow these steps:
 We use ESLint to enforce a consistent code style throughout the project. 
 Before submitting a pull request, please run `npm run lint` to check for any linting errors.
 
+## Commit Guidelines
+
+For all your commits, we recommend using `npm run commit` or `yarn commit` instead of `git commit` directly.
+
+These commands will help you create well-structured commit messages that make it easy to understand your changes. 
+
+
 ## Code of Conduct
 
 We expect all contributors to follow our [Code of Conduct](./CODE_OF_CONDUCT.md). Please make sure you are welcoming and friendly in all of our spaces.
