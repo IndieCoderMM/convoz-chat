@@ -6,17 +6,17 @@ Thank you for your interest in contributing to Convoz! We welcome contributions 
 
 You can contribute to Convoz in many ways:
 
-### 💻 Code Contributions
+**💻 Code Contributions**
 You can help improve our project by submitting code changes or bug fixes. 
 If you're new to open source, you can start by looking at issues labeled as [good first issue](https://github.com/IndieCoderMM/convoz-chat/labels/good%20first%20issue).
 
-### 🐞Bug Reports 
+**🐞Bug Reports**
 If you encounter a bug or unexpected behavior, [open an issue](https://github.com/IndieCoderMM/convoz-chat/issues/new) in our repository and provide details about the problem.
 
-### 💡Feature Requests
+**💡Feature Requests**
 If you have an idea for a new feature, please [create an issue](https://github.com/IndieCoderMM/convoz-chat/issues/new) to discuss it. We're open to new ideas and enhancements.
 
-### 📜Documentation
+**📜Documentation**
 You can help improve our documentation by fixing typos, adding examples, or suggesting improvements.
 
 ## Getting Started
@@ -40,10 +40,21 @@ Before submitting a pull request, please run `npm run lint` to check for any lin
 
 ## Commit Guidelines
 
-For all your commits, we recommend using `npm run commit` or `yarn commit` instead of `git commit` directly.
+For all your commits, we recommend using [gitmoji-cli](https://github.com/carloscuesta/gitmoji-cli) for standardizing and adding meaning to your commit messages.
 
-These commands will help you create well-structured commit messages that make it easy to understand your changes. 
+To install gitmoji, run the following command:
 
+```bash
+npm install -g gitmoji-cli
+```
+
+After installing gitmoji, you can use it to make commits:
+
+```bash
+gitmoji -c
+```
+
+This will open a prompt that will guide you through the process of making a commit.
 
 ## Code of Conduct
 
